@@ -1,13 +1,16 @@
 import './App.css';
-import {login} from  "./backend.js";
+import { login } from "./backend.js";
+
+function LoginButton() {
+  return (
+    <button type="button" onClick={login}>Login</button>
+  )
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-
-      </header>
-      <button id="Login" size="lg" onClick={login}></button>
+    <div>
+      <LoginButton />
     </div>
   );
 }
