@@ -1,5 +1,6 @@
 import './App.css';
 import { login } from "./backend.js";
+import LoginForm from './Components/LoginForm/LoginForm.jsx';
 
 function LoginButton() {
   return (
@@ -9,9 +10,7 @@ function LoginButton() {
 
 function App() {
   return (
-    <div>
-      <LoginButton />
-    </div>
+      <LoginForm />
   );
 }
 
