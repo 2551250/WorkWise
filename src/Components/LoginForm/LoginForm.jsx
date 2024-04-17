@@ -29,10 +29,11 @@ const checkEmployeeExists = (email, password, data) => {
 
 
 const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email === ""){
         return false;
     }
-    else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
+    else if (!emailPattern.test(email)){
         return false;
     }
     return true;
