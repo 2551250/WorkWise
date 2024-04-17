@@ -15,12 +15,12 @@ const LoginForm = () => {
                     <h1>Login</h1>
                     <article className="input-box">
                         <input type="text" placeholder="Email" required/>
-                        <FaFax className="icon"/>
+                        <FaFax className="icon"/> 
                     </article>
                     
                     <article className="input-box">
                         <input type="password" placeholder="Password" required/>
-                        <FaLock className="icon"/>
+                        <FaLock className="icon"/> 
                     </article>
                     
                     <button type="button">Login</button>
