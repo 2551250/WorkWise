@@ -1,9 +1,57 @@
 import React from "react";
-
-import "./LoginForm.css"
 import { FaFax, FaLock } from "react-icons/fa";
+import { useState } from "react";
+
+import "./LoginForm.css";
+import { list, getRole} from "../../backend";
+
+
+const checkEmployeeExists = (email, password, data) => {
+    /* 
+        Checks whether an employee {Manager, HR, Staff} exists in 
+        our database or not.
+
+        :param email: employee's email address
+        :param password: employee's login password
+        :param data: json of all the data in Employee datatable
+        :return: Boolean Value
+    */
+
+    // Checks if employee exists
+    for(let i = 0; i < data.length; i++){
+        const obj = data[i];
+        if(obj.EMAIL === email && obj.PASSWORD === password){
+            return true; // Employee does exist
+        }
+      }
+    return false; // Employee doesn't exist
+}
+
 
 const LoginForm = () => {
+    // Variables
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    // Logic & Functions
+    const handleButtonClick = async () => {    
+        const data = await list();
+
+        const employeeExists = checkEmployeeExists(email, password, data);
+        console.log(`Employee Exists: ${employeeExists}`);
+
+        if (!employeeExists){
+            // TODO Handle when an employee does not exist
+            return;
+        }
+
+        const role = getRole(email, password, data);
+        // TODO redirect employee type to their relevant Hom page 
+    }
+    
+    // HTML Code
     return (
         <section className="wrapper">
             <section className="welcome-wrapper">
@@ -14,18 +62,30 @@ const LoginForm = () => {
                 <form action="">
                     <h1>Login</h1>
                     <article className="input-box">
-                        <input type="text" placeholder="Email" required/>
-                        <FaFax className="icon"/> 
+                        <input
+                            value={email}
+                            type="text" 
+                            placeholder="Email" 
+                            required
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                        <FaFax className="icon"/>
+                        <label className="errorLabel">{emailError}</label>
                     </article>
                     
                     <article className="input-box">
-                        <input type="password" placeholder="Password" required/>
+                        <input
+                            value={password}
+                            type="password"
+                            placeholder="Password" 
+                            required
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
                         <FaLock className="icon"/> 
+                        <label className="errorLabel">{passwordError}</label>
                     </article>
-                    
-                    <button type="button">Login</button>
-
                 </form>
+                <button type="submit" onClick={() => handleButtonClick()}>Login</button>
             </section>
         </section>
     );
