@@ -1,0 +1,100 @@
+.wrapper {
+    margin: 0 auto;
+    padding: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 1100px;
+    height: 550px;
+    background: white;
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    color: #fff;
+    border-radius: 10px;
+}
+
+.welcome-wrapper {
+    flex: 1;
+    background-color: black;
+    color: #eaa411 ;
+    border-radius: 10px 0px 0px 10px;
+    padding: 20px 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.form-wrapper {
+    background-color: transparent;
+    color: black;
+    flex: 0.75;
+    padding: 20px 40px;
+}
+
+.wrapper h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height:  50px;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(227, 227, 227, 0.5);
+    border-radius: 40px;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+    color:black;
+}
+
+.icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color:#a0aab1 ;
+}
+
+.errorLabel {
+    color: red;
+    font-size: 12px;
+}
+
+
+
+.wrapper button {
+    width: 100%;
+    height: 45px;
+    background: #eaa411;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+}
+
+.wrapper button:hover{
+    background-color:#cb9200 ;
+}
+
+
+  
+  
+  
