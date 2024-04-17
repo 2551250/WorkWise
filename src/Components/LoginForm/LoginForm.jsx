@@ -11,28 +11,7 @@ const LoginForm = () => {
     const [passwordError, setPasswordError] = useState("");
 
     const onButtonClick = () => {
-        setEmail("");
-        setPassword("");
-
-        if (email === ""){
-            setEmailError("Please enter your email");
-            return
-        }
-
-        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-            setEmailError('Please enter a valid email')
-            return
-        }
-    
-        if ('' === password) {
-        setPasswordError('Please enter a password')
-        return
-        }
-    
-        if (password.length < 7) {
-        setPasswordError('The password must be 8 characters or longer')
-        return
-        }
+        //TODO: Implement logging in functionality
     }
 
     return (
