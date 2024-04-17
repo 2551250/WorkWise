@@ -32,8 +32,6 @@ const LoginForm = () => {
     // Variables
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
 
     // Logic & Functions
     const handleButtonClick = async () => {    
@@ -48,7 +46,8 @@ const LoginForm = () => {
         }
 
         const role = getRole(email, password, data);
-        // TODO redirect employee type to their relevant Hom page 
+        console.log(role);
+        // TODO redirect employee type to their relevant Home page 
     }
     
     // HTML Code
@@ -70,7 +69,6 @@ const LoginForm = () => {
                             onChange={(event) => setEmail(event.target.value)}
                         />
                         <FaFax className="icon"/>
-                        <label className="errorLabel">{emailError}</label>
                     </article>
                     
                     <article className="input-box">
@@ -82,7 +80,6 @@ const LoginForm = () => {
                             onChange={(event) => setPassword(event.target.value)}
                         />
                         <FaLock className="icon"/> 
-                        <label className="errorLabel">{passwordError}</label>
                     </article>
                 </form>
                 <button type="submit" onClick={() => handleButtonClick()}>Login</button>
