@@ -28,18 +28,50 @@ const checkEmployeeExists = (email, password, data) => {
 }
 
 
+const isValidEmail = (email) => {
+    if (email === ""){
+        return false;
+    }
+    else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
+        return false;
+    }
+    return true;
+}
+
+
+const isValidPassword = (password) => {
+    if (password === ""){
+        return false;
+    }
+    return true;
+}
+
+
 const LoginForm = () => {
     // Variables
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
 
     // Logic & Functions
     const handleButtonClick = async () => {    
+        
+        // Validates employee login details
+        setEmailError(""); setPasswordError("");
+
+        if (!isValidEmail(email)){
+            setEmailError("Please enter a valid email address");
+            return;
+        } else if (!isValidPassword(password)){
+            setPasswordError("Please enter a password");
+            return;
+        }
+        
+        // 
         const data = await list();
 
         const employeeExists = checkEmployeeExists(email, password, data);
-        console.log(`Employee Exists: ${employeeExists}`);
-
         if (!employeeExists){
             // TODO Handle when an employee does not exist
             return;
@@ -69,6 +101,7 @@ const LoginForm = () => {
                             onChange={(event) => setEmail(event.target.value)}
                         />
                         <FaFax className="icon"/>
+                        <label className="errorLabel">{emailError}</label>
                     </article>
                     
                     <article className="input-box">
@@ -80,6 +113,7 @@ const LoginForm = () => {
                             onChange={(event) => setPassword(event.target.value)}
                         />
                         <FaLock className="icon"/> 
+                        <label className="errorLabel">{passwordError}</label>
                     </article>
                 </form>
                 <button type="submit" onClick={() => handleButtonClick()}>Login</button>
