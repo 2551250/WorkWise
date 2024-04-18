@@ -6,7 +6,7 @@ import "./LoginForm.css";
 import { list, getRole} from "../../backend";
 
 
-const checkEmployeeExists = (email, password, data) => {
+export const checkEmployeeExists = (email, password, data) => {
     /* 
         Checks whether an employee {Manager, HR, Staff} exists in 
         our database or not.
@@ -28,7 +28,7 @@ const checkEmployeeExists = (email, password, data) => {
 }
 
 
-const isValidEmail = (email) => {
+export const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email === ""){
         return false;
@@ -40,7 +40,7 @@ const isValidEmail = (email) => {
 }
 
 
-const isValidPassword = (password) => {
+export const isValidPassword = (password) => {
     if (password === ""){
         return false;
     }
