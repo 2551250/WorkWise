@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import "./LoginPage.css";
 import { list, getRole} from "../../backend";
-import Popup from "../../Components/PopUp/Popup";
+import Popup from "../../Components/Popup/Popup";
 
 
 const checkEmployeeExists = (email, password, data) => {
