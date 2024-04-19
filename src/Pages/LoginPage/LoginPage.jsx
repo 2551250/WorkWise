@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import "./LoginPage.css";
 import { list, getRole} from "../../backend";
-import Popup from "../../Components/Popup/Popup";
+import PopUp from "../../Components/PopUp/PopUp";
 
 
 const checkEmployeeExists = (email, password, data) => {
@@ -146,10 +146,10 @@ const LoginForm = () => {
                 </section>
             </section>
             
-            <Popup trigger={displayPopup} setTrigger={setDisplayPopup}>
+            <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
                 <h3>Login Error</h3>
                 <p>Incorrect Username/Passowrd</p>
-            </Popup>
+            </PopUp>
         </>
     );
 };

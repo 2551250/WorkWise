@@ -1,8 +1,8 @@
 import React from "react";
 
-import "./Popup.css";
+import "./PopUp.css";
 
-const Popup = ({ trigger, setTrigger, children }) => {
+const PopUp = ({ trigger, setTrigger, children }) => {
     return (trigger) ? (
         <section className="popup">
             <article className="popup-inner">
@@ -15,4 +15,4 @@ const Popup = ({ trigger, setTrigger, children }) => {
     ) : "";
 }
 
-export default Popup;
+export default PopUp;
