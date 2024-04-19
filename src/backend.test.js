@@ -1,17 +1,61 @@
-import { employeeExists, getRole} from "./backend";
+import { getRole } from "./backend";
+import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Components/LoginForm/LoginForm.jsx"
 
-const data = [
+const testData = [
     {
         "EMAIL": "gcheadle@workwise.co.za",
-        "PASSWORD": "password",
+        "PASSWORD": "password1@3",
         "ROLE": "HR"
+    }, 
+    {
+        "EMAIL": "nraji@workwise.co.za",
+        "PASSWORD": "nraji",
+        "ROLE": "Manager"
+    },
+    {
+        "EMAIL": "yali@workwise.co.za",
+        "PASSWORD": "password",
+        "ROLE": "Staff"
+    },
+    {
+        "EMAIL": "tbantam@workwise.co.za",
+        "PASSWORD": "password",
+        "ROLE": "Staff"
     }
 ];
 
-test('checks employee exists', () =>{
-    expect(employeeExists("gcheadle@workwise.co.za", "password",data)).toBe(true);
+test('checks employee exists valid', () =>{
+    expect(checkEmployeeExists("gcheadle@workwise.co.za", "password1@3", testData)).toBe(true);
 });
 
-test("checks get role", ()=>{
-    expect(getRole("gcheadle@workwise.co.za", "password",data)).toBe("HR");
-})
+test('checks employee exists invalid', ()=>{
+    expect(checkEmployeeExists("yali@workwise.co.za", "pass", testData)).toBe(false);
+});
+
+test("checks get role HR", ()=>{
+    expect(getRole("gcheadle@workwise.co.za", "password1@3",testData)).toBe("HR");
+});
+
+test("checks get role Staff", ()=>{
+    expect(getRole("tbantam@workwise.co.za", "password", testData)).toBe("Staff");
+});
+
+test("checks get role invalid", ()=>{
+    expect(getRole("tbantam@workwise.co.za", "pass", testData)).toBe("");
+});
+
+test("checks is valid email valid", ()=>{
+    expect(isValidEmail("gcheadle@workwise.co.za")).toBe(true);
+});
+
+test("checks is valid email invalid", ()=>{
+    expect(isValidEmail("gdcheadle")).toBe(false);
+});
+
+test("checks is valid password valid", ()=>{
+    expect(isValidPassword("password")).toBe(true);
+});
+
+test("checks is valid password invalid", ()=>{
+    expect(isValidPassword("")).toBe(false);
+});
