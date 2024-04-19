@@ -155,4 +155,4 @@ const LoginForm = () => {
 };
 
 
-export default LoginForm;
+export {LoginForm, checkEmployeeExists, isValidEmail, isValidPassword};
