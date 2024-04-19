@@ -70,7 +70,7 @@ const isValidPassword = (password) => {
 }
 
 
-const LoginForm = () => {
+const LoginPage = () => {
     // Variables
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -155,4 +155,5 @@ const LoginForm = () => {
 };
 
 
-export {LoginForm, checkEmployeeExists, isValidEmail, isValidPassword};
+export default LoginPage;
+export {checkEmployeeExists, isValidEmail, isValidPassword};
