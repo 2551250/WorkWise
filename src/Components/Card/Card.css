@@ -1,0 +1,30 @@
+.featuresCard{
+    margin: 50px;
+    height: 180px;
+    width: 180px;
+    border: solid;
+    border-color: black;
+    border-width: 3px;
+    background-color: #fafafaff;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow:0 0 5px rgba(0, 0, 0, .2);
+}
+
+.featuresCard h2{
+    padding-bottom: 5px;
+}
+
+.featuresCard img{
+    height: 110px;
+
+}
+
+.featuresCard:hover{
+    box-shadow:0 0 10px rgba(0, 0, 0, .2);
+    cursor: pointer;
+    background-color: rgb(234, 233, 233);
+}
