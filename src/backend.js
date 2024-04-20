@@ -1,4 +1,3 @@
-// Function returns all employees in the database (staff, manager and HR)
 export async function list() {
   try {
     // Endpoint to get employees

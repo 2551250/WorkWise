@@ -1,5 +1,5 @@
 import { getRole } from "./backend";
-import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Components/LoginForm/LoginForm.jsx"
+import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx"
 
 const testData = [
     {
