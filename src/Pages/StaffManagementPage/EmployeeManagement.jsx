@@ -1,7 +1,6 @@
-import { React, useState, useEffect } from "react";
-// import data from "../LoginPage/LoginPage"
+import { React, useState, useEffect} from "react";
 import EmployeeComponent from "./EmployeeComponent";
-import { list } from "../../backend"
+import { list } from "../../backend";
 
 function EmployeeManagement() {
     const [employees, setEmployees] = useState([]);
