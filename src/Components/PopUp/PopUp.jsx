@@ -7,7 +7,7 @@ const PopUp = ({ trigger, setTrigger, children }) => {
         <section className="popup">
             <article className="popup-inner">
                 <button className="close-button" onClick={() => {setTrigger(false)}}>
-                    close 
+                    Close 
                 </button>
                 {children}
             </article>
