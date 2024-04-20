@@ -15,11 +15,27 @@
     position: relative;
     padding: 32px;
     width: 100%;
-    max-width: 640px;
+    max-width: 500px;
     background-color: #fff;
     border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
 }
 
 .pop-inner .close-button {
-    width: 20px;
+    flex-grow: 1;
+}
+
+.popup-text {
+    flex-grow: 4;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.popup-text h3 {
+    padding-bottom: 20px;
 }
