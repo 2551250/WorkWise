@@ -8,6 +8,7 @@ import PopUp from "../../Components/PopUp/PopUp";
 
 import { useNavigate } from "react-router-dom";
 
+let data = "";
 
 const checkEmployeeExists = (email, password, data) => {
     /* 
@@ -96,7 +97,7 @@ const LoginPage = () => {
         }
 
         // Fetch all data from Employee table
-        const data = await list();
+        data = await list();
 
         const employeeExists = checkEmployeeExists(email, password, data);
         if (!employeeExists) {
@@ -106,9 +107,9 @@ const LoginPage = () => {
         }
 
         const role = getRole(email, password, data);
-        console.log(role);
         // TODO redirect employee type to their relevant Home page 
-        navigate(`/${role}`);
+        // navigate(`/${role}`);
+        navigate("/EmployeeManagement")
     }
 
     // HTML Code
@@ -160,4 +161,4 @@ const LoginPage = () => {
 
 
 export default LoginPage;
-export { checkEmployeeExists, isValidEmail, isValidPassword };
+export { checkEmployeeExists, isValidEmail, isValidPassword, data };
