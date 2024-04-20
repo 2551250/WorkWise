@@ -3,7 +3,6 @@ import "./Staff.css";
 
 import burgerIcon from "../../Assets/burger-icon.svg";
 import feedbackIcon from "../../Assets/feedback-icon.svg";
-import peopleIcon from "../../Assets/people-icon.svg";
 import timesheetIcon from "../../Assets/timesheet-icon.svg";
 
 import Card from "../../Components/Card/Card";
