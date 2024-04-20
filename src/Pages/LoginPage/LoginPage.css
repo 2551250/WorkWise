@@ -6,7 +6,7 @@
     background-color: #eaa411;
 }
 
-.wrapper {
+.login-wrapper {
     margin: 0 auto;
     padding: 0 auto;
     display: flex;
@@ -21,7 +21,7 @@
     border-radius: 10px;
 }
 
-.welcome-wrapper {
+.login-wrapper .welcome-wrapper {
     flex: 1;
     background-color: black;
     color: #eaa411 ;
@@ -35,19 +35,19 @@
 }
 
 
-.form-wrapper {
+.login-wrapper .form-wrapper {
     background-color: transparent;
     color: black;
     flex: 0.75;
     padding: 20px 40px;
 }
 
-.wrapper h1 {
+.login-wrapper h1 {
     font-size: 36px;
     text-align: center;
 }
 
-.input-box {
+.login-wrapper .input-box {
     position: relative;
     width: 100%;
     height:  50px;
@@ -84,7 +84,7 @@
 
 
 
-.wrapper button {
+.login-wrapper button {
     width: 100%;
     height: 45px;
     background: #eaa411;
@@ -98,7 +98,7 @@
     font-weight: 700;
 }
 
-.wrapper button:hover{
+.login-wrapper button:hover{
     background-color:#cb9200 ;
 }
 
