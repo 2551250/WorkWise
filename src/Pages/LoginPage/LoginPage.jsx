@@ -72,17 +72,6 @@ const isValidPassword = (password) => {
 
 
 const LoginPage = () => {
-    const [data, setData] = useState([]);
-
-    const getData = async () => {
-        const data = await list();
-        setData(data);
-    }
-
-    useEffect(() => {
-        getData();
-    }, []);
-
     // Variables
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -105,6 +94,7 @@ const LoginPage = () => {
             setPasswordError("Please enter a password");
             return;
         }
+        const data = await list();
         const employeeExists = checkEmployeeExists(email, password, data);
         if (!employeeExists) {
             // Displays a popup when an employee does not exist
