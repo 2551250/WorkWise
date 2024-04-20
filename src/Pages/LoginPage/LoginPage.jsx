@@ -113,7 +113,7 @@ const LoginPage = () => {
 
     // HTML Code
     return (
-        <>
+        <main className="container">
             <section className="wrapper">
                 <section className="welcome-wrapper">
                     <h1>WorkWise</h1>
@@ -154,7 +154,7 @@ const LoginPage = () => {
                 <h3>Login Error</h3>
                 <p>Incorrect Username/Password</p>
             </PopUp>
-        </>
+        </main>
     );
 };
 

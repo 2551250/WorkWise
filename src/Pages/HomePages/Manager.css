@@ -1,0 +1,32 @@
+.homepage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100vh;
+}
+
+.heading{
+font-family: Roboto, sans-serif;
+font-size: large;
+background-color:#eaa411 ;
+box-shadow:0 0 10px rgba(0, 0, 0, .2);
+border-radius: 0px 0px 5px 5px;
+display: flex;
+justify-content: space-between;
+padding:10px
+}
+
+.logoutButton{
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    border-color: black;
+    width: 90px;
+    }
+
+.logoutButton:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+}
