@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect } from "react";
 import { FaFax, FaLock } from "react-icons/fa";
 import { useState } from "react";
 
@@ -7,7 +7,6 @@ import { list, getRole } from "../../backend";
 import PopUp from "../../Components/PopUp/PopUp";
 
 import { useNavigate } from "react-router-dom";
-
 
 const checkEmployeeExists = (email, password, data) => {
     /* 
@@ -73,6 +72,17 @@ const isValidPassword = (password) => {
 
 
 const LoginPage = () => {
+    const [data, setData] = useState([]);
+
+    const getData = async () => {
+        const data = await list();
+        setData(data);
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     // Variables
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -83,6 +93,7 @@ const LoginPage = () => {
 
     // Logic & Functions
     const navigate = useNavigate();
+
     const handleButtonClick = async () => {
 
         setEmailError(""); setPasswordError("");
@@ -94,10 +105,6 @@ const LoginPage = () => {
             setPasswordError("Please enter a password");
             return;
         }
-
-        // Fetch all data from Employee table
-        const data = await list();
-
         const employeeExists = checkEmployeeExists(email, password, data);
         if (!employeeExists) {
             // Displays a popup when an employee does not exist
@@ -106,7 +113,6 @@ const LoginPage = () => {
         }
 
         const role = getRole(email, password, data);
-        console.log(role);
         // TODO redirect employee type to their relevant Home page 
         navigate(`/${role}`);
     }
