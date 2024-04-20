@@ -1,12 +1,12 @@
 .featuresCard{
     margin: 50px;
-    height: 180px;
-    width: 180px;
+    height: 200px;
+    width: 200px;
     border: solid;
     border-color: black;
     border-width: 3px;
     background-color: #fafafaff;
-    border-radius: 15px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
