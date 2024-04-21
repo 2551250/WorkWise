@@ -3,8 +3,6 @@ import EmployeeComponent from "./EmployeeComponent";
 import { list } from "../../backend";
 import "./EmployeeManagement.css";
 
-export {getAllStaffData};
-
 const getAllStaffData = (data) => {
     /* 
         Gets all the data on employees whose roles are Staff.
@@ -54,4 +52,5 @@ const EmployeeManagement = () => {
     );
 }
 
+export {getAllStaffData};
 export default EmployeeManagement;
