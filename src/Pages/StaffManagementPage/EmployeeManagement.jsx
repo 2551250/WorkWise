@@ -6,7 +6,8 @@ import "./EmployeeManagement.css";
 const getAllStaffData = (data) => {
     /* 
         Gets all the data on employees whose roles are Staff.
-
+        
+        :param data: json of all the data in Employee datatable
         :return: An array filtered to contain staff data
     */
     return data.filter((employee) => employee.ROLE === "Staff"); //filteres data by staff;
