@@ -1,14 +1,10 @@
-.employee-component {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+.table-element{
+   padding-bottom: 10px;
 }
 
 .wrapper{
-    background: #eaa411;
     color: black;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 30px;
 }

@@ -1,6 +1,7 @@
-import { React, useState, useEffect} from "react";
+import { React, useState, useEffect } from "react";
 import EmployeeComponent from "./EmployeeComponent";
 import { list } from "../../backend";
+import "./EmployeeManagement.css";
 
 function EmployeeManagement() {
     const [employees, setEmployees] = useState([]);
@@ -15,16 +16,29 @@ function EmployeeManagement() {
     }, []);
 
     return (
-        <section className="wrapper">
-            <h1>Employee Management</h1>
+        <>
+            <div className="wrapper">
+                <header className="heading">
+                    <h1>Employee Management</h1>
+                    <button className="logoutButton">Log Out</button>
+                </header>
 
-            {employees.map((employee) => (
-                <EmployeeComponent employee={employee} />
-            )
-            )}
-
-        </section>
-
+                <table>
+                    <tbody>
+                        <tr>
+                            <th className="table-element">Name</th>
+                            <th className="table-element">Email</th>
+                            <th className="table-element">Change Permissions</th>
+                            <th className="table-element">Delete</th>
+                        </tr>
+                        {employees.map((employee) => (
+                            <EmployeeComponent employee={employee} />
+                        )
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </>
     );
 }
 
