@@ -32,7 +32,7 @@ function EmployeeManagement() {
                             <th className="table-element">Delete</th>
                         </tr>
                         {employees.map((employee) => (
-                            <EmployeeComponent employee={employee} />
+                            <EmployeeComponent employee={employee} key={employee.EMAIL} />
                         )
                         )}
                     </tbody>
