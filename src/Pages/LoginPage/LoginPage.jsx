@@ -110,7 +110,7 @@ const LoginPage = () => {
     // HTML Code
     return (
         <main className="container">
-            <section className="wrapper">
+            <section className="login-wrapper">
                 <section className="welcome-wrapper">
                     <h1>WorkWise</h1>
                 </section>
