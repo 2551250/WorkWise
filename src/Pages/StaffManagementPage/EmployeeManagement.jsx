@@ -3,13 +3,14 @@ import EmployeeComponent from "./EmployeeComponent";
 import { list } from "../../backend";
 import "./EmployeeManagement.css";
 
-const getAllStaffData = async () => {
+export {getAllStaffData};
+
+const getAllStaffData = (data) => {
     /* 
         Gets all the data on employees whose roles are Staff.
 
         :return: An array filtered to contain staff data
     */
-    const data = await list(); // Gets all the data
     return data.filter((employee) => employee.ROLE === "Staff"); //filteres data by staff;
 }
 
@@ -17,15 +18,14 @@ const EmployeeManagement = () => {
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
-        getAllStaffData(setEmployees)
+        list()
         .then((data) => {
-            setEmployees(data)
+            const AllStaffData = getAllStaffData(data);
+            setEmployees(AllStaffData);
         })
-        .catch(function (errorMessage) {
-            //error handler function is invoked 
-            console.log(errorMessage);
+        .catch((errorMessage) => {
+            console.error(errorMessage);
         });
-
     }, []);
 
     return (

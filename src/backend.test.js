@@ -1,5 +1,6 @@
 import { getRole } from "./backend";
-import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx"
+import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx";
+import { getAllStaffData } from "./Pages/StaffManagementPage/EmployeeManagement.jsx";
 
 const testData = [
     {
@@ -58,4 +59,8 @@ test("checks is valid password valid", ()=>{
 
 test("checks is valid password invalid", ()=>{
     expect(isValidPassword("")).toBe(false);
+});
+
+test('checks that only staff data is returned', () =>{
+    expect(getAllStaffData(testData)).toStrictEqual(testData.filter((employee) => employee.ROLE === "Staff"));
 });
