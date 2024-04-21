@@ -17,12 +17,11 @@ function EmployeeManagement() {
 
     return (
         <>
-            <div className="wrapper">
-                <header className="heading">
-                    <h1>Employee Management</h1>
-                    <button className="logoutButton">Log Out</button>
-                </header>
-
+            <header className="heading">
+                <h1>Employee Management</h1>
+                <button className="logoutButton">Log Out</button>
+            </header>
+            <main className="wrapper">
                 <table>
                     <tbody>
                         <tr>
@@ -37,7 +36,7 @@ function EmployeeManagement() {
                         )}
                     </tbody>
                 </table>
-            </div>
+            </main>
         </>
     );
 }
