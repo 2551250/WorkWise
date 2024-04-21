@@ -3,12 +3,12 @@ import "./EmployeeManagement.css";
 
 const EmployeeComponent = ({ employee }) => {
     return (
-        <div className="employee-component">
-            <p>{employee.NAME.concat(" ", employee.SURNAME)}</p>
-            <p>{employee.EMAIL}</p>
-            <button>Change Permission</button>
-            <button>Delete</button>
-        </div>
+        <tr>
+            <td className="table-element"><p>{employee.NAME.concat(" ", employee.SURNAME)}</p></td>
+            <td className="table-element"><p>{employee.EMAIL}</p></td>
+            <td className="table-element"><button>Change Permission</button></td>
+            <td className="table-element"><button>Delete</button></td>
+        </tr>
     );
 }
 

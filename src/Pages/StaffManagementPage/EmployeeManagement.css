@@ -1,14 +1,23 @@
-.employee-component {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+.table-element{
+    padding-top: 10px;
 }
 
+.heading{
+    font-family: Roboto, sans-serif;
+    font-size: large;
+    background-color:#eaa411 ;
+    box-shadow:0 0 10px rgba(0, 0, 0, .2);
+    border-radius: 0px 0px 5px 5px;
+    display: flex;
+    justify-content: space-between;
+    padding:10px
+    }
+    
+
 .wrapper{
-    background: #eaa411;
     color: black;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 30px;
+    padding-top: 10px;
 }
