@@ -5,7 +5,7 @@
     "options": {
       "set-session-context": false 
     },
-    "connection-string": "Server=tcp:sd-project-server.database.windows.net,1433;Initial Catalog=sd-project-database;Persist Security Info=False;User ID=projectadmin;Password=projectpassword1@3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    "connection-string": "Server=tcp:sd-project-europe-server.database.windows.net,1433;Initial Catalog=sd-project-database;Persist Security Info=False;User ID=projectadmin;Password=projectpassword1@3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   },
   "runtime": {
     "rest": {
