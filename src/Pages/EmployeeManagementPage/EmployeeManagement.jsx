@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import EmployeeComponent from "./EmployeeComponent";
-import { list } from "../../backend";
+import { getAllEmployees } from "../../backend";
 import "./EmployeeManagement.css";
 
 const getAllStaffData = (data) => {
@@ -17,7 +17,7 @@ const EmployeeManagement = () => {
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
-        list()
+        getAllEmployees()
         .then((data) => {
             const AllStaffData = getAllStaffData(data);
             setEmployees(AllStaffData);

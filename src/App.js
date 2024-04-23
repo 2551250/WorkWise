@@ -3,7 +3,7 @@ import LoginPage from './Pages/LoginPage/LoginPage';
 import HR from "./Pages/HomePages/HR";
 import Staff from "./Pages/HomePages/Staff";
 import Manager from "./Pages/HomePages/Manager";
-import EmployeeManagement from "./Pages/StaffManagementPage/EmployeeManagement"
+import EmployeeManagement from "./Pages/EmployeeManagementPage/EmployeeManagement"
 import { Route, Routes } from "react-router-dom";
 
 

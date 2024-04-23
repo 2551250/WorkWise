@@ -12,10 +12,12 @@ import Card from "../../Components/Card/Card";
 function HR() {
     const navigate = useNavigate();
     
+    // redirects to EmployeeManagement page
     const viewStaffClicked = () => {
         navigate("/EmployeeManagement");
     }
 
+    // empty function for unimplemented data
     const empty = () => {
 
     }

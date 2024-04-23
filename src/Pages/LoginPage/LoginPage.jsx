@@ -3,7 +3,7 @@ import { FaFax, FaLock } from "react-icons/fa";
 import { useState } from "react";
 
 import "./LoginPage.css";
-import { list, getRole } from "../../backend";
+import { getAllEmployees, getRole, getAllProjects, getEmployeeProjects } from "../../backend";
 import PopUp from "../../Components/PopUp/PopUp";
 
 import { useNavigate } from "react-router-dom";
@@ -94,15 +94,16 @@ const LoginPage = () => {
             setPasswordError("Please enter a password");
             return;
         }
-        const data = await list();
-        const employeeExists = checkEmployeeExists(email, password, data);
+        const employeeData = await getAllEmployees();
+
+        const employeeExists = checkEmployeeExists(email, password, employeeData);
         if (!employeeExists) {
             // Displays a popup when an employee does not exist
             setDisplayPopup(true);
             return;
         }
 
-        const role = getRole(email, password, data);
+        const role = getRole(email, password, employeeData);
         // TODO redirect employee type to their relevant Home page 
         navigate(`/${role}`);
     }
