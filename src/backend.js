@@ -1,17 +1,19 @@
-export async function list() {
+const URL = "https://workwise-backend.azurewebsites.net"
+async function getAllEmployees() {
   try {
     // Endpoint to get employees
-    const endpoint = '/data-api/rest/Employee';
+    const endpoint = `${URL}/Employee`;
     const response = await fetch(endpoint);
     const data = await response.json();
-    return data.value;
+
+    return data;
   } catch (err) {
     console.log(err);
     return "Error";
   }
 }
 
-export function getRole(email, password, data) {
+function getRole(email, password, data) {
   // Finds the role of an employee -> {Staff, Manager, HR}
   for (let i = 0; i < data.length; i++) {
     const obj = data[i];
@@ -21,3 +23,6 @@ export function getRole(email, password, data) {
   }
   return "";
 }
+
+// exports
+export {getRole, getAllEmployees }
