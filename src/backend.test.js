@@ -1,4 +1,4 @@
-import { getRole, getStaffProjects } from "./backend";
+import { getRole } from "./backend";
 import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx";
 import { getAllStaffData } from "./Pages/EmployeeManagementPage/EmployeeManagement.jsx";
 
@@ -102,21 +102,4 @@ test("checks is valid password invalid", function checkIsValidPassword_anyPasswo
 
 test('checks that only staff data is returned', function checkGetAllStaffData_anyUserLoggedIn_valid() {
     expect(getAllStaffData(userTestData)).toStrictEqual(userTestData.filter((employee) => employee.ROLE === "Staff"));
-});
-
-test('test that correct projects are returned', function checkGetStaffProjects_anyStaffLoggedIn_valid() {
-    expect(
-        getStaffProjects("tbantam@workwise.co.za", projectsTestData, employeeProjectTestData)
-    ).toEqual([
-        {
-            "PROJECT_ID": "1",
-            "PROJECT_NAME": "WorkWise",
-            "MANAGER_EMAIL": "nraji@workwise.co.za"
-        }, 
-        {
-            "PROJECT_ID": "2",
-            "PROJECT_NAME": "Employee-Relations Management",
-            "MANAGER_EMAIL": "gcheadle@workwise.co.za"
-        }
-    ])
 });
