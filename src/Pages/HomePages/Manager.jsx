@@ -8,7 +8,7 @@ import peopleIcon from "../../Assets/people-icon.svg";
 import timesheetIcon from "../../Assets/timesheet-icon.svg";
 
 import Card from "../../Components/Card/Card";
-
+import Header from "../../Components/Header/Header";
 
 function Manager(){
     // Variables
@@ -22,10 +22,11 @@ function Manager(){
     // HTML Code
     return(
         <>
-    <header className="heading">
+        <Header>
             <h1>WorkWise</h1>
             <button className="logoutButton">Log Out</button>
-        </header>
+        </Header>
+
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon} onClick={empty}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={empty}/>
