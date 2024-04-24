@@ -1,6 +1,5 @@
 import React from "react";
 import "./Manager.css";
-import { useNavigate } from "react-router-dom";
 
 // Loading Card Icons from Assets Folder
 import burgerIcon from "../../Assets/burger-icon.svg";
@@ -13,7 +12,6 @@ import Card from "../../Components/Card/Card";
 
 function Manager(){
     // Variables
-    const navigate = useNavigate();
 
     // Functions & Logic
     // empty function for unimplemented data
