@@ -3,7 +3,7 @@ import { FaFax, FaLock } from "react-icons/fa";
 import { useState } from "react";
 
 import "./LoginPage.css";
-import { getAllEmployees, getRole, getAllProjects, getEmployeeProjects } from "../../backend";
+import { getAllEmployees, getRole } from "../../backend";
 import PopUp from "../../Components/PopUp/PopUp";
 
 import { useNavigate } from "react-router-dom";
