@@ -4,7 +4,9 @@ import React from "react";
 const StaffProjectPage = () => {
     return (
         <>
-            <h1>Welcome to the Manager Project Page</h1>
+            <Header>
+                <h1> Projects - Staff </h1>
+            </Header>
         </>
     );
 }

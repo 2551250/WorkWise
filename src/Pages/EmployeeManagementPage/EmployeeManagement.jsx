@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import EmployeeComponent from "./EmployeeComponent";
 import { getAllEmployees } from "../../backend";
 import "./EmployeeManagement.css";
+import Header from "../../Components/Header/Header";
 
 const getAllStaffData = (data) => {
     /* 
@@ -29,10 +30,10 @@ const EmployeeManagement = () => {
 
     return (
         <>
-            <header className="heading">
+            <Header>
                 <h1>Employee Management</h1>
                 <button className="logoutButton">Log Out</button>
-            </header>
+            </Header>
             <main className="wrapper">
                 <table>
                     <tbody>

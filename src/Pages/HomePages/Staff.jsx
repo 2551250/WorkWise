@@ -6,15 +6,15 @@ import feedbackIcon from "../../Assets/feedback-icon.svg";
 import timesheetIcon from "../../Assets/timesheet-icon.svg";
 
 import Card from "../../Components/Card/Card";
-
+import Header from "../../Components/Header/Header";
 
 function Staff(){
     return(
         <>
-    <header className="heading">
+        <Header>
             <h1>WorkWise</h1>
             <button className="logoutButton">Log Out</button>
-        </header>
+        </Header>
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Feedback" imgSrc={feedbackIcon}/>
