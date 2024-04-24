@@ -2,14 +2,14 @@ import React from "react";
 
 import Header from "../../Components/Header/Header";
 
-const ManagerProjectPage = () => {
+const HRProjectPage = () => {
     return (
         <>
             <Header>
-                <h1> Projects - Manager </h1>
+                <h1> Projects - HR </h1>
             </Header>
         </>
     );
 }
     
-export default ManagerProjectPage;
+export default HRProjectPage;
