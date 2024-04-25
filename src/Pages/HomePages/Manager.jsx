@@ -1,5 +1,6 @@
 import React from "react";
 import "./Manager.css";
+import { useNavigate } from "react-router-dom";
 
 // Loading Card Icons from Assets Folder
 import burgerIcon from "../../Assets/burger-icon.svg";
@@ -12,8 +13,15 @@ import Header from "../../Components/Header/Header";
 
 function Manager(){
     // Variables
+    const navigate = useNavigate();
 
     // Functions & Logic
+    
+    // redirect to Project Page
+    const viewProductPage = () => {
+        navigate("/ManagerProjectPage");
+    }
+
     // empty function for unimplemented data
     const empty = () => {
 
@@ -29,7 +37,7 @@ function Manager(){
 
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon} onClick={empty}/>
-            <Card title="Projects" imgSrc={projectIcon} onClick={empty}/>
+            <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
             <Card title="Plan Meals" imgSrc={burgerIcon} onClick={empty}/>
             <Card title="View Staff" imgSrc={peopleIcon} onClick={empty}/>
         </main>
