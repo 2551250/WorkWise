@@ -1,6 +1,6 @@
-import  axios from "axios"
-const URL = "https://workwise-backend.azurewebsites.net"
 
+import axios from 'axios'
+const URL = "https://workwise-backend.azurewebsites.net"
 //Returns all employees in the database
 async function getAllEmployees() {
   try {
