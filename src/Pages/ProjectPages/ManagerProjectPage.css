@@ -1,0 +1,77 @@
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.heading{
+font-family: Roboto, sans-serif;
+font-size: large;
+background-color:#eaa411 ;
+box-shadow:0 0 10px rgba(0, 0, 0, .2);
+border-radius: 0px 0px 5px 5px;
+display: flex;
+justify-content: space-between;
+padding:10px
+}
+
+.logoutButton{
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    border-color: black;
+    width: 90px;
+    }
+
+.logoutButton:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+}
+.display{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.display .panel{
+    display: flex;
+    justify-content:flex-start;
+    align-items:center;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: solid;
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    border-width: 1px;
+    border-color: lightgray;
+    height: 91vh;
+}
+
+.panelButtons{
+    background-color: rgb(249, 246, 243);
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    height: 50px;
+    width: 200px;
+    font-size: large;
+}
+
+.panelButtons:hover{
+    background-color: rgb(245, 243, 242);
+    cursor: pointer;
+}
+
+.view-project{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.view-project h2{
+    margin-top: 50px;
+    margin-left: 60px;
+}
