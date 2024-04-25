@@ -84,8 +84,6 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const handleButtonClick = async () => {
-
-        setEmailError(""); setPasswordError("");
         // Validates employee login details
         if (!isValidEmail(email)) {
             setEmailError("Please enter a valid email address");
