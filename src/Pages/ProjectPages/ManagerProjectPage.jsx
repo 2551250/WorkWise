@@ -8,23 +8,35 @@ import { insertProject } from "../../backend_post_requests";
 import "./ManagerProjectPage.css";
 
 
-// TODO: comment code!!!
 const ViewProjectsSection = ({ managerID }) => {
-    const [projects, setProjects] = useState([]);
+    /*
+        Displays the view projects section
 
+        :param1 managerID: The employee id of the manager creating a project
+        :returns HTML code: code for the actual section
+    */
+
+    // Variables
+    const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
+
+    // Functions & Logic
     useEffect(() => {
+        // Gets all projects created by the manager
         getManagerProjects(managerID)
         .then((data) => {
-            setProjects(data)
+            setProjects(data) // stores projects data in the projects list 
         })
         .catch((errorMessage) => {
-            console.error(errorMessage);
+            console.error(errorMessage); // Display any errors
         });
     }, []);
 
+    // HTML Code
     return (
         <section className="view-project">
             <h2>View Projects</h2>
+            
+            {/* Iterate through the projects list and display them */}
             {projects.map((project) => (
                 <ViewProjectCard key={project.PROJECT_ID} name={project.PROJECT_NAME} description={project.DESCRIPTION} estimatedTime={project.ESTIMATED_TIME} members={["Member 1", "Member 2", "Member 3", "Member 4"]}/>
             )
@@ -34,24 +46,44 @@ const ViewProjectsSection = ({ managerID }) => {
 }
 
 
-// TODO: comment code!!!
 const AddProjectsSection = ({ managerID, setViewProjects}) => {
+    /*
+        Displays the add a project section
+
+        :param1 managerID: The employee id of the manager creating a project
+        :param2 setViewProjects: Function to set the value of viewProject to false/true
+        :returns HTML code: code for the actual section
+    */
+
+    // Variables
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectEstimatedTime, setProjectEstimatedTime] = useState(0);
     const [projectMembers, setProjectsMembers] = useState([]);
 
+    // Functions & Logic
     const handleButtonClick = () => {
+        /*
+            When the submit button is clicked, inserts the project information
+            into our database.
+        */
+
         //TODO: Implement input validation
 
-        // TODO: Find way to get members assigned to project
+        //TODO: Find way to get members assigned to project
         setProjectsMembers(["Member 1", "Member 2", "Member 3", "Member 4"])
-        // console.log(projectName, projectDescription, projectEstimatedTime, projectMembers);
 
+        // Adds project to out database
         insertProject(projectName, projectDescription, managerID, projectEstimatedTime);
+        
+        //TODO: Add project members to our database
+        console.log(projectMembers);
+
+        // Moves manager to View Projects section
         setViewProjects(true);
     }
 
+    // HTML Code
     return (
         <section className="add-project">
         <h2>Add a Project</h2>
@@ -120,17 +152,22 @@ const AddProjectsSection = ({ managerID, setViewProjects}) => {
 const ManagerProjectPage = () => {
     // Variables
     const [viewProjects, setViewProjects] = useState(true);
+
     //TODO: Find a way to get a managers Employee_ID
     const managerID = 5;
 
     // Functions & Logic
-
-    //TODO: comment code!!!
     const ViewProjectsButtonClicked = () => {
+        /*
+            Sets viewProject to true when the View Projects button is clicked
+        */
         setViewProjects(true);
     }
 
     const AddProjectButtonClicked = () => {
+        /*
+            Sets viewProject to false when the Add a Project button is clicked
+        */
         setViewProjects(false);
     }
 
@@ -148,6 +185,10 @@ const ManagerProjectPage = () => {
                     <button className="panelButtons" onClick={AddProjectButtonClicked}>Add a Project</button>
                 </section>
 
+                {/* 
+                    Displays view projects section when ViewProjects is true,
+                    else displays add a project secton. 
+                */}
                 {viewProjects 
                  ? <ViewProjectsSection managerID={managerID}/> 
                  : <AddProjectsSection managerID={managerID} setViewProjects={setViewProjects}/>
