@@ -1,8 +1,12 @@
 import { React, useState, useEffect } from "react";
-import EmployeeComponent from "./EmployeeComponent";
+
 import { getAllEmployees } from "../../backend";
-import "./EmployeeManagement.css";
+
 import Header from "../../Components/Header/Header";
+import EmployeeComponent from "../../Components/EmployeeComponent/EmployeeComponent";
+
+import "./EmployeeManagement.css";
+
 
 const getAllStaffData = (data) => {
     /* 
@@ -13,6 +17,7 @@ const getAllStaffData = (data) => {
     */
     return data.filter((employee) => employee.ROLE === "Staff"); //filteres data by staff;
 }
+
 
 const EmployeeManagement = () => {
     const [employees, setEmployees] = useState([]);
@@ -34,7 +39,8 @@ const EmployeeManagement = () => {
                 <h1>Employee Management</h1>
                 <button className="logoutButton">Log Out</button>
             </Header>
-            <main className="wrapper">
+
+            <main className="employee-list-wrapper">
                 <table>
                     <tbody>
                         <tr>

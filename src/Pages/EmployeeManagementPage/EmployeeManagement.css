@@ -1,8 +1,4 @@
-.table-element{
-    padding-top: 10px;
-}
-    
-.wrapper{
+.employee-list-wrapper{
     color: black;
     display: flex;
     flex-direction: column;
