@@ -3,8 +3,9 @@ import { FaFax, FaLock } from "react-icons/fa";
 import { useState } from "react";
 
 import "./LoginPage.css";
-import { getAllEmployees, getRole } from "../../backend";
+import { getAllEmployees, getRole, getEmployeeID } from "../../backend";
 import PopUp from "../../Components/PopUp/PopUp";
+import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import { useNavigate } from "react-router-dom";
 
@@ -79,6 +80,7 @@ const LoginPage = () => {
     const [passwordError, setPasswordError] = useState("");
 
     const [displayPopup, setDisplayPopup] = useState(false);
+    const { setEmployeeID } = useEmployee();
 
     // Logic & Functions
     const navigate = useNavigate();
@@ -102,7 +104,12 @@ const LoginPage = () => {
         }
 
         const role = getRole(email, password, employeeData);
-        // TODO redirect employee type to their relevant Home page 
+        const ID = getEmployeeID(email, password, employeeData);
+        
+        // Sets the employeeID to the current employee's Employee_ID
+        setEmployeeID(ID);
+
+        // Redirects to the relevent employee types' home page
         navigate(`/${role}`);
     }
 

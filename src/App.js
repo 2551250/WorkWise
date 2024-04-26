@@ -8,23 +8,24 @@ import StaffProjectPage from './Pages/ProjectPages/StaffProjectPage';
 import ManagerProjectPage from './Pages/ProjectPages/ManagerProjectPage';
 import HRProjectPage from './Pages/ProjectPages/HRProjectPage';
 import { Route, Routes } from "react-router-dom";
-
+import { EmployeeProvider } from './Components/EmployeeContext/EmployeeContext';
 
 function App() {
   return (
-    <div className='App'>
-      <Routes>
-        <Route path="/HR" element={<HR />} />
-        <Route path="/Staff" element={<Staff />} />
-        <Route path="/Manager" element={<Manager />} />
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
-        <Route path="/StaffProjectPage" element={<StaffProjectPage/>} />
-        <Route path="/ManagerProjectPage" element={<ManagerProjectPage/>} />
-        <Route path="/HRProjectPage" element={<HRProjectPage/>} />
-      </Routes>
-
-    </div>
+    <EmployeeProvider>
+      <div className='App'>
+        <Routes>
+          <Route path="/HR" element={<HR />} />
+          <Route path="/Staff" element={<Staff />} />
+          <Route path="/Manager" element={<Manager />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
+          <Route path="/StaffProjectPage" element={<StaffProjectPage/>} />
+          <Route path="/ManagerProjectPage" element={<ManagerProjectPage/>} />
+          <Route path="/HRProjectPage" element={<HRProjectPage/>} />
+        </Routes>
+      </div>
+    </EmployeeProvider>
   );
 }
 
