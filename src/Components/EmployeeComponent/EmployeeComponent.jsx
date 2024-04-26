@@ -4,10 +4,10 @@ import "./EmployeeComponent.css";
 const EmployeeComponent = ({ employee }) => {
     return (
         <tr>
-            <td className="table-element"><p>{employee.NAME.concat(" ", employee.SURNAME)}</p></td>
-            <td className="table-element"><p>{employee.EMAIL}</p></td>
-            <td className="table-element"><button>Change Permission</button></td>
-            <td className="table-element"><button>Delete</button></td>
+            <td className="employee-data"><p>{employee.NAME.concat(" ", employee.SURNAME)}</p></td>
+            <td className="employee-data"><p>{employee.EMAIL}</p></td>
+            <td className="employee-data"><button>Change Permission</button></td>
+            <td className="employee-data"><button>Delete</button></td>
         </tr>
     );
 }

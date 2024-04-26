@@ -1,7 +1,11 @@
-.employee-list-wrapper{
-    color: black;
+.list-wrapper{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 100px;
+    padding-top: 10px;
+    color: black;
+}
+
+.table-element {
     padding-top: 10px;
 }

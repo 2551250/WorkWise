@@ -40,7 +40,7 @@ const EmployeeManagement = () => {
                 <button className="logoutButton">Log Out</button>
             </Header>
 
-            <main className="employee-list-wrapper">
+            <main className="list-wrapper">
                 <table>
                     <tbody>
                         <tr>
