@@ -20,7 +20,7 @@ const ViewProjectsSection = ({ managerID }) => {
     const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
 
     // Functions & Logic
-    useEffect(() => {
+    useEffect((managerID) => {
         // Gets all projects created by the manager
         getManagerProjects(managerID)
         .then((data) => {
