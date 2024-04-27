@@ -7,10 +7,8 @@ async function getAllEmployees() {
     const endpoint = `${URL}/Employee`;
     const response = await fetch(endpoint);
     const data = await response.json();
-
     return data;
   } catch (err) {
-    console.log(err);
     return "Error";
   }
 }
@@ -34,10 +32,8 @@ async function getAllProjects() {
     const endpoint = `${URL}/Project`;
     const response = await fetch(endpoint);
     const data = await response.json();
-
     return data;
   } catch (err) {
-    console.log(err);
     return "Error";
   }
 }
@@ -50,7 +46,6 @@ async function getStaffProjects(employeeID) {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log(err);
     return "Error";
   }
 }
@@ -63,7 +58,6 @@ async function getProjectAssignedStaff(projectID) {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log(err);
     return "Error";
   }
 }
@@ -76,10 +70,33 @@ async function getManagerProjects(managerID) {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log(err);
+    return "Error";
+  }
+}
+
+// Returns all the reviews created by the employee
+async function getCreatedReviews(employeeID) {
+  try {
+    const endpoint = `${URL}/CreatedReviews/${employeeID}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    return "Error";
+  }
+}
+
+// Returns all the reviews of the employee
+async function getReceivedReviews(employeeID) {
+  try {
+    const endpoint = `${URL}/ReceivedReviews/${employeeID}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    return data;
+  } catch (err) {
     return "Error";
   }
 }
 
 // exports
-export { getRole, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff }
+export { getRole, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }
