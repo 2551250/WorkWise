@@ -147,3 +147,6 @@ textarea {
     background-color: rgb(24, 24, 24);
     cursor: pointer;
 }
+.table-wrapper th {
+    font-weight: bold;
+}

@@ -49,3 +49,20 @@
     border-width: 1px;
     border-color: lightgray;
 }
+.feedback-button{
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 5px;
+}
+.feedback-button:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+}
+.feedback{
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
