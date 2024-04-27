@@ -4,6 +4,7 @@ import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
 import { getManagerProjects } from "../../backend";
 import { insertProject } from "../../backend_post_requests";
+import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import "./ManagerProjectPage.css";
 
@@ -153,8 +154,9 @@ const ManagerProjectPage = () => {
     // Variables
     const [viewProjects, setViewProjects] = useState(true);
 
-    //TODO: Find a way to get a managers Employee_ID
-    const managerID = 5;
+    // Get the manager's Employee_ID
+    const { employeeID } = useEmployee();
+    const managerID = employeeID;
 
     // Functions & Logic
     const ViewProjectsButtonClicked = () => {
