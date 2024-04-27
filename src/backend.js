@@ -24,6 +24,19 @@ function getRole(email, password, data) {
   return "";
 }
 
+
+// Returns the id of the entered employee
+function getEmployeeID(email, password, data) {
+  // Finds the role of an employee -> {Staff, Manager, HR}
+  for (let i = 0; i < data.length; i++) {
+    const obj = data[i];
+    if (obj.EMAIL === email && obj.PASSWORD === password) {
+      return obj.EMPLOYEE_ID; // returns the role
+    }
+  }
+  return "";
+}
+
 //Returns all projects in the database
 async function getAllProjects() {
   try {
@@ -98,4 +111,4 @@ async function getReceivedReviews(employeeID) {
 }
 
 // exports
-export { getRole, getEmployeeID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }
+export { getRole, getEmployeeID, getEmployeeID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }

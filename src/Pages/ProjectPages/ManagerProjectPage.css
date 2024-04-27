@@ -1,0 +1,149 @@
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.heading{
+font-family: Roboto, sans-serif;
+font-size: large;
+background-color:#eaa411 ;
+box-shadow:0 0 10px rgba(0, 0, 0, .2);
+border-radius: 0px 0px 5px 5px;
+display: flex;
+justify-content: space-between;
+padding:10px
+}
+
+.logoutButton{
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    border-color: black;
+    width: 90px;
+    }
+
+.logoutButton:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+}
+.display{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.display .panel{
+    display: flex;
+    justify-content:flex-start;
+    align-items:center;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: solid;
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    border-width: 1px;
+    border-color: lightgray;
+    height: 91vh;
+}
+
+.panelButtons{
+    background-color: rgb(249, 246, 243);
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    height: 50px;
+    width: 200px;
+    font-size: large;
+}
+
+.panelButtons:hover{
+    background-color: rgb(245, 243, 242);
+    cursor: pointer;
+}
+
+.view-project{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.view-project h2{
+    margin-top: 50px;
+    margin-left: 60px;
+}
+
+/* Add a Project CSS */
+.add-project{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+.add-project h2{
+    margin-top: 50px;
+    margin-left: 60px;
+}
+.formatting{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+
+}
+.formatting input{
+    margin-top: 5px;
+    margin-left: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ccc; /* Add a border */
+}
+.labels{
+    align-self: flex-start;
+    margin-left: 60px;
+    margin-top: 10px;
+    width: 120px;
+}
+.input-name{
+    width:200px;
+    height: 20px;
+    justify-self: flex-end;
+}
+textarea {
+    margin-top: 5px;
+    width: 300px; /* Set width to 100% */
+    min-height: 20px; /* Set a minimum height */
+    max-height: 80px;
+    overflow-y: auto; /* Allow the height to grow */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 10px;
+    resize: none; /* Disable manual resizing */
+}
+.input-time{
+    width: 60px;
+    margin-right: 10px;
+}
+.hours{
+    margin-top: 10px;
+}
+.create-project{
+    width:auto;
+    display: flex;
+    align-self: center;
+    align-content: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 5px;
+}
+.create-project:hover{
+    background-color: rgb(24, 24, 24);
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import { getRole } from "./backend";
+import { getRole, getEmployeeID } from "./backend";
 import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx";
 import { getAllStaffData } from "./Pages/EmployeeManagementPage/EmployeeManagement.jsx";
 
@@ -8,22 +8,26 @@ const userTestData = [
     {
         "EMAIL": "gcheadle@workwise.co.za",
         "PASSWORD": "password1@3",
-        "ROLE": "HR"
+        "ROLE": "HR",
+        "EMPLOYEE_ID": "1"
     },
     {
         "EMAIL": "nraji@workwise.co.za",
         "PASSWORD": "nraji",
-        "ROLE": "Manager"
+        "ROLE": "Manager",
+        "EMPLOYEE_ID": "4"
     },
     {
         "EMAIL": "yali@workwise.co.za",
         "PASSWORD": "password",
-        "ROLE": "Staff"
+        "ROLE": "Staff",
+        "EMPLOYEE_ID": "2"
     },
     {
         "EMAIL": "tbantam@workwise.co.za",
         "PASSWORD": "password",
-        "ROLE": "Staff"
+        "ROLE": "Staff",
+        "EMPLOYEE_ID": "3"
     }
 ];
 
@@ -102,4 +106,8 @@ test("checks is valid password invalid", function checkIsValidPassword_anyPasswo
 
 test('checks that only staff data is returned', function checkGetAllStaffData_anyUserLoggedIn_valid() {
     expect(getAllStaffData(userTestData)).toStrictEqual(userTestData.filter((employee) => employee.ROLE === "Staff"));
+});
+
+test("checks get employee id is valid", () => {
+    expect(getEmployeeID("tbantam@workwise.co.za", "password", userTestData)).toBe("3");
 });
