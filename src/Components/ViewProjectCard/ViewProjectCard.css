@@ -1,9 +1,9 @@
-table{
+.table-wrapper {
     width: 90%;
     flex-wrap: nowrap;
 }
 
-tr{
+.table-wrapper tr{
     margin-top: 20px;
     display: flex;
     margin-left: 60px;
@@ -41,7 +41,7 @@ tr{
     align-items: center;
 }
 
-td{
+.table-wrapper td{
     border-top: solid;
     border-bottom: solid;
     border-left: solid;
