@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCardStaff from "../../Components/ViewProjectCard/VIewProjectCardStaff";
-import { getAllEmployees, getStaffProjects } from "../../backend";
+import { getAllEmployees, getStaffProjects, getProjectAssignedStaff } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import "./StaffProjectPage.css";
@@ -19,12 +19,11 @@ const StaffProjectPage = () => {
     // Variables
     const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
     const [employeeData, setEmployeeData] = useState([]);
+    const [assignedMembers, setAssignedMembers] = useState({});
 
     // Get the Staff's Employee_ID
     const { employeeID } = useEmployee();
     const StaffID = employeeID;
-
-    // Functions & Logic
 
 
     // Functions & Logic
@@ -38,7 +37,8 @@ const StaffProjectPage = () => {
                 .catch((errorMessage) => {
                     console.error(errorMessage); // Display any errors
                 });
-
+            
+            // Gets all employees stored in the database
             await getAllEmployees()
                 .then((data) => {
                     setEmployeeData(data)
@@ -50,19 +50,22 @@ const StaffProjectPage = () => {
         getData();
     }, [StaffID]);
 
-    //  function to fetch manager data from an API endpoint
+    useEffect(() => {
+        const fetchProjectMembers = async () => {
+            const staffProjectObj = {};
 
+            // Iterate through each project and fetch project members
+            for (const project of projects) {
+                const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
+                staffProjectObj[project.PROJECT_ID] = assignedStaff;
+            }
+            setAssignedMembers(staffProjectObj);
+        }
 
-    // Function to find manager name by ID
+        fetchProjectMembers();
+    }, [projects]);
 
-
-
-    // Example usage
-
-
-
-
-
+    
     // HTML Code
     return (
         <>
@@ -91,8 +94,14 @@ const StaffProjectPage = () => {
                 {/* Iterate through the projects list and display them */}
                 {projects.map((project) => (
 
-                    <ViewProjectCardStaff key={project.PROJECT_ID} name={project.PROJECT_NAME} manager={findManagerName(project.MANAGER_ID, employeeData)} description={project.DESCRIPTION} estimatedTime={project.ESTIMATED_TIME} members={["Member 1", "Member 2", "Member 3", "Member 4"]} />
-
+                    <ViewProjectCardStaff 
+                        key={project.PROJECT_ID} 
+                        name={project.PROJECT_NAME} 
+                        manager={findManagerName(project.MANAGER_ID, employeeData)} 
+                        description={project.DESCRIPTION} 
+                        estimatedTime={project.ESTIMATED_TIME} 
+                        members={assignedMembers[project.PROJECT_ID] || []} 
+                    />
                 )
                 )}
             </section>

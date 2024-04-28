@@ -22,10 +22,13 @@ const ViewProjectCardStaff = ({ name, description, manager, estimatedTime, membe
                         <td className="project-est-time">{estimatedTime} Hrs</td>
                         <td className="project-members">
                             <ul>
-                                {members.map((member) => (
-                                    <li key={member}> {member} </li>
-                                )
-                                )}
+                                {
+                                    members !== "Error"
+                                    ? members.map((member) => (
+                                        <li key={member.EMPLOYEE_ID}> {`${member.NAME} ${member.SURNAME}`} </li>
+                                    ))
+                                    : ""
+                                }
                             </ul>
                         </td>
                         <td className="feedback"> <button className="feedback-button" onClick={handleClick}> Feedback</button></td>

@@ -49,7 +49,7 @@ const AddFeedback = () => {
                     
                 </select>
                 </article>
-                <textarea  maxlength = "200" rows="5" placeholder="Enter feedback"></textarea>
+                <textarea  maxLength = "200" rows="5" placeholder="Enter feedback"></textarea>
                 <button className="feedback-button" onClick={handleButtonClick}>Give Feedback</button>
                 
             </article>
