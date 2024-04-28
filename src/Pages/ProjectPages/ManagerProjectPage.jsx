@@ -91,7 +91,13 @@ const getProjectID = (projectName, projectData) => {
 
 
 const isValidProjectMembers = (projectMembers) => {
-    
+    /* 
+        Checks if at least one staff member is assigned to a project
+
+        :param projectMembers: list of selected staff members
+        :return: Boolean Value
+    */
+
     // Checks if no staff members were assigned to the project
     if (projectMembers.length <= 0) {
         return false;
@@ -102,7 +108,15 @@ const isValidProjectMembers = (projectMembers) => {
 
 
 const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
-    
+     /*
+        Displays the add staff section
+
+        :param1 projectName: used to store the name of a project
+        :param2 managerID: The employee id of the manager creating a project
+        :param setActiveSection: Function to set the value of activeSection to the currently active section
+        :returns HTML code: code for the actual section
+    */
+
     const [staff, setStaff] = useState([]);
     const [projects, setProjects] = useState([]);    
     const [projectMembers, setProjectsMembers] = useState([]);
@@ -159,6 +173,14 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
 
 
 const isValidProjectName = (projectName, projects) => {
+    /* 
+        Checks if the project name entered is a vaild
+
+        :param1 projectName: project name entered
+        :param2 projects: list of all project stored in the database
+        :return: Boolean Value
+    */
+
     // Checks if no project name was entered.
     if (projectName === ""){
         return false;
@@ -175,6 +197,12 @@ const isValidProjectName = (projectName, projects) => {
 
 
 const isValidProjectDescription = (projectDescription) => {
+    /* 
+        Checks if the project description entered is a vaild
+
+        :param projectDescription: project description entered
+        :return: Boolean Value
+    */
 
     // Checks if no project description was entered.
     if (projectDescription === ""){
@@ -185,7 +213,13 @@ const isValidProjectDescription = (projectDescription) => {
 
 
 const isValidProjectEstimateTime = (projectEstimatedTime) => {
-    
+    /* 
+        Checks if the project estimate time entered is a vaild
+
+        :param projectDescription: project estimate time entered
+        :return: Boolean Value
+    */
+
     // Checks if negative time or no time was entered
     if (projectEstimatedTime <= 0){
         return false;
