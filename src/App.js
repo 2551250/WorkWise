@@ -9,6 +9,7 @@ import ManagerProjectPage from './Pages/ProjectPages/ManagerProjectPage';
 import HRProjectPage from './Pages/ProjectPages/HRProjectPage';
 import { Route, Routes } from "react-router-dom";
 import { EmployeeProvider } from './Components/EmployeeContext/EmployeeContext';
+import StaffFeedbackPage from "./Pages/FeedbackPages/StaffFeedbackPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/StaffProjectPage" element={<StaffProjectPage/>} />
           <Route path="/ManagerProjectPage" element={<ManagerProjectPage/>} />
           <Route path="/HRProjectPage" element={<HRProjectPage/>} />
+          <Route path="/StaffFeedbackPage" element={<StaffFeedbackPage/>} />
         </Routes>
       </div>
     </EmployeeProvider>

@@ -1,9 +1,15 @@
 import React from "react";
 
 import "./ViewProjectCard.css";
+import { useNavigate } from 'react-router-dom';
 
 
 const ViewProjectCardStaff = ({ name, description, manager, estimatedTime, members }) => {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        // Use navigate function to go to another page
+        navigate('/StaffFeedbackPage');
+      };
     return (
         <article>
             <table className="table-wrapper">
@@ -22,7 +28,7 @@ const ViewProjectCardStaff = ({ name, description, manager, estimatedTime, membe
                                 )}
                             </ul>
                         </td>
-                        <td className="feedback"> <button className="feedback-button"> Give feedback</button></td>
+                        <td className="feedback"> <button className="feedback-button" onClick={handleClick}> Feedback</button></td>
                     </tr>
 
                 </tbody>
