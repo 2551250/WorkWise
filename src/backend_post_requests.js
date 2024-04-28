@@ -24,18 +24,21 @@ async function insertProject(project_name, description, manager_id, estimated_ti
 // Function calls the API to assign a staff member to a project
 // Inserts a record into the EmployeeProject table 
 async function assignStaffToProject(staff_id, project_id) {
-    // Body of the request
-    const staff = {
-        staff_id: staff_id,
-        project_id: project_id
-    };
-    // Calls the API
-    axios.post(`${URL}/EmployeeProject`, staff)
-        .then((res) => {
-            return res.data;
-        }).catch((err) => {
-            return err;
-        });
+    try {
+        // Body of the request
+        const staff = {
+            staff_id: staff_id,
+            project_id: project_id
+        };
+
+        const res = await axios.post(`${URL}/EmployeeProject`, staff);
+
+        // Return the response data
+        return res.data
+    } catch (error) {
+        // Handle errors
+        return error;
+    }
 }
 
 async function insertReview(review_of, review_by, description, project_id) {

@@ -110,9 +110,5 @@ async function getReceivedReviews(employeeID) {
   }
 }
 
-const getProjectID = (projectName) => {
-  
-}
-
 // exports
 export { getRole, getEmployeeID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }
