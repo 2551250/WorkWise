@@ -45,6 +45,7 @@
 .login-wrapper h1 {
     font-size: 36px;
     text-align: center;
+    background-color: transparent;
 }
 
 .login-wrapper .input-box {
