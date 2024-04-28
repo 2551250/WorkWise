@@ -22,16 +22,6 @@ const ViewProjectsSection = ({ managerID }) => {
     const [assignedMembers, setAssignedMembers] = useState({});
 
     // Functions & Logic
-    const fetchProjectMembers = async () => {
-        // Iterate through each project and fetch project members
-        const staffProjectObj = {};
-
-        for (const project of projects) {
-            const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
-            staffProjectObj[project.PROJECT_ID] = assignedStaff;
-        }
-        return staffProjectObj;
-    }
     
     useEffect(() => {
         // Gets all projects created by the manager
@@ -46,12 +36,19 @@ const ViewProjectsSection = ({ managerID }) => {
 
 
     useEffect(() => {
-        const fetchData = async () => {
-            const members = await fetchProjectMembers();
-            setAssignedMembers(members);
-        };
-        fetchData();
-    });
+        const fetchProjectMembers = async () => {
+            // Iterate through each project and fetch project members
+            const staffProjectObj = {};
+    
+            for (const project of projects) {
+                const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
+                staffProjectObj[project.PROJECT_ID] = assignedStaff;
+            }
+            setAssignedMembers(staffProjectObj);
+        }
+
+        fetchProjectMembers();
+    }, [projects]);
 
     // HTML Code
     return (
@@ -105,7 +102,7 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
             setStaff(data.filter((employee) => (employee.ROLE === "Staff")));
         })
 
-    });
+    }, [projects]); 
 
     useEffect(() => {
         // Gets all projects created by the manager
@@ -117,7 +114,6 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
     }, [managerID]);
 
     
-
     const handleButtonClick = async () => {
         const projectID = getProjectID(projectName, projects);
 
