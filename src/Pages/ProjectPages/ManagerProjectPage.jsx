@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
-import { getAllEmployees, getManagerProjects, getProjectAssignedStaff} from "../../backend";
+import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff} from "../../backend";
 import { insertProject, assignStaffToProject } from "../../backend_post_requests";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
@@ -37,9 +37,9 @@ const ViewProjectsSection = ({ managerID }) => {
 
     useEffect(() => {
         const fetchProjectMembers = async () => {
-            // Iterate through each project and fetch project members
             const staffProjectObj = {};
-    
+
+            // Iterate through each project and fetch project members
             for (const project of projects) {
                 const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
                 staffProjectObj[project.PROJECT_ID] = assignedStaff;
@@ -90,11 +90,23 @@ const getProjectID = (projectName, projectData) => {
 }
 
 
+const isValidProjectMembers = (projectMembers) => {
+    
+    // Checks if no staff members were assigned to the project
+    if (projectMembers.length <= 0) {
+        return false;
+    }
+
+    return true; // At least one staff member was assigned
+}
+
+
 const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
     
     const [staff, setStaff] = useState([]);
     const [projects, setProjects] = useState([]);    
     const [projectMembers, setProjectsMembers] = useState([]);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         getAllEmployees()
@@ -115,6 +127,11 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
 
     
     const handleButtonClick = async () => {
+        if (!isValidProjectMembers(projectMembers)) {
+            setError("No Staff was Assigned to a Project.")
+            return;
+        }
+
         const projectID = getProjectID(projectName, projects);
 
         for (const staffID of projectMembers){
@@ -133,9 +150,47 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
                 setTrigger={setProjectsMembers}
             />
 
+            {/* Displays Invalid Data Error Message */}
+            {error && <label className="error-label"> {error} </label>}
             <button className="create-project" onClick={handleButtonClick}> Add Members</button>
         </section>
     );
+}
+
+
+const isValidProjectName = (projectName, projects) => {
+    // Checks if no project name was entered.
+    if (projectName === ""){
+        return false;
+    }
+
+    // Checks if the project name already exists.
+    projects.forEach((project) => {
+        if (project.PROJECT_NAME === projectName){
+            return false;
+        }
+    });
+    return true; // Project name is valid.
+}
+
+
+const isValidProjectDescription = (projectDescription) => {
+
+    // Checks if no project description was entered.
+    if (projectDescription === ""){
+        return false;
+    }
+    return true; // Project description is valid.
+}
+
+
+const isValidProjectEstimateTime = (projectEstimatedTime) => {
+    
+    // Checks if negative time or no time was entered
+    if (projectEstimatedTime <= 0){
+        return false;
+    }
+    return true; // Project estimate time is valid.
 }
 
 
@@ -143,32 +198,61 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
     /*
         Displays the add a project section
 
-        :param1 managerID: The employee id of the manager creating a project
-        :param2 setViewProjects: Function to set the value of viewProject to false/true
+        :param1 projectName: used to store the name of a project
+        :param2 setProjectName: Function to set projectName variable to a project's name
+        :param3 managerID: The employee id of the manager creating a project
+        :param4 setActiveSection: Function to set the value of activeSection to the currently active section
         :returns HTML code: code for the actual section
     */
 
     // Variables
+    const [projects, setProjects] = useState([]);
     const [projectDescription, setProjectDescription] = useState("");
     const [projectEstimatedTime, setProjectEstimatedTime] = useState(0);
-
+    const [error, setError] = useState("");
 
     // Functions & Logic
+    useEffect(() => {
+        // Gets all projects from the database
+        getAllProjects()
+        .then((data) => (setProjects(data)))
+        .catch((errorMessage) => {
+        console.error(errorMessage);
+        })
+    }, []);
+
     const handleButtonClick = () => {
         /*
             When the submit button is clicked, inserts the project information
             into our database.
         */
 
+        // Data Validation
+        if (!isValidProjectName(projectName, projects)) {
+            setError("No Project Name Entered");
+            return;
+        }
+
+        else if (!isValidProjectDescription(projectDescription)) {
+            setError("No Project Description Entered");
+            return;
+        }
+
+        else if (!isValidProjectEstimateTime(projectEstimatedTime)) {
+            setError("Invalid Project Estimate Time");
+            return;
+        }
+
         // Adds project to out database
         insertProject(projectName, projectDescription, managerID, projectEstimatedTime)
         .then(() => {
+
+            // Moves manager to Add Staff section
             setActiveSection("addStaffSection");
         })
         .catch((errorMessage) => {
             console.error(errorMessage);
         });
-        //TODO: Add project members to our database
     }
 
     // HTML Code
@@ -210,6 +294,8 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
             <p className = "hours">Hours</p>
         </article>
 
+        {/* Displays Invalid Data Error Message */}
+        {error && <label className="error-label"> {error} </label>} 
         <button className="create-project" onClick={handleButtonClick}> Add project</button>
 
     </section>
