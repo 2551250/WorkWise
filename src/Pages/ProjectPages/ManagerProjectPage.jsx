@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
-import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff} from "../../backend";
+import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID} from "../../backend";
 import { insertProject, assignStaffToProject } from "../../backend_post_requests";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
@@ -80,13 +80,6 @@ const ViewProjectsSection = ({ managerID }) => {
             )}
         </section>
     );
-}
-
-
-const getProjectID = (projectName, projectData) => {
-    const filteredProjectData = projectData.filter((project) => (project.PROJECT_NAME === projectName));
-    const targetProject = filteredProjectData[0];
-    return targetProject.PROJECT_ID;
 }
 
 
