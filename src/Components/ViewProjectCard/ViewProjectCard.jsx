@@ -3,7 +3,7 @@ import React from "react";
 import "./ViewProjectCard.css";
 
 
-const ViewProjectCard = ({name, description, estimatedTime, members}) => {
+const ViewProjectCard = ({ name, description, estimatedTime, members }) => {
     return (
         <article>
             <table className="table-wrapper">
@@ -14,10 +14,13 @@ const ViewProjectCard = ({name, description, estimatedTime, members}) => {
                     <td className="project-est-time">{estimatedTime} Hrs</td>
                     <td className="project-members">
                         <ul>
-                            {members.map((member) => (
-                                <li key={member}> {member} </li>
-                            )
-                            )}
+                            {
+                                members !== "Error"
+                                ? members.map((member) => (
+                                    <li key={member.EMPLOYEE_ID}> {`${member.NAME} ${member.SURNAME}`} </li>
+                                ))
+                                : ""
+                            }
                         </ul>
                     </td>
                 </tr>
