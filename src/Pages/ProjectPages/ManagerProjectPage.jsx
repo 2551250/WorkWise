@@ -30,7 +30,7 @@ const ViewProjectsSection = ({ managerID }) => {
             const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
             staffProjectObj[project.PROJECT_ID] = assignedStaff;
         }
-        setAssignedMembers(staffProjectObj);
+        return staffProjectObj;
     }
     
     useEffect(() => {
@@ -46,8 +46,12 @@ const ViewProjectsSection = ({ managerID }) => {
 
 
     useEffect(() => {
-        fetchProjectMembers();
-    }, [projects, fetchProjectMembers]);
+        const fetchData = async () => {
+            const members = await fetchProjectMembers();
+            setAssignedMembers(members);
+        };
+        fetchData();
+    });
 
     // HTML Code
     return (
@@ -163,7 +167,6 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
         // Adds project to out database
         insertProject(projectName, projectDescription, managerID, projectEstimatedTime)
         .then(() => {
-            console.log("PUSSIO");
             setActiveSection("addStaffSection");
         })
         .catch((errorMessage) => {
