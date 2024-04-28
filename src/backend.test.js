@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID } from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects } from "./backend";
 import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx";
 import { getAllStaffData } from "./Pages/EmployeeManagementPage/EmployeeManagement.jsx";
 
@@ -63,7 +63,7 @@ const employeeProjectTestData = [
     {
         "EMP_PROJ_ID": "3",
         "EMPLOYEE_EMAIL": "yali@workwise.co.za",
-        "PROEJCT_ID": "3"
+        "PROJECT_ID": "3"
     }
 ];
 
@@ -108,6 +108,38 @@ test('checks that only staff data is returned', function checkGetAllStaffData_an
     expect(getAllStaffData(userTestData)).toStrictEqual(userTestData.filter((employee) => employee.ROLE === "Staff"));
 });
 
-test("checks get employee id is valid", () => {
+test("checks get employee id valid", function checksGetEmployeeID_anyUserLoggedIn_Valid() {
     expect(getEmployeeID("tbantam@workwise.co.za", "password", userTestData)).toBe("3");
+});
+
+test("checks get employee id invalid", function checksGetEmployeeID_anyState_Invalid() {
+    expect(getEmployeeID("jsmith", "password", userTestData)).toBe("");
+});
+
+test("checks returning staff working on a project returns an error", async function checkGetProjectAssignedStaff_invalidProjectID_Invalid(){
+    expect(await getProjectAssignedStaff(-1)).toBe("Error");
+});
+
+test("checks returning projects assigned to staff returns an error", async function checkGetStaffProjects_invalidEmployeeID_Invalid(){
+    expect(await getStaffProjects(-1)).toBe("Error");
+});
+
+test("checks returning projects created by manager returns an error", async function checkGetManagerProjects_invalidManagerID_Invalid(){
+    expect(await getManagerProjects(-1)).toBe("Error");
+});
+
+test("checks returning reviews created by employee returns an error", async function checkGetCreatedReviews_invalidEmployeeID_Invalid(){
+    expect(await getCreatedReviews(-1)).toBe("Error");
+});
+
+test("checks returning reviews created by employee returns an error", async function checkGetReceivedReviews_invalidEmployeeID_Invalid(){
+    expect(await getReceivedReviews(-1)).toBe("Error");
+});
+
+test("checks returning all employees reached database", async function checkGetAllEmployees_anyState_Valid(){
+    expect(await getAllEmployees() === "Error").toBe(false);
+});
+
+test("checks returning all projects reached database", async function checkGetAllProjects_anyState_Valid(){
+    expect(await getAllProjects() === "Error").toBe(false);
 });

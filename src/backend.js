@@ -6,6 +6,9 @@ async function getAllEmployees() {
     const endpoint = `${URL}/Employee`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -44,6 +47,9 @@ async function getAllProjects() {
     const endpoint = `${URL}/Project`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -56,6 +62,9 @@ async function getStaffProjects(employeeID) {
     const endpoint = `${URL}/EmployeeProject/Employee/${employeeID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -68,6 +77,9 @@ async function getProjectAssignedStaff(projectID) {
     const endpoint = `${URL}/EmployeeProject/Project/${projectID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -80,6 +92,9 @@ async function getManagerProjects(managerID) {
     const endpoint = `${URL}/Project/${managerID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -92,6 +107,9 @@ async function getCreatedReviews(employeeID) {
     const endpoint = `${URL}/CreatedReviews/${employeeID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -104,6 +122,9 @@ async function getReceivedReviews(employeeID) {
     const endpoint = `${URL}/ReceivedReviews/${employeeID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
