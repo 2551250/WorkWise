@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
-import ViewProjectCardStaff from "../../Components/ViewProjectCard/ViewProjectCardStaff";
+import ViewProjectCardStaff from "../../Components/ViewProjectCard/VIewProjectCardStaff";
 import { getAllEmployees, getStaffProjects, getProjectAssignedStaff } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
