@@ -6,6 +6,9 @@ async function getAllEmployees() {
     const endpoint = `${URL}/Employee`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -51,6 +54,9 @@ async function getAllProjects() {
     const endpoint = `${URL}/Project`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -63,6 +69,9 @@ async function getStaffProjects(employeeID) {
     const endpoint = `${URL}/EmployeeProject/Employee/${employeeID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -75,6 +84,9 @@ async function getProjectAssignedStaff(projectID) {
     const endpoint = `${URL}/EmployeeProject/Project/${projectID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -87,6 +99,9 @@ async function getManagerProjects(managerID) {
     const endpoint = `${URL}/Project/${managerID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -99,6 +114,9 @@ async function getCreatedReviews(employeeID) {
     const endpoint = `${URL}/CreatedReviews/${employeeID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
@@ -111,11 +129,92 @@ async function getReceivedReviews(employeeID) {
     const endpoint = `${URL}/ReceivedReviews/${employeeID}`;
     const response = await fetch(endpoint);
     const data = await response.json();
+    if (data.length === 0) {
+      return "Error"
+    }
     return data;
   } catch (err) {
     return "Error";
   }
 }
 
+const isValidProjectMembers = (projectMembers) => {
+  /* 
+      Checks if at least one staff member is assigned to a project
+
+      :param projectMembers: list of selected staff members
+      :return: Boolean Value
+  */
+
+  // Checks if no staff members were assigned to the project
+  if (projectMembers.length <= 0) {
+    return false;
+  }
+
+  return true; // At least one staff member was assigned
+}
+
+const isValidProjectName = (projectName, projects) => {
+  let valid = true;
+  /* 
+      Checks if the project name entered is a vaild
+
+      :param1 projectName: project name entered
+      :param2 projects: list of all project stored in the database
+      :return: Boolean Value
+  */
+
+  // Checks if no project name was entered.
+  if (projectName === "") {
+    valid = false;
+  }
+
+  // Checks if the project name already exists.
+  projects.forEach((project) => {
+    if (project.PROJECT_NAME === projectName) {
+      valid = false;
+      return;
+    }
+  });
+  return valid; // Project name is valid.
+}
+
+const isValidProjectDescription = (projectDescription) => {
+  /* 
+      Checks if the project description entered is a vaild
+
+      :param projectDescription: project description entered
+      :return: Boolean Value
+  */
+
+  // Checks if no project description was entered.
+  if (projectDescription === "") {
+    return false;
+  }
+  return true; // Project description is valid.
+}
+
+const isValidProjectEstimateTime = (projectEstimatedTime) => {
+  /* 
+      Checks if the project estimate time entered is a vaild
+
+      :param projectDescription: project estimate time entered
+      :return: Boolean Value
+  */
+
+  // Checks if negative time or no time was entered
+  if (projectEstimatedTime <= 0) {
+    return false;
+  }
+  return true; // Project estimate time is valid.
+}
+
+const findManagerName = (Employee_ID, data) => {
+  const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
+
+  return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
+}
+
+
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName }
