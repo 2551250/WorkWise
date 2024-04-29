@@ -7,11 +7,13 @@ import EmployeeManagement from "./Pages/EmployeeManagementPage/EmployeeManagemen
 import StaffProjectPage from './Pages/ProjectPages/StaffProjectPage';
 import ManagerProjectPage from './Pages/ProjectPages/ManagerProjectPage';
 import HRProjectPage from './Pages/ProjectPages/HRProjectPage';
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { EmployeeProvider } from './Components/EmployeeContext/EmployeeContext';
 import StaffFeedbackPage from "./Pages/FeedbackPages/StaffFeedbackPage";
 
 function App() {
+  const navigate = useNavigate();
+
   return (
     <EmployeeProvider>
       <div className='App'>
@@ -21,7 +23,7 @@ function App() {
           <Route path="/Manager" element={<Manager />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
-          <Route path="/StaffProjectPage" element={<StaffProjectPage/>} />
+          <Route path="/StaffProjectPage" element={<StaffProjectPage navigate={navigate}/>} />
           <Route path="/ManagerProjectPage" element={<ManagerProjectPage/>} />
           <Route path="/HRProjectPage" element={<HRProjectPage/>} />
           <Route path="/StaffFeedbackPage" element={<StaffFeedbackPage/>} />

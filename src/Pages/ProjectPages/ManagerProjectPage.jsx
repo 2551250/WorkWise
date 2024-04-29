@@ -61,7 +61,7 @@ const ViewProjectsSection = ({ managerID }) => {
                             <tr > 
                                 <td className="project-name"><th>Name</th></td>
                                 <td className="project-desc"><th>Description</th></td>
-                                <td className="project-est-time"><th>Etimated Time</th></td>
+                                <td className="project-est-time"><th>Estimated Time</th></td>
                                 <td className="project-members"><th>Members</th></td>
                                 
                             </tr>
@@ -205,7 +205,7 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
             setActiveSection("addStaffSection");
         })
         .catch((errorMessage) => {
-            console.error(errorMessage);
+            alert(errorMessage);
         });
     }
 
