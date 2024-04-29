@@ -1,0 +1,28 @@
+.review{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    border: 2px solid rgb(190, 190, 190);
+    padding: 20px;
+    margin-left: 60px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: rgb(225, 225, 225);
+    max-width: 1000px;
+    text-wrap: wrap;
+
+
+}
+
+.review-name{
+    margin-bottom: 10px;
+    background-color: transparent;
+    font-weight: bolder;
+    font-size: medium;
+}
+
+.message{margin-left: 10px;
+    font-size: small;
+    background-color: transparent;
+}

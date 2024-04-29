@@ -126,3 +126,8 @@ textarea {
     font-size: small;
     background-color: transparent;
 }
+
+.error-label {
+    color: red;
+    font-size: 12px;
+}

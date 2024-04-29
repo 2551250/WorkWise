@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
-import ViewProjectCardStaff from "../../Components/ViewProjectCard/VIewProjectCardStaff";
+import ViewProjectCardStaff from "../../Components/ViewProjectCard/ViewProjectCardStaff";
 import { getAllEmployees, getStaffProjects, getProjectAssignedStaff } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
@@ -15,7 +15,7 @@ const findManagerName = (Employee_ID, data) => {
 }
 
 
-const StaffProjectPage = () => {
+const StaffProjectPage = ({ navigate }) => {
     // Variables
     const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
     const [employeeData, setEmployeeData] = useState([]);
@@ -65,7 +65,7 @@ const StaffProjectPage = () => {
         fetchProjectMembers();
     }, [projects]);
 
-    
+
     // HTML Code
     return (
         <>
@@ -95,12 +95,14 @@ const StaffProjectPage = () => {
                 {projects.map((project) => (
 
                     <ViewProjectCardStaff 
-                        key={project.PROJECT_ID} 
+                        key={project.PROJECT_ID}
+                        projectID = {project.PROJECT_ID} 
                         name={project.PROJECT_NAME} 
                         manager={findManagerName(project.MANAGER_ID, employeeData)} 
                         description={project.DESCRIPTION} 
                         estimatedTime={project.ESTIMATED_TIME} 
-                        members={assignedMembers[project.PROJECT_ID] || []} 
+                        members={assignedMembers[project.PROJECT_ID] || []}
+                        navigate={navigate} 
                     />
                 )
                 )}

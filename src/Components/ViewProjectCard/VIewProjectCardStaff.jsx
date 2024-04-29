@@ -1,14 +1,22 @@
 import React from "react";
 
 import "./ViewProjectCard.css";
-import { useNavigate } from 'react-router-dom';
 
 
-const ViewProjectCardStaff = ({ name, description, manager, estimatedTime, members }) => {
-    const navigate = useNavigate();
+const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, navigate }) => {
     const handleClick = () => {
+
+        // Project Data
+        const project = {
+            PROJECT_ID: projectID,
+            PROJECT_NAME: name, 
+            DESCRIPTION: description,
+            MANAGER: manager,
+            ESTIMATED_TIME: estimatedTime,
+            ASSIGNED_STAFF: members
+        }
         // Use navigate function to go to another page
-        navigate('/StaffFeedbackPage');
+        navigate('/StaffFeedbackPage', {state: project});
       };
     return (
         <article>
