@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
-import { getManagerProjects } from "../../backend";
-import { insertProject } from "../../backend_post_requests";
+import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID} from "../../backend";
+import { insertProject, assignStaffToProject } from "../../backend_post_requests";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
+import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
 
 import "./ManagerProjectPage.css";
 
@@ -16,21 +17,38 @@ const ViewProjectsSection = ({ managerID }) => {
         :param1 managerID: The employee id of the manager creating a project
         :returns HTML code: code for the actual section
     */
-
     // Variables
     const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
+    const [assignedMembers, setAssignedMembers] = useState({});
 
     // Functions & Logic
+    
     useEffect(() => {
         // Gets all projects created by the manager
         getManagerProjects(managerID)
-        .then((data) => {
-            setProjects(data) // stores projects data in the projects list 
+        .then((projectsData) => {
+            setProjects(projectsData);
         })
         .catch((errorMessage) => {
-            console.error(errorMessage); // Display any errors
+            console.error(errorMessage);
         });
     }, [managerID]);
+
+
+    useEffect(() => {
+        const fetchProjectMembers = async () => {
+            const staffProjectObj = {};
+
+            // Iterate through each project and fetch project members
+            for (const project of projects) {
+                const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
+                staffProjectObj[project.PROJECT_ID] = assignedStaff;
+            }
+            setAssignedMembers(staffProjectObj);
+        }
+
+        fetchProjectMembers();
+    }, [projects]);
 
     // HTML Code
     return (
@@ -49,11 +67,15 @@ const ViewProjectsSection = ({ managerID }) => {
                             </tr>
                        
                     </tbody>
-                </table>
+            </table>
             
             {/* Iterate through the projects list and display them */}
             {projects.map((project) => (
-                <ViewProjectCard key={project.PROJECT_ID} name={project.PROJECT_NAME} description={project.DESCRIPTION} estimatedTime={project.ESTIMATED_TIME} members={["Member 1", "Member 2", "Member 3", "Member 4"]}/>
+                <ViewProjectCard 
+                    key={project.PROJECT_ID} projectID={project.PROJECT_ID} 
+                    name={project.PROJECT_NAME} description={project.DESCRIPTION} 
+                    estimatedTime={project.ESTIMATED_TIME} members={assignedMembers[project.PROJECT_ID] || []}
+                />
             )
             )}
         </section>
@@ -61,41 +83,203 @@ const ViewProjectsSection = ({ managerID }) => {
 }
 
 
-const AddProjectsSection = ({ managerID, setViewProjects}) => {
+const isValidProjectMembers = (projectMembers) => {
+    /* 
+        Checks if at least one staff member is assigned to a project
+
+        :param projectMembers: list of selected staff members
+        :return: Boolean Value
+    */
+
+    // Checks if no staff members were assigned to the project
+    if (projectMembers.length <= 0) {
+        return false;
+    }
+
+    return true; // At least one staff member was assigned
+}
+
+
+const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
+     /*
+        Displays the add staff section
+
+        :param1 projectName: used to store the name of a project
+        :param2 managerID: The employee id of the manager creating a project
+        :param setActiveSection: Function to set the value of activeSection to the currently active section
+        :returns HTML code: code for the actual section
+    */
+
+    const [staff, setStaff] = useState([]);
+    const [projects, setProjects] = useState([]);    
+    const [projectMembers, setProjectsMembers] = useState([]);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        getAllEmployees()
+        .then((data) => {
+            setStaff(data.filter((employee) => (employee.ROLE === "Staff")));
+        })
+
+    }, [projects]); 
+
+    useEffect(() => {
+        // Gets all projects created by the manager
+        getManagerProjects(managerID)
+        .then((projectsData) => (setProjects(projectsData)))
+        .catch((errorMessage) => {
+            console.error(errorMessage);
+        });
+    }, [managerID]);
+
+    
+    const handleButtonClick = async () => {
+        if (!isValidProjectMembers(projectMembers)) {
+            setError("No Staff was Assigned to a Project.")
+            return;
+        }
+
+        const projectID = getProjectID(projectName, projects);
+
+        for (const staffID of projectMembers){
+            await assignStaffToProject(staffID, projectID);
+        }
+
+        // Moves manager to View Projects section
+        setActiveSection("viewProjectSection");
+    }
+
+    return (
+        <section>   
+            <EmployeeSelector 
+                groupName="Staff" 
+                data={staff || []} 
+                setTrigger={setProjectsMembers}
+            />
+
+            {/* Displays Invalid Data Error Message */}
+            {error && <label className="error-label"> {error} </label>}
+            <button className="create-project" onClick={handleButtonClick}> Add Members</button>
+        </section>
+    );
+}
+
+
+const isValidProjectName = (projectName, projects) => {
+    /* 
+        Checks if the project name entered is a vaild
+
+        :param1 projectName: project name entered
+        :param2 projects: list of all project stored in the database
+        :return: Boolean Value
+    */
+
+    // Checks if no project name was entered.
+    if (projectName === ""){
+        return false;
+    }
+
+    // Checks if the project name already exists.
+    projects.forEach((project) => {
+        if (project.PROJECT_NAME === projectName){
+            return false;
+        }
+    });
+    return true; // Project name is valid.
+}
+
+
+const isValidProjectDescription = (projectDescription) => {
+    /* 
+        Checks if the project description entered is a vaild
+
+        :param projectDescription: project description entered
+        :return: Boolean Value
+    */
+
+    // Checks if no project description was entered.
+    if (projectDescription === ""){
+        return false;
+    }
+    return true; // Project description is valid.
+}
+
+
+const isValidProjectEstimateTime = (projectEstimatedTime) => {
+    /* 
+        Checks if the project estimate time entered is a vaild
+
+        :param projectDescription: project estimate time entered
+        :return: Boolean Value
+    */
+
+    // Checks if negative time or no time was entered
+    if (projectEstimatedTime <= 0){
+        return false;
+    }
+    return true; // Project estimate time is valid.
+}
+
+
+const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveSection}) => {
     /*
         Displays the add a project section
 
-        :param1 managerID: The employee id of the manager creating a project
-        :param2 setViewProjects: Function to set the value of viewProject to false/true
+        :param1 projectName: used to store the name of a project
+        :param2 setProjectName: Function to set projectName variable to a project's name
+        :param3 managerID: The employee id of the manager creating a project
+        :param4 setActiveSection: Function to set the value of activeSection to the currently active section
         :returns HTML code: code for the actual section
     */
 
     // Variables
-    const [projectName, setProjectName] = useState("");
+    const [projects, setProjects] = useState([]);
     const [projectDescription, setProjectDescription] = useState("");
     const [projectEstimatedTime, setProjectEstimatedTime] = useState(0);
-    const [projectMembers, setProjectsMembers] = useState([]);
+    const [error, setError] = useState("");
 
     // Functions & Logic
+    useEffect(() => {
+        // Gets all projects from the database
+        getAllProjects()
+        .then((data) => (setProjects(data)))
+        .catch((errorMessage) => {
+        console.error(errorMessage);
+        })
+    }, []);
+
     const handleButtonClick = () => {
         /*
             When the submit button is clicked, inserts the project information
             into our database.
         */
 
-        //TODO: Implement input validation
+        // Data Validation
+        if (!isValidProjectName(projectName, projects)) {
+            setError("No Project Name Entered");
+            return;
+        }
 
-        //TODO: Find way to get members assigned to project
-        setProjectsMembers(["Member 1", "Member 2", "Member 3", "Member 4"])
+        else if (!isValidProjectDescription(projectDescription)) {
+            setError("No Project Description Entered");
+            return;
+        }
+
+        else if (!isValidProjectEstimateTime(projectEstimatedTime)) {
+            setError("Invalid Project Estimate Time");
+            return;
+        }
 
         // Adds project to out database
-        insertProject(projectName, projectDescription, managerID, projectEstimatedTime);
-        
-        //TODO: Add project members to our database
-        console.log(projectMembers);
+        insertProject(projectName, projectDescription, managerID, projectEstimatedTime)
+        .then(() => {
 
-        // Moves manager to View Projects section
-        setViewProjects(true);
+            // Moves manager to Add Staff section
+            setActiveSection("addStaffSection");
+        })
+        .catch((errorMessage) => {
+            console.error(errorMessage);
+        });
     }
 
     // HTML Code
@@ -136,29 +320,11 @@ const AddProjectsSection = ({ managerID, setViewProjects}) => {
             /> 
             <p className = "hours">Hours</p>
         </article>
-        
-        <article className="formatting"> 
-            <p className = "labels">Member 1</p>
-            <input className = "member-input" placeholder="Enter a staff member"/>
-        </article>
-        
-        <article className="formatting"> 
-            <p className = "labels">Member 2</p>
-            <input className = "member-input" placeholder="Enter a staff member"/>
-        </article>
-        
-        <article className="formatting"> 
-            <p className = "labels">Member 3</p>
-            <input className = "member-input" placeholder="Enter a staff member"/>
-        </article>
-        
-        <article className="formatting"> 
-            <p className = "labels">Member 4</p>
-            <input className = "member-input" placeholder="Enter a staff member"/>
-        </article>
-        
+
+        {/* Displays Invalid Data Error Message */}
+        {error && <label className="error-label"> {error} </label>} 
         <button className="create-project" onClick={handleButtonClick}> Add project</button>
-        
+
     </section>
     );
 }
@@ -166,7 +332,8 @@ const AddProjectsSection = ({ managerID, setViewProjects}) => {
 
 const ManagerProjectPage = () => {
     // Variables
-    const [viewProjects, setViewProjects] = useState(true);
+    const [projectName, setProjectName] = useState("");
+    const [activeSection, setActiveSection] = useState("viewProjectSection");
 
     // Get the manager's Employee_ID
     const { employeeID } = useEmployee();
@@ -175,16 +342,16 @@ const ManagerProjectPage = () => {
     // Functions & Logic
     const ViewProjectsButtonClicked = () => {
         /*
-            Sets viewProject to true when the View Projects button is clicked
+            Sets activeSection to viewProjectSection when the View Projects button is clicked
         */
-        setViewProjects(true);
+        setActiveSection("viewProjectSection");
     }
 
     const AddProjectButtonClicked = () => {
         /*
-            Sets viewProject to false when the Add a Project button is clicked
+            Sets activeSection to addProjectSection when the Add a Project button is clicked
         */
-        setViewProjects(false);
+        setActiveSection("addProjectSection");
     }
 
     // HTML Code
@@ -205,10 +372,9 @@ const ManagerProjectPage = () => {
                     Displays view projects section when ViewProjects is true,
                     else displays add a project secton. 
                 */}
-                {viewProjects 
-                 ? <ViewProjectsSection managerID={managerID}/> 
-                 : <AddProjectsSection managerID={managerID} setViewProjects={setViewProjects}/>
-                }
+                {activeSection === "viewProjectSection" && <ViewProjectsSection managerID={managerID}/> }
+                {activeSection === "addProjectSection" && <AddProjectsSection projectName={projectName} setProjectName={setProjectName} managerID={managerID} setActiveSection={setActiveSection}/>}
+                {activeSection === "addStaffSection" && <AddStaffSection projectName={projectName} managerID={managerID} setActiveSection={setActiveSection} />}
                 
             </section>
         </>

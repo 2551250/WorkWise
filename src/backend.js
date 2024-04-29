@@ -37,6 +37,13 @@ function getEmployeeID(email, password, data) {
   return "";
 }
 
+// Returns the id of a project
+function getProjectID(projectName, data) {
+  const filteredData = data.filter((project) => (project.PROJECT_NAME === projectName));
+  const targetProject = filteredData[0];
+  return targetProject.PROJECT_ID; // return the project id
+}
+
 //Returns all projects in the database
 async function getAllProjects() {
   try {
@@ -111,4 +118,4 @@ async function getReceivedReviews(employeeID) {
 }
 
 // exports
-export { getRole, getEmployeeID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }
