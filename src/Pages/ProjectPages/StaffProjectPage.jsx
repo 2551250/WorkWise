@@ -2,17 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCardStaff from "../../Components/ViewProjectCard/VIewProjectCardStaff";
-import { getAllEmployees, getStaffProjects } from "../../backend";
+import { getAllEmployees, getStaffProjects, findManagerName } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import "./StaffProjectPage.css";
-
-
-const findManagerName = (Employee_ID, data) => {
-    const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
-
-    return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
-}
 
 
 const StaffProjectPage = () => {
