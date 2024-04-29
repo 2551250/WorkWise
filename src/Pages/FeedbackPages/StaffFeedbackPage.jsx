@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
-import { insertReview } from "../../backend_post_requests";
 import "./StaffFeedbackPage.css";
 
 
@@ -24,35 +23,14 @@ const ViewFeedback = () => {
 }
 
 
-const AddFeedback = ({ projectReviewer, setviewFeedback}) => {
+const AddFeedback = () => {
     
  // Variables
- const [projectReviewee, setprojectReviewee] = useState("");
- const [projectFeedback, setProjectFeedback] = useState([]);
- const [projectID, setProjectID] = useState([]);
- const [projectMembers, setProjectsMembers] = useState([]);
+
 
  // Functions & Logic
  const handleButtonClick = () => {
-     /*
-         When the submit button is clicked, inserts the feedback information
-         into our database.
-     */
 
-     //TODO: Implement input validation
-
-     //TODO: Find way to get members assigned to project
-   
-
-     // TODO: Find a way to get members from drop down  and project ID
-
-     insertReview(projectReviewer, projectReviewee, projectFeedback, projectID );
-     
-     //TODO: Add project members to our database
-     console.log(projectMembers);
-
-     // Moves manager to View Projects section
-     setviewFeedback(true);
  }
 
     // HTML Code
@@ -71,13 +49,7 @@ const AddFeedback = ({ projectReviewer, setviewFeedback}) => {
                     
                 </select>
                 </article>
-                <textarea 
-                value = {projectFeedback}
-                maxLength="200" 
-                rows="5" 
-                placeholder="Give Review"
-                onChange={(event) => {setProjectFeedback(event.target.value)}} >    
-            </textarea>
+                <textarea  maxlength = "200" rows="5" placeholder="Enter feedback"></textarea>
                 <button className="feedback-button" onClick={handleButtonClick}>Give Feedback</button>
                 
             </article>

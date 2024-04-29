@@ -150,3 +150,8 @@ textarea {
 .table-wrapper th {
     font-weight: bold;
 }
+
+.error-label {
+    color: red;
+    font-size: 12px;
+}

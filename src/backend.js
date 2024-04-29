@@ -40,6 +40,13 @@ function getEmployeeID(email, password, data) {
   return "";
 }
 
+// Returns the id of a project
+function getProjectID(projectName, data) {
+  const filteredData = data.filter((project) => (project.PROJECT_NAME === projectName));
+  const targetProject = filteredData[0];
+  return targetProject.PROJECT_ID; // return the project id
+}
+
 //Returns all projects in the database
 async function getAllProjects() {
   try {
@@ -131,5 +138,76 @@ async function getReceivedReviews(employeeID) {
   }
 }
 
+const isValidProjectMembers = (projectMembers) => {
+  /* 
+      Checks if at least one staff member is assigned to a project
+
+      :param projectMembers: list of selected staff members
+      :return: Boolean Value
+  */
+
+  // Checks if no staff members were assigned to the project
+  if (projectMembers.length <= 0) {
+    return false;
+  }
+
+  return true; // At least one staff member was assigned
+}
+
+const isValidProjectName = (projectName, projects) => {
+  let valid = true;
+  /* 
+      Checks if the project name entered is a vaild
+
+      :param1 projectName: project name entered
+      :param2 projects: list of all project stored in the database
+      :return: Boolean Value
+  */
+
+  // Checks if no project name was entered.
+  if (projectName === "") {
+    valid = false;
+  }
+
+  // Checks if the project name already exists.
+  projects.forEach((project) => {
+    if (project.PROJECT_NAME === projectName) {
+      valid = false;
+      return;
+    }
+  });
+  return valid; // Project name is valid.
+}
+
+const isValidProjectDescription = (projectDescription) => {
+  /* 
+      Checks if the project description entered is a vaild
+
+      :param projectDescription: project description entered
+      :return: Boolean Value
+  */
+
+  // Checks if no project description was entered.
+  if (projectDescription === "") {
+    return false;
+  }
+  return true; // Project description is valid.
+}
+
+const isValidProjectEstimateTime = (projectEstimatedTime) => {
+  /* 
+      Checks if the project estimate time entered is a vaild
+
+      :param projectDescription: project estimate time entered
+      :return: Boolean Value
+  */
+
+  // Checks if negative time or no time was entered
+  if (projectEstimatedTime <= 0) {
+    return false;
+  }
+  return true; // Project estimate time is valid.
+}
+
 // exports
-export { getRole, getEmployeeID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime }
