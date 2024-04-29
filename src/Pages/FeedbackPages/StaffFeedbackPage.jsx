@@ -9,7 +9,7 @@ import { insertReview } from "../../backend_post_requests";
 import "./StaffFeedbackPage.css";
 
 import Header from "../../Components/Header/Header";
-import ViewFeedbackCard from "../../Components/ViewProjectCard/ViewFeedbackCard";
+import ViewFeedbackCard from "../../Components/ViewProjectCard/VIewFeedbackCard";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 
 
@@ -77,7 +77,7 @@ const ViewFeedback = ({ reviewerID, projectData }) => {
             console.error(errorMessage);
         });
 
-    }, [reviewerID]);
+    }, [reviewerID, projectData.PROJECT_ID]);
 
     // HTML Code
     return (
