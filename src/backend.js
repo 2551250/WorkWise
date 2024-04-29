@@ -209,5 +209,12 @@ const isValidProjectEstimateTime = (projectEstimatedTime) => {
   return true; // Project estimate time is valid.
 }
 
+const findManagerName = (Employee_ID, data) => {
+  const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
+
+  return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
+}
+
+
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName }
