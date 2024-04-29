@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
-import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID} from "../../backend";
+import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime} from "../../backend";
 import { insertProject, assignStaffToProject } from "../../backend_post_requests";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
@@ -83,23 +83,6 @@ const ViewProjectsSection = ({ managerID }) => {
 }
 
 
-const isValidProjectMembers = (projectMembers) => {
-    /* 
-        Checks if at least one staff member is assigned to a project
-
-        :param projectMembers: list of selected staff members
-        :return: Boolean Value
-    */
-
-    // Checks if no staff members were assigned to the project
-    if (projectMembers.length <= 0) {
-        return false;
-    }
-
-    return true; // At least one staff member was assigned
-}
-
-
 const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
      /*
         Displays the add staff section
@@ -162,62 +145,6 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
             <button className="create-project" onClick={handleButtonClick}> Add Members</button>
         </section>
     );
-}
-
-
-const isValidProjectName = (projectName, projects) => {
-    /* 
-        Checks if the project name entered is a vaild
-
-        :param1 projectName: project name entered
-        :param2 projects: list of all project stored in the database
-        :return: Boolean Value
-    */
-
-    // Checks if no project name was entered.
-    if (projectName === ""){
-        return false;
-    }
-
-    // Checks if the project name already exists.
-    projects.forEach((project) => {
-        if (project.PROJECT_NAME === projectName){
-            return false;
-        }
-    });
-    return true; // Project name is valid.
-}
-
-
-const isValidProjectDescription = (projectDescription) => {
-    /* 
-        Checks if the project description entered is a vaild
-
-        :param projectDescription: project description entered
-        :return: Boolean Value
-    */
-
-    // Checks if no project description was entered.
-    if (projectDescription === ""){
-        return false;
-    }
-    return true; // Project description is valid.
-}
-
-
-const isValidProjectEstimateTime = (projectEstimatedTime) => {
-    /* 
-        Checks if the project estimate time entered is a vaild
-
-        :param projectDescription: project estimate time entered
-        :return: Boolean Value
-    */
-
-    // Checks if negative time or no time was entered
-    if (projectEstimatedTime <= 0){
-        return false;
-    }
-    return true; // Project estimate time is valid.
 }
 
 
