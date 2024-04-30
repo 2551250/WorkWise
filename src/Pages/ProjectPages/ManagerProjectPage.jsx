@@ -133,7 +133,7 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
     }
 
     return (
-        <section>   
+        <section className="select-wrapper">   
             <EmployeeSelector 
                 groupName="Staff" 
                 data={staff || []} 
@@ -142,7 +142,7 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
 
             {/* Displays Invalid Data Error Message */}
             {error && <label className="error-label"> {error} </label>}
-            <button className="create-project" onClick={handleButtonClick}> Add Members</button>
+            <button className="add-members" onClick={handleButtonClick}> Add Members</button>
         </section>
     );
 }
@@ -227,7 +227,7 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
        
         <article className="formatting">
             <p className = "labels">Description</p>
-            <textarea 
+            <textarea className="textarea-add-project"
                 value = {projectDescription}
                 maxLength="200" 
                 rows="5" 

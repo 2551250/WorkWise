@@ -1,0 +1,9 @@
+.selector-dropbox{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+.selector-dropbox h3{
+    margin-bottom: 10px;
+}

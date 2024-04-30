@@ -70,7 +70,7 @@ margin-left: 60px;
     align-self: flex-start;
     justify-self: flex-start;
 }
-textarea {
+.textarea-give-feedback {
     margin-top: 20px;
     width: 500px; /* Set width to 100% */
     min-height: 20px; /* Set a minimum height */

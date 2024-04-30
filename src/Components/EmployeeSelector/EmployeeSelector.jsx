@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import Select from "react-select";
+import "./EmployeeSelector.css"
 
-
+// Multi-select drop-box made using react-select 
 const EmployeeSelector = ({groupName, data, setTrigger}) => {
     const [selectedEmployees, setSelectedEmployees] = useState([]);
 
@@ -16,7 +17,7 @@ const EmployeeSelector = ({groupName, data, setTrigger}) => {
     }
 
     return (
-        <section> 
+        <section className="selector-dropbox"> 
             <h3> Select {groupName} </h3>
             <Select
                 isMulti
