@@ -2,6 +2,7 @@ import React from "react";
 import "./EmployeeComponent.css";
 
 const EmployeeComponent = ({ employee }) => {
+    // Component to display a row of employee's information
     return (
         <tr>
             <td className="employee-data"><p>{employee.NAME.concat(" ", employee.SURNAME)}</p></td>

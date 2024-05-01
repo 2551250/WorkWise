@@ -154,7 +154,7 @@ const AddFeedback = ({ reviewerID, projectData }) => {
                 <p>Select Member:</p>
                 <Dropdown options={options} setTrigger={setRevieweeID}/>
                 </article>
-                <textarea  
+                <textarea  className="textaarea-give-feedback"
                     value={reviewDescription} 
                     maxLength = "200" 
                     rows="5" 

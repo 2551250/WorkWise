@@ -2,7 +2,7 @@ import React from "react";
 
 import "./ViewProjectCard.css";
 
-
+// Component to display the information projects from a manager's perspective
 const ViewProjectCard = ({ name, description, estimatedTime, members }) => {
     return (
         <article>

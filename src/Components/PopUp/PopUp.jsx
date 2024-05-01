@@ -2,7 +2,7 @@ import React from "react";
 import { FaRegWindowClose } from "react-icons/fa";
 
 import "./PopUp.css";
-
+// Pop up display for errors during login
 const PopUp = ({ trigger, setTrigger, children }) => {
     return (trigger) ? (
         <section className="popup">

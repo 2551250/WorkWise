@@ -4,7 +4,7 @@ import React from "react";
 //Please check this css file  its either this or ./StaffFeedbackPage
 import "./ViewFeedbackCard.css";
 
-
+// Component to display all the feedback given from other staff members for a selected project
 const ViewFeedbackCard = ({ Reviewer, Review }) => {
     return (
         <article className = "review">

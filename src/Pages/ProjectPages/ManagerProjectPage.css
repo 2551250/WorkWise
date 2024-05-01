@@ -112,7 +112,7 @@ padding:10px
     height: 20px;
     justify-self: flex-end;
 }
-textarea {
+.textarea-add-project {
     margin-top: 5px;
     width: 300px; /* Set width to 100% */
     min-height: 20px; /* Set a minimum height */
@@ -154,4 +154,29 @@ textarea {
 .error-label {
     color: red;
     font-size: 12px;
+}
+.select-wrapper{
+    flex:3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 40px;
+    align-content: center;
+
+}
+
+.add-members{
+    width:auto;
+    display: flex;
+    align-self: center;
+    align-content: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 5px;
+    display: flex;
+    justify-self: center;
+    align-self: center;
 }
