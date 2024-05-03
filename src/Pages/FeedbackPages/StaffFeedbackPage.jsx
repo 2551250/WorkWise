@@ -11,6 +11,7 @@ import "./StaffFeedbackPage.css";
 import Header from "../../Components/Header/Header";
 import ViewFeedbackCard from "../../Components/ViewProjectCard/VIewFeedbackCard";
 import Dropdown from "../../Components/Dropdown/Dropdown";
+import PopUp from "../../Components/PopUp/PopUp";
 
 
 const getEmployeeName = (employeeID, employees) => {
@@ -86,10 +87,11 @@ const ViewFeedback = ({ reviewerID, projectData }) => {
         <h2 className="feedbackTitle">Feedback for {projectData.PROJECT_NAME}</h2>
 
         {/* Iterate through the received feedback list and display them */}
-        {
-        receivedFeedback.map((feedback) => (
-            <ViewFeedbackCard Reviewer={getEmployeeName(feedback.REVIEW_BY, employees)} Review={feedback.DESCRIPTION}/>
-        ))
+        { receivedFeedback.length > 0
+            ? receivedFeedback.map((feedback) => (
+                <ViewFeedbackCard Reviewer={getEmployeeName(feedback.REVIEW_BY, employees)} Review={feedback.DESCRIPTION}/>
+            ))
+            : ""
         }
 
     </section>
@@ -111,9 +113,10 @@ const AddFeedback = ({ reviewerID, projectData }) => {
     const [revieweeID, setRevieweeID] = useState(null);
     const [reviewDescription, setReviewDescription] = useState("");
     const [error, setError] = useState(null);
+    const [displayPopup, setDisplayPopup] = useState(false);
 
     // Functions & Logic
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         if (revieweeID === null){
             setError("No Reviewee Selected.");
             return;
@@ -125,13 +128,10 @@ const AddFeedback = ({ reviewerID, projectData }) => {
         }
 
         // Add new Review to the Database
-        insertReview(revieweeID, reviewerID, reviewDescription, projectData.PROJECT_ID)
-        .then(() => {
-            console.log("Review Added!!!");
-        })
-        .catch((errorMessage) => {
-            console.error(errorMessage);
-        });
+        const response = await insertReview(revieweeID, reviewerID, reviewDescription, projectData.PROJECT_ID)
+        if (response === "Review successfully created"){
+            setDisplayPopup(true);
+        }
     }
 
     // Gets our possible revieews
@@ -146,28 +146,34 @@ const AddFeedback = ({ reviewerID, projectData }) => {
 
     // HTML Code
     return (
-        <section className="display">
-        <section className = "add-feedback">
-            <h2 className="feedbackTitle">Feedback for {projectData.PROJECT_NAME}</h2>
-            <article className= "addreview">
-                <article className="member-select">
-                <p>Select Member:</p>
-                <Dropdown options={options} setTrigger={setRevieweeID}/>
-                </article>
-                <textarea  className="textaarea-give-feedback"
-                    value={reviewDescription} 
-                    maxLength = "200" 
-                    rows="5" 
-                    placeholder="Enter feedback" 
-                    onChange={(event) => (setReviewDescription(event.target.value))}>    
-                </textarea>
+        <>
+            <section className="display">
+                <section className = "add-feedback">
+                    <h2 className="feedbackTitle">Feedback for {projectData.PROJECT_NAME}</h2>
+                    <article className= "addreview">
+                        <article className="member-select">
+                        <p>Select Member:</p>
+                        <Dropdown options={options} setTrigger={setRevieweeID}/>
+                        </article>
+                        <textarea  className="textarea-give-feedback"
+                            value={reviewDescription} 
+                            maxLength = "200" 
+                            rows="5" 
+                            placeholder="Enter feedback" 
+                            onChange={(event) => (setReviewDescription(event.target.value))}>    
+                        </textarea>
 
-                {error && <label className="error-label"> {error} </label>} 
-                <button className="feedback-button" onClick={handleButtonClick}>Give Feedback</button>
-                
-            </article>
-        </section>
-        </section>
+                        {error && <label className="error-label"> {error} </label>} 
+                        <button className="feedback-button" onClick={handleButtonClick}>Give Feedback</button>
+                        
+                    </article>
+                </section>
+            </section>
+            
+            <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
+                <h3>Feedback Sent</h3>
+            </PopUp>
+        </>
     );
 }
 

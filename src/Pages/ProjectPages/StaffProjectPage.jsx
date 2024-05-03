@@ -9,6 +9,10 @@ import "./StaffProjectPage.css";
 
 
 const findManagerName = (Employee_ID, data) => {
+    if (typeof data !== "object"){
+        return 'Manager not found';
+    }
+
     const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
 
     return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
@@ -92,7 +96,7 @@ const StaffProjectPage = ({ navigate }) => {
                 </table>
 
                 {/* Iterate through the projects list and display them */}
-                {projects.map((project) => (
+                {projects !== "error" ? projects.map((project) => (
 
                     <ViewProjectCardStaff 
                         key={project.PROJECT_ID}
@@ -105,7 +109,7 @@ const StaffProjectPage = ({ navigate }) => {
                         navigate={navigate} 
                     />
                 )
-                )}
+                ): ""}
             </section>
 
         </>
