@@ -22,21 +22,20 @@ const ViewProjectsSection = ({ managerID }) => {
     const [assignedMembers, setAssignedMembers] = useState({});
 
     // Functions & Logic
+
     
     useEffect(() => {
         // Gets all projects created by the manager
-        getManagerProjects(managerID)
-        .then((projectsData) => {
-            setProjects(projectsData);
-        })
-        .catch((errorMessage) => {
-            console.error(errorMessage);
-        });
+        const fetchData = async () => {
+            const managerProjectsData = await getManagerProjects(managerID);
+            setProjects(managerProjectsData);
+        }
+        fetchData(managerID);
     }, [managerID]);
 
-
     useEffect(() => {
-        const fetchProjectMembers = async () => {
+        
+        const fetchData = async () => {
             const staffProjectObj = {};
 
             // Iterate through each project and fetch project members
@@ -46,9 +45,9 @@ const ViewProjectsSection = ({ managerID }) => {
             }
             setAssignedMembers(staffProjectObj);
         }
-
-        fetchProjectMembers();
+        fetchData();
     }, [projects]);
+
 
     // HTML Code
     return (
@@ -70,14 +69,13 @@ const ViewProjectsSection = ({ managerID }) => {
             </table>
             
             {/* Iterate through the projects list and display them */}
-            {projects.map((project) => (
+            {projects.length > 0 ? projects.map((project) => (
                 <ViewProjectCard 
                     key={project.PROJECT_ID} projectID={project.PROJECT_ID} 
                     name={project.PROJECT_NAME} description={project.DESCRIPTION} 
                     estimatedTime={project.ESTIMATED_TIME} members={assignedMembers[project.PROJECT_ID] || []}
                 />
-            )
-            )}
+            )) : " "}
         </section>
     );
 }
@@ -167,23 +165,25 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
 
     // Functions & Logic
     useEffect(() => {
+
         // Gets all projects from the database
-        getAllProjects()
-        .then((data) => (setProjects(data)))
-        .catch((errorMessage) => {
-        console.error(errorMessage);
-        })
+        const fetchData = async () => {
+            const allProjectData = await getAllProjects();
+            setProjects(allProjectData);
+        }
+
+        fetchData();
     }, []);
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         /*
             When the submit button is clicked, inserts the project information
             into our database.
         */
 
         // Data Validation
-        if (!isValidProjectName(projectName, projects)) {
-            setError("No Project Name Entered");
+        if (!isValidProjectName(projectName, projects || [])) {
+            setError("Invalid Project Name");
             return;
         }
 
@@ -198,15 +198,16 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
         }
 
         // Adds project to out database
-        insertProject(projectName, projectDescription, managerID, projectEstimatedTime)
-        .then(() => {
+        const response = await insertProject(projectName, projectDescription, managerID, projectEstimatedTime);
 
-            // Moves manager to Add Staff section
-            setActiveSection("addStaffSection");
-        })
-        .catch((errorMessage) => {
-            alert(errorMessage);
-        });
+        // TODO: Handle when a project isn't created
+        if (response !== "Project succesfully creeated"){
+            alert("Project was not Created!!!");
+            return;
+        }
+
+        // Moves manager to Add Staff section
+        setActiveSection("addStaffSection");
     }
 
     // HTML Code
@@ -271,6 +272,7 @@ const ManagerProjectPage = () => {
         /*
             Sets activeSection to viewProjectSection when the View Projects button is clicked
         */
+        setProjectName("");
         setActiveSection("viewProjectSection");
     }
 
@@ -278,6 +280,7 @@ const ManagerProjectPage = () => {
         /*
             Sets activeSection to addProjectSection when the Add a Project button is clicked
         */
+        setProjectName("");
         setActiveSection("addProjectSection");
     }
 

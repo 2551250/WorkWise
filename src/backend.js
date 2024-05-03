@@ -169,6 +169,11 @@ const isValidProjectName = (projectName, projects) => {
     valid = false;
   }
 
+  // Checks if project name is longer than 50 charaters
+  if (projectName.length >= 50) {
+    valid = false;
+  }
+
   // Checks if the project name already exists.
   projects.forEach((project) => {
     if (project.PROJECT_NAME === projectName) {
