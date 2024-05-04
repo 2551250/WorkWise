@@ -213,4 +213,4 @@ async function addMeal(meal_name, meal_description, date){
 }
 
 // Exports
-export { insertProject, assignStaffToProject, insertReview, updateTimeSpentManual, insertMessage, deleteManager, deleteStaff, updateTime }
+export { insertProject, assignStaffToProject, insertReview, updateTimeSpentManual, insertMessage, deleteManager, deleteStaff, updateTime, addMeal }
