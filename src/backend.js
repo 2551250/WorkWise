@@ -145,7 +145,7 @@ async function getSentMessages(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error";
+      return "No sent messages";
     }
     return data;
   } catch (err) {
@@ -160,10 +160,26 @@ async function getReceivedMessages(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error";
+      return "No received messages";
     }
     return data;
   } catch (err) {
+    return "Error";
+  }
+}
+
+// Returns the meals created for a certain day
+// date must be format yyyy-mm-dd
+async function getMeals(date){
+  try{
+    const endpoint = `${URL}/Meal/${date}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No meal options";
+    }
+    return data
+  }catch (err){
     return "Error";
   }
 }
