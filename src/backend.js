@@ -261,9 +261,22 @@ const isValidProjectEstimateTime = (projectEstimatedTime) => {
 }
 
 const findManagerName = (Employee_ID, data) => {
+  
+  if (typeof data !== "object"){
+    return 'Manager not found'; //Error Handling
+  }
+
   const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
 
   return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
+}
+
+const makeSQLFriendly = (text) => {
+  /* 
+    :param1 text: a string
+    :returns: a string that is SQL friendly
+  */
+  return text.replace("'", "''");
 }
 
 const convertTime = (startTime, endTime) => {
@@ -283,4 +296,4 @@ const convertTime = (startTime, endTime) => {
 }
 
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, convertTime, getMeals }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, makeSQLFriendly, convertTime, getMeals }

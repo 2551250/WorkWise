@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { convertTime } from './backend';
+import { makeSQLFriendly, convertTime } from './backend';
 const URL = "https://workwise-backend.azurewebsites.net"
 
 // This file contains all functions that send requests with a body to the API
@@ -9,8 +9,8 @@ async function insertProject(project_name, description, manager_id, estimated_ti
     try {
         // Body of the request
         const project = {
-            project_name: project_name,
-            description: description,
+            project_name: makeSQLFriendly(project_name), // Makes project name SQL Friendly 
+            description: makeSQLFriendly(description), // Makes description SQL Friendly 
             manager_id: manager_id,
             estimated_time: estimated_time
         };
@@ -49,7 +49,7 @@ async function insertReview(review_of, review_by, description, project_id) {
         const review = {
             review_of: review_of,
             review_by: review_by,
-            description: description,
+            description: makeSQLFriendly(description), // Makes description SQL Friendly 
             project_id: project_id
         };
 
@@ -157,10 +157,8 @@ async function insertMessage(message_sent_by, message_sent_to, message_text, pro
         const message = {
             message_sent_by: message_sent_by,
             message_sent_to: message_sent_to,
-            message_text: message_text,
-            project_id: project_id,
-            time: time, 
-            date: date
+            message_text: makeSQLFriendly(message_text), // Makes message text SQL Friendly 
+            project_id: project_id
         };
         // Send request
         const res = await axios.post(`${URL}/Message`, message);
