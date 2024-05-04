@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Timer.css';
+import Header from "../../Components/Header/Header";
 
 const Timer = ({ projectName }) => {
     const [time, setTime] = useState(0);

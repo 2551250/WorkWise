@@ -4,7 +4,7 @@ import "./ViewProjectCard.css";
 
 // Component to display the information projects from a staff's perspective
 const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, navigate }) => {
-    const handleClick = () => {
+    const feedbackButton = () => {
 
         // Project Data
         const project = {
@@ -18,6 +18,13 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
         // Use navigate function to go to another page
         navigate('/StaffFeedbackPage', {state: project});
       };
+
+      const setTimeButton = () => {
+
+        // Use navigate function to go to another page
+        navigate('/ChooseTime');
+      };
+      
     return (
         <article>
             <table className="table-wrapper">
@@ -39,8 +46,8 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
                                 }
                             </ul>
                         </td>
-                        <td className="buttons-display"> <button className="feedback-button" onClick={handleClick}> Feedback</button>
-                        <button className="time-button" onClick={handleClick}> Add Time</button></td>
+                        <td className="buttons-display"> <button className="feedback-button" onClick={feedbackButton}> Feedback</button>
+                        <button className="time-button" onClick={setTimeButton}> Add Time</button></td>
                     </tr>
                 </tbody>
 

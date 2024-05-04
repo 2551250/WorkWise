@@ -25,6 +25,11 @@ function HR() {
         navigate("/EmployeeManagement");
     }
 
+    const viewPlanMealPage = () => {
+        navigate("/HRBookMeals");
+    }
+
+
     // empty function for unimplemented data
     const empty = () => {
 
@@ -39,7 +44,7 @@ function HR() {
             <main className="homepage">
                 <Card title="Timesheets" imgSrc={timesheetIcon} onClick={empty} />
                 <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
-                <Card title="Plan Meals" imgSrc={burgerIcon} onClick={empty} />
+                <Card title="Plan Meals" imgSrc={burgerIcon} onClick={viewPlanMealPage} />
                 <Card title="View Staff" imgSrc={peopleIcon} onClick={viewStaffClicked} />
             </main>
         </>
