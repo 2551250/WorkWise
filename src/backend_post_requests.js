@@ -52,7 +52,7 @@ async function insertReview(review_of, review_by, description, project_id) {
             project_id: project_id
         };
 
-        const res = await axios.post(`${URL}/Review`, review); 
+        const res = await axios.post(`${URL}/Review`, review);
 
         // Return the response data
         return res.data;
@@ -64,8 +64,9 @@ async function insertReview(review_of, review_by, description, project_id) {
 
 // Checks if the time entered by an employee conflicts with any previously entered times
 // Date should be format yyyy/mm/dd and times hh:mm
+// Do not call outside of this file
+// Call updateTimeSpent
 async function isTimeValid(employee_id, project_id, date, start_time, end_time) {
-    let valid = true;
     const time = {
         employee_id: employee_id,
         project_id: project_id,
@@ -73,69 +74,107 @@ async function isTimeValid(employee_id, project_id, date, start_time, end_time) 
         end_time: end_time,
         date: date
     }
-    await axios.post(`${URL}/GetTime`, time)
-        .then((res) => {
-            if (res.data.length > 0){
-                valid = false;
-            }
-        }).catch((err) => {
-            return err;
-        });
-    return valid
+    const res = await axios.post(`${URL}/GetTime`, time);
+    if (res.data.length > 0) {
+        return false;
+    }
+
+    return true;
 }
 
 // Adds a time entry into the database
 // Date should be format yyyy/mm/dd and times hh:mm (24 hour clock)
+// Do not call outside of this file
+// Call updateTimeSpent
 async function insertTime(employee_id, project_id, date, start_time, end_time) {
-    const time = {
-        employee_id: employee_id,
-        project_id: project_id,
-        date: date,
-        start_time: start_time,
-        end_time: end_time
+    try {
+        const time = {
+            employee_id: employee_id,
+            project_id: project_id,
+            date: date,
+            start_time: start_time,
+            end_time: end_time
+        }
+        const res = await axios.post(`${URL}/Time`, time);
+        return res.data;
+    } catch (error) {
+        // Handle errors
+        return error;
     }
-
-    axios.post(`${URL}/Time`, time)
-        .then((res) => {
-            return res.data;
-        }).catch((err) => {
-            return err;
-        });
 }
 
 // Updates the time a user has spent on a project
 // Date should be format yyyy/mm/dd and times hh:mm (24 hour clock)
-async function updateTimeSpent(project_id, staff_id, start_time, end_time, date){
+async function updateTimeSpent(staff_id, project_id, start_time, end_time, date) {
     // Checks if entered times are valid
     const valid = await isTimeValid(staff_id, project_id, date, start_time, end_time);
-    if(!valid){
-        return "You have already entered these times.";
+    if (!valid) {
+        // Error message
+        return "Entered times conflict with previous entered times";
     }
-    
+
     // Inserts new time into the database
     await insertTime(staff_id, project_id, date, start_time, end_time);
 
-    // Converts times into number to be entered into database
+    // Converts times into number to update time spent
     const start = start_time.split(":");
     const end = end_time.split(":");
     const hours = Number(end[0]) - Number(start[0]);
     const minutes = Number(end[1]) / 60 - Number(start[1]) / 60;
-    const time_spent = hours + minutes; 
+    const time_spent = hours + minutes;
 
-    // Put request
+    // Put request to update time spent
     const update = {
         project_id: project_id,
         staff_id: staff_id,
         time_spent: time_spent
     }
-    axios.put(`${URL}/EmployeeProject`, update)
-    .then((res) => {
-        console.log(res.data);
-    }).catch((err) => {
-        console.error(err);
-    });
-    return "Time successfully updated";
+    
+    try {
+        const res = await axios.put(`${URL}/EmployeeProject`, update);
+        return res.data;
+    } catch (error) {
+        // Handle errors
+        return error;
+    }
+}
+
+async function insertMessage(message_sent_by, message_sent_to, message_text, project_id) {
+    try {
+        const message = {
+            message_sent_by: message_sent_by,
+            message_sent_to: message_sent_to,
+            message_text: message_text,
+            project_id: project_id
+        };
+
+        const res = await axios.post(`${URL}/Message`, message);
+
+        // Return the response data
+        return res.data;
+    } catch (error) {
+        // Handle errors
+        return error;
+    }
+}
+
+async function deleteManager(manager_id) {
+    try {
+        const res = axios.delete(`${URL}/RemoveManager/${manager_id}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+async function deleteStaff(staff_id) {
+    try {
+        const res = axios.delete(`${URL}/RemoveStaff/${staff_id}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
 }
 
 // Exports
-export { insertProject, assignStaffToProject, insertReview, updateTimeSpent }
+export { insertProject, assignStaffToProject, insertReview, updateTimeSpent, insertMessage, deleteManager, deleteStaff }
