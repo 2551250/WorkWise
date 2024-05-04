@@ -145,7 +145,7 @@ async function getSentMessages(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error";
+      return "No sent messages";
     }
     return data;
   } catch (err) {
@@ -160,10 +160,26 @@ async function getReceivedMessages(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error";
+      return "No received messages";
     }
     return data;
   } catch (err) {
+    return "Error";
+  }
+}
+
+// Returns the meals created for a certain day
+// date must be format yyyy-mm-dd
+async function getMeals(date){
+  try{
+    const endpoint = `${URL}/Meal/${date}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No meal options";
+    }
+    return data
+  }catch (err){
     return "Error";
   }
 }
@@ -263,6 +279,21 @@ const makeSQLFriendly = (text) => {
   return text.replace("'", "''");
 }
 
+const convertTime = (startTime, endTime) => {
+    /* 
+      Converts time from data-time format into integer
+
+      :param1 startTime: start time of session
+      :param2 endTime: end time of session
+      :return: integer
+  */
+  const start = startTime.split(":");
+  const end = endTime.split(":");
+  const hours = Number(end[0]) - Number(start[0]);
+  const minutes = Number(end[1]) / 60 - Number(start[1]) / 60;
+  const time_spent = hours + minutes;
+  return time_spent
+}
 
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, makeSQLFriendly }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, makeSQLFriendly, convertTime, getMeals }
