@@ -7,7 +7,7 @@ async function getAllEmployees() {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error"
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -55,7 +55,7 @@ async function getAllProjects() {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error"
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -70,7 +70,7 @@ async function getStaffProjects(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error"
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -85,7 +85,7 @@ async function getProjectAssignedStaff(projectID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error"
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -100,7 +100,7 @@ async function getManagerProjects(managerID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error"
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -115,7 +115,7 @@ async function getCreatedReviews(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "Error"
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -131,6 +131,36 @@ async function getReceivedReviews(employeeID) {
     const data = await response.json();
     if (data.length === 0) {
       return "Error"
+    }
+    return data;
+  } catch (err) {
+    return "Error";
+  }
+}
+
+// Returns all messages sent by an employee
+async function getSentMessages(employeeID) {
+  try {
+    const endpoint = `${URL}/SentMessages/${employeeID}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "Error";
+    }
+    return data;
+  } catch (err) {
+    return "Error";
+  }
+}
+
+// Returns all messages sent to an employee
+async function getReceivedMessages(employeeID) {
+  try {
+    const endpoint = `${URL}/ReceivedMessages/${employeeID}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -222,4 +252,4 @@ const findManagerName = (Employee_ID, data) => {
 
 
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages }
