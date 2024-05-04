@@ -1,3 +1,79 @@
-.employee-data{
-    padding-top: 10px;
+
+.employee-name{
+    flex:1;
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: none;
+    padding: 10px;
 }
+.employee-email{
+    flex:3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+
+}
+.employee-permissions{
+    flex:2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+
+}
+.employee-delete{
+    flex:2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-left: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px;
+
+}
+.permission-button{
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 10px;
+    transition: background-color 0.3s;
+    outline: none;
+    border: none;
+    margin: 0px;
+}
+.permission-button:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+    outline: none;
+    border: none;
+}
+.delete-button{
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 10px;
+    transition: background-color 0.3s;
+    outline: none;
+    border: none;
+    margin: 0px;
+}
+.delete-button:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+    outline: none;
+    border: none;
+}
+

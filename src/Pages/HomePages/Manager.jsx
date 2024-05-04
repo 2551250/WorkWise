@@ -32,7 +32,7 @@ function Manager(){
         <>
         <Header>
             <h1>WorkWise</h1>
-            <button className="logoutButton">Log Out</button>
+            <button className="logout-button">Log Out</button>
         </Header>
 
         <main className="homepage">

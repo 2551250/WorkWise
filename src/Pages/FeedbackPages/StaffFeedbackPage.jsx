@@ -203,10 +203,11 @@ const StaffFeedbackPage = () => {
     // HTML Code
     return (
         <>
-            <Header>
+        <Header>
                 <h1> Workwise </h1>
-                <button className="logoutButton">Log Out</button>
-            </Header> 
+                <button className="homepage-button">Homepage</button>
+                <button className="logout-button">Log Out</button>
+            </Header>
 
             <section className="display">
                 <section className="panel">

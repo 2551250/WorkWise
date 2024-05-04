@@ -58,10 +58,10 @@ const ViewProjectsSection = ({ managerID }) => {
                     <tbody>
                         
                             <tr > 
-                                <td className="project-name"><th>Name</th></td>
-                                <td className="project-desc"><th>Description</th></td>
-                                <td className="project-est-time"><th>Estimated Time</th></td>
-                                <td className="project-members"><th>Members</th></td>
+                                <td className="project-header-name"><th>Name</th></td>
+                                <td className="project-header-desc2"><th>Description</th></td>
+                                <td className="project-header-est-time"><th>Estimated Time</th></td>
+                                <td className="project-header-members"><th>Members</th></td>
                                 
                             </tr>
                        
@@ -287,10 +287,11 @@ const ManagerProjectPage = () => {
     // HTML Code
     return (
         <>
-            <Header>
+       <Header>
                 <h1> Workwise </h1>
-                <button className="logoutButton">Log Out</button>
-            </Header> 
+                <button className="homepage-button">Homepage</button>
+                <button className="logout-button">Log Out</button>
+            </Header>
 
             <section className="display">
                 <section className="panel">
