@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import './HRBookMeals.css'; // Import the CSS file
+import Header from "../../Components/Header/Header";
 
 const HRBookMeals = () => {
     // State variable for the formatted date
@@ -37,7 +38,7 @@ const HRBookMeals = () => {
         <h1> Workwise </h1>
         <button className="homepage-button">Homepage</button>
         <button className="logout-button">Log Out</button>
-    </Header>
+        </Header>
         <main className='book-meals-page'>
         <section className='book-meals-wrapper'>
             <h2>Meal Creation for {formattedDate}</h2>
