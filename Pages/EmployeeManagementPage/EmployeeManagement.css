@@ -1,0 +1,26 @@
+.list-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.employee-management-header{
+    margin-top: 20px;
+}
+
+
+.table-name {
+    flex:1;
+    padding-top: 10px;
+}
+.table-email {
+    flex:3;
+    padding-top: 10px;
+}
+.table-permissions {
+    flex:2;
+    padding-top: 10px;
+}
+.table-delete {
+    flex:2;
+    padding-top: 10px;
+}

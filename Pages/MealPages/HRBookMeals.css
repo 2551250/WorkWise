@@ -1,0 +1,78 @@
+.book-meals-page{
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family:  Roboto, sans-serif;
+    
+}
+.book-meals-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #eaa411;
+    background-color: #FF6D00;
+    /* background-color: #FF7514; */
+    height: 80%;
+    width: 80%;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+
+
+}
+.book-meals-wrapper h2{
+    justify-self: center;
+    align-self: center;
+}
+.book-entry{
+    display: flex;
+    flex-direction: column;
+}
+.book-entry input{
+    font-family:  Roboto, sans-serif;
+    height: 30px;
+    width: 400px;
+    border-radius: 5px;
+    border: 2px solid lightgray;
+}
+.book-entry input:focus{
+    background-color: whitesmoke;
+    outline: none;
+}
+.book-entry textarea{
+    font-family:  Roboto, sans-serif;
+    resize: none;
+    height: 65px;
+    border-radius: 5px;
+    border: 2px solid lightgray;
+}
+.book-entry textarea:focus{
+    outline: none;
+}
+.book-entry p{
+    margin-bottom: 5px;
+}
+.book-meals-button{
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        background-color: black;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+        justify-self: center;
+        align-self: center;
+}
+.book-meals-button:hover{
+    background-color: #383838;
+}
