@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { convertTime } from './backend';
 const URL = "https://workwise-backend.azurewebsites.net"
 
 // This file contains all functions that send requests with a body to the API
@@ -105,7 +106,9 @@ async function insertTime(employee_id, project_id, date, start_time, end_time) {
 
 // Updates the time a user has spent on a project
 // Date should be format yyyy/mm/dd and times hh:mm (24 hour clock)
-async function updateTimeSpent(staff_id, project_id, start_time, end_time, date) {
+// This function is for manually entering time spent on a project
+// The function ensures that the entered times do not overlap with any previously entered times
+async function updateTimeSpentManual(staff_id, project_id, start_time, end_time, date) {
     // Checks if entered times are valid
     const valid = await isTimeValid(staff_id, project_id, date, start_time, end_time);
     if (!valid) {
@@ -116,12 +119,18 @@ async function updateTimeSpent(staff_id, project_id, start_time, end_time, date)
     // Inserts new time into the database
     await insertTime(staff_id, project_id, date, start_time, end_time);
 
+    // Updates time spent on project
+    const ret = await updateTime(staff_id, project_id, start_time, end_time);
+    return ret;
+}
+
+// This function updates the time spent on a project 
+// Date should be format yyyy/mm/dd and times hh:mm (24 hour clock)
+// This function does not check for overlap with existing times
+// Thos function should be used to add times with a stopwatch
+async function updateTime(staff_id, project_id, start_time, end_time) {
     // Converts times into number to update time spent
-    const start = start_time.split(":");
-    const end = end_time.split(":");
-    const hours = Number(end[0]) - Number(start[0]);
-    const minutes = Number(end[1]) / 60 - Number(start[1]) / 60;
-    const time_spent = hours + minutes;
+    const time_spent = convertTime(start_time, end_time);
 
     // Put request to update time spent
     const update = {
@@ -129,7 +138,7 @@ async function updateTimeSpent(staff_id, project_id, start_time, end_time, date)
         staff_id: staff_id,
         time_spent: time_spent
     }
-    
+
     try {
         const res = await axios.put(`${URL}/EmployeeProject`, update);
         return res.data;
@@ -177,4 +186,4 @@ async function deleteStaff(staff_id) {
 }
 
 // Exports
-export { insertProject, assignStaffToProject, insertReview, updateTimeSpent, insertMessage, deleteManager, deleteStaff }
+export { insertProject, assignStaffToProject, insertReview, updateTimeSpentManual, insertMessage, deleteManager, deleteStaff, updateTime }

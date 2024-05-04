@@ -250,6 +250,21 @@ const findManagerName = (Employee_ID, data) => {
   return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
 }
 
+const convertTime = (startTime, endTime) => {
+    /* 
+      Converts time from data-time format into integer
+
+      :param1 startTime: start time of session
+      :param2 endTime: end time of session
+      :return: integer
+  */
+  const start = startTime.split(":");
+  const end = endTime.split(":");
+  const hours = Number(end[0]) - Number(start[0]);
+  const minutes = Number(end[1]) / 60 - Number(start[1]) / 60;
+  const time_spent = hours + minutes;
+  return time_spent
+}
 
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, convertTime }
