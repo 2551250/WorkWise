@@ -5,17 +5,3 @@
     flex-wrap: wrap;
     height: 100vh;
 }
-
-.logoutButton{
-    background: black;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-    border-color: black;
-    width: 90px;
-    }
-
-.logoutButton:hover{
-    cursor: pointer;
-    background-color: rgb(56, 56, 56);
-}

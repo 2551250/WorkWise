@@ -1,10 +1,54 @@
 .webapp-header{
     font-family: Roboto, sans-serif;
     font-size: large;
-    background-color:#eaa411 ;
+    background-color:#FF6D00 ;
     box-shadow:0 0 10px rgba(0, 0, 0, .2);
     border-radius: 0px 0px 5px 5px;
     display: flex;
-    justify-content: space-between;
-    padding:10px
+    padding: 10px;
+}
+.webapp-header h1{
+align-self: center;
+justify-self: center;
+margin-right: auto ;
+}
+.homepage-button{
+    justify-self: center;
+    align-self: center;
+    margin-right: 10px;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    border-color: black;
+    width: 90px;
+    height:35px;
+    transition: background-color 0.3s;
+    border: none;
+
+}
+.homepage-button:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+    border: none;
+}
+.logout-button{
+    justify-self: center;
+    align-self: center;
+    margin-right: 10px;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    border-color: black;
+    width: 90px;
+    height:35px;
+    transition: background-color 0.3s;
+    border: none;
+
+}
+.logout-button:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+    border: none;
 }

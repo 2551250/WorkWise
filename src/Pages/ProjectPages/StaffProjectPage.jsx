@@ -75,7 +75,8 @@ const StaffProjectPage = ({ navigate }) => {
         <>
             <Header>
                 <h1> Workwise </h1>
-                <button className="logoutButton">Log Out</button>
+                <button className="homepage-button">Homepage</button>
+                <button className="logout-button">Log Out</button>
             </Header>
 
             <section className="view-project">
@@ -83,13 +84,12 @@ const StaffProjectPage = ({ navigate }) => {
                 <table >
                     <tbody>
                         <tr >
-                            <th className="project-name">Name</th>
-                            <th className="project-desc">Description</th>
-                            <th className="project-manager">Manager</th>
-                            <th className="project-est-time">Estimated Time</th>
-                            <th className="project-members">Members</th>
+                            <th className="project-header-name">Name</th>
+                            <th className="project-header-desc">Description</th>
+                            <th className="project-header-manager">Manager</th>
+                            <th className="project-header-est-time">Estimated Time</th>
+                            <th className="project-header-members">Members</th>
                             <th className="feedback"></th>
-
                         </tr>
 
                     </tbody>

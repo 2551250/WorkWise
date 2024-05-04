@@ -12,7 +12,7 @@ const ViewProjectCard = ({ name, description, estimatedTime, members }) => {
                     <td className="project-name">{name}</td>
                     <td className="project-desc">{description}</td>
                     <td className="project-est-time">{estimatedTime} Hrs</td>
-                    <td className="project-members">
+                    <td className="project-members2">
                         <ul>
                             {
                                 members !== "Error"

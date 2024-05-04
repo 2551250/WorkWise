@@ -35,19 +35,21 @@ const EmployeeManagement = () => {
 
     return (
         <>
-            <Header>
-                <h1>Employee Management</h1>
-                <button className="logoutButton">Log Out</button>
+           <Header>
+                <h1> Workwise </h1>
+                <button className="homepage-button">Homepage</button>
+                <button className="logout-button">Log Out</button>
             </Header>
+            <h2 className="employee-management-header">Employee Management</h2>
 
             <main className="list-wrapper">
                 <table>
                     <tbody>
                         <tr>
-                            <th className="table-element">Name</th>
-                            <th className="table-element">Email</th>
-                            <th className="table-element">Change Permissions</th>
-                            <th className="table-element">Delete</th>
+                            <th className="table-name">Name</th>
+                            <th className="table-email">Email</th>
+                            <th className="table-permissions">Change Permissions</th>
+                            <th className="table-delete">Delete</th>
                         </tr>
                         {employees.map((employee) => (
                             <EmployeeComponent employee={employee} key={employee.EMAIL} />
@@ -56,6 +58,7 @@ const EmployeeManagement = () => {
                     </tbody>
                 </table>
             </main>
+            
         </>
     );
 }

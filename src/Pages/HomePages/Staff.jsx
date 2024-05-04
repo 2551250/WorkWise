@@ -18,10 +18,10 @@ function Staff(){
     }
     return(
         <>
-        <Header>
-            <h1>WorkWise</h1>
-            <button className="logoutButton">Log Out</button>
-        </Header>
+          <Header>
+                <h1> Workwise </h1>
+                <button className="logout-button">Log Out</button>
+            </Header>
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
