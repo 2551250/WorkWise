@@ -63,7 +63,7 @@ async function insertReview(review_of, review_by, description, project_id) {
 }
 
 // Checks if the time entered by an employee conflicts with any previously entered times
-// Date should be format yyyy/mm/dd and times hh:mm
+// Date should be format yyyy/mm/dd or yyyy-mm-dd and times hh:mm
 // Do not call outside of this file
 // Call updateTimeSpent
 async function isTimeValid(employee_id, project_id, date, start_time, end_time) {
@@ -83,7 +83,7 @@ async function isTimeValid(employee_id, project_id, date, start_time, end_time) 
 }
 
 // Adds a time entry into the database
-// Date should be format yyyy/mm/dd and times hh:mm (24 hour clock)
+// Date should be format yyyy/mm/dd or yyyy-mm-dd and times hh:mm (24 hour clock)
 // Do not call outside of this file
 // Call updateTimeSpent
 async function insertTime(employee_id, project_id, date, start_time, end_time) {
@@ -104,7 +104,7 @@ async function insertTime(employee_id, project_id, date, start_time, end_time) {
 }
 
 // Updates the time a user has spent on a project
-// Date should be format yyyy/mm/dd and times hh:mm (24 hour clock)
+// Date should be format yyyy/mm/dd or yyyy-mm-dd and times hh:mm (24 hour clock)
 async function updateTimeSpent(staff_id, project_id, start_time, end_time, date) {
     // Checks if entered times are valid
     const valid = await isTimeValid(staff_id, project_id, date, start_time, end_time);
@@ -139,15 +139,17 @@ async function updateTimeSpent(staff_id, project_id, start_time, end_time, date)
     }
 }
 
+// Adds a new message into the database
 async function insertMessage(message_sent_by, message_sent_to, message_text, project_id) {
     try {
+        // Construct body of request
         const message = {
             message_sent_by: message_sent_by,
             message_sent_to: message_sent_to,
             message_text: message_text,
             project_id: project_id
         };
-
+        // Send request
         const res = await axios.post(`${URL}/Message`, message);
 
         // Return the response data
@@ -158,8 +160,10 @@ async function insertMessage(message_sent_by, message_sent_to, message_text, pro
     }
 }
 
+// Deletes a manager from the database
 async function deleteManager(manager_id) {
     try {
+        // Sends request 
         const res = axios.delete(`${URL}/RemoveManager/${manager_id}`);
         return res.data;
     } catch (error) {
@@ -167,8 +171,10 @@ async function deleteManager(manager_id) {
     }
 }
 
+// Deletes a staff member from the database
 async function deleteStaff(staff_id) {
     try {
+        // Sends request
         const res = axios.delete(`${URL}/RemoveStaff/${staff_id}`);
         return res.data;
     } catch (error) {
@@ -176,5 +182,26 @@ async function deleteStaff(staff_id) {
     }
 }
 
+// Inserts a meal option into the database
+// Date should be format yyyy/mm/dd or yyyy-mm-dd
+async function addMeal(meal_name, meal_description, date){
+    try {
+        // Construct body of request
+        const meal = {
+            meal_name: meal_name,
+            meal_description: meal_description,
+            date: date,
+        };
+        // Send request
+        const res = await axios.post(`${URL}/Meal`, meal);
+
+        // Return the response data
+        return res.data;
+    } catch (error) {
+        // Handle errors
+        return error;
+    }
+}
+
 // Exports
-export { insertProject, assignStaffToProject, insertReview, updateTimeSpent, insertMessage, deleteManager, deleteStaff }
+export { insertProject, assignStaffToProject, insertReview, updateTimeSpent, insertMessage, deleteManager, deleteStaff, addMeal }
