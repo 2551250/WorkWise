@@ -19,7 +19,7 @@ const EmployeeManagement = () => {
     useEffect(() => {
         getAllEmployees()
         .then((data) => {
-            const AllStaffData = getAllStaffData(data);
+            const AllStaffData = getAllStaffManagerData(data);
             setEmployees(AllStaffData);
         })
         .catch((errorMessage) => {
