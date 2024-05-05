@@ -295,5 +295,55 @@ const convertTime = (startTime, endTime) => {
   return time_spent
 }
 
+
+const isValidMealName = (mealName, createdMeals) => {
+  let valid = true;
+/* 
+    Checks if the meal name entered is a vaild
+
+    :param1 mealName: meal name entered
+    :return: Boolean Value
+*/
+
+  // Checks if no meal name was entered.
+  if (mealName === "") {
+    valid = false;
+  }
+
+  // Checks if meal name is longer than 50 charaters
+  if (mealName.length >= 50) {
+    valid = false;
+  }
+
+  // Checks if the meal name already exists.
+  createdMeals.forEach((meal) => {
+    if (meal.MEAL_NAME === mealName) {
+      valid = false;
+      return;
+    }
+  });
+
+  return valid; // Meal name is valid.
+}
+
+
+const isValidMealDescription = (mealDescription) => {
+  /* 
+    Checks if the meal description entered is a vaild
+
+    :param mealDescription: meal description entered
+    :return: Boolean Value
+*/
+
+// Checks if no meal description was entered.
+if (mealDescription === "") {
+  return false;
+}
+return true; // meal description is valid.
+}
+
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, makeSQLFriendly, convertTime, getMeals }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
+         getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
+         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, 
+         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription}

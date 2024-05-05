@@ -8,6 +8,7 @@ import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
 
 import "./ManagerProjectPage.css";
+import { useNavigate } from "react-router";
 
 
 const ViewProjectsSection = ({ managerID }) => {
@@ -201,7 +202,7 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
         const response = await insertProject(projectName, projectDescription, managerID, projectEstimatedTime);
 
         // TODO: Handle when a project isn't created
-        if (response !== "Project succesfully created"){
+        if (response !== "Project succesfully creeated"){
             alert("Project was not Created!!!");
             return;
         }
@@ -262,6 +263,7 @@ const ManagerProjectPage = () => {
     // Variables
     const [projectName, setProjectName] = useState("");
     const [activeSection, setActiveSection] = useState("viewProjectSection");
+    const navigate = useNavigate();
 
     // Get the manager's Employee_ID
     const { employeeID } = useEmployee();
@@ -284,14 +286,19 @@ const ManagerProjectPage = () => {
         setActiveSection("addProjectSection");
     }
 
+    // redirect to HomePage
+    const homePageButton = () => {
+        navigate("/Manager");
+    }
+
     // HTML Code
     return (
         <>
        <Header>
                 <h1> Workwise </h1>
-                <button className="homepage-button">Homepage</button>
+                <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
                 <button className="logout-button">Log Out</button>
-            </Header>
+        </Header>
 
             <section className="display">
                 <section className="panel">

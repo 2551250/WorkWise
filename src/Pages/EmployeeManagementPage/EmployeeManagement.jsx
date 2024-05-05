@@ -6,6 +6,7 @@ import Header from "../../Components/Header/Header";
 import EmployeeComponent from "../../Components/EmployeeComponent/EmployeeComponent";
 
 import "./EmployeeManagement.css";
+import { useNavigate } from "react-router";
 
 
 const getAllStaffData = (data) => {
@@ -21,6 +22,7 @@ const getAllStaffData = (data) => {
 
 const EmployeeManagement = () => {
     const [employees, setEmployees] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllEmployees()
@@ -33,11 +35,16 @@ const EmployeeManagement = () => {
         });
     }, []);
 
+    // redirect to HomePage
+    const homePageButton = () => {
+        navigate("/HR");
+    }
+
     return (
         <>
            <Header>
                 <h1> Workwise </h1>
-                <button className="homepage-button">Homepage</button>
+                <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
                 <button className="logout-button">Log Out</button>
             </Header>
             <h2 className="employee-management-header">Employee Management</h2>

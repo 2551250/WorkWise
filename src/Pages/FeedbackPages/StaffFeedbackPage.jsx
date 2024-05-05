@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { useNavigate } from "react-router";
 
 
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
@@ -182,6 +183,7 @@ const StaffFeedbackPage = () => {
     // Variables
     const location = useLocation();
     const projectData = location.state;
+    const navigate = useNavigate();
 
     const [viewFeedback, setviewFeedback] = useState(true);
 
@@ -199,13 +201,19 @@ const StaffFeedbackPage = () => {
       
         setviewFeedback(false);
     }
+ 
+
+    // redirect to HomePage
+    const homePageButton = () => {
+        navigate("/Staff");
+    }
 
     // HTML Code
     return (
         <>
         <Header>
                 <h1> Workwise </h1>
-                <button className="homepage-button">Homepage</button>
+                <button className="homepage-button"onClick={homePageButton}>Homepage</button>
                 <button className="logout-button">Log Out</button>
             </Header>
 

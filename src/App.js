@@ -6,11 +6,10 @@ import Manager from "./Pages/HomePages/Manager";
 import EmployeeManagement from "./Pages/EmployeeManagementPage/EmployeeManagement"
 import StaffProjectPage from './Pages/ProjectPages/StaffProjectPage';
 import ManagerProjectPage from './Pages/ProjectPages/ManagerProjectPage';
-import HRProjectPage from './Pages/ProjectPages/HRProjectPage';
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { EmployeeProvider } from './Components/EmployeeContext/EmployeeContext';
 import StaffFeedbackPage from "./Pages/FeedbackPages/StaffFeedbackPage";
-import HRBookMeals from './Pages/MealPages/HRBookMeals';
+import HRPlanMeals from './Pages/MealPages/HRPlanMeals';
 import ChooseTime from './Pages/TimePages/ChooseTime';
 import Timer from './Pages/TimePages/Timer';
 
@@ -28,9 +27,8 @@ function App() {
           <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
           <Route path="/StaffProjectPage" element={<StaffProjectPage navigate={navigate}/>} />
           <Route path="/ManagerProjectPage" element={<ManagerProjectPage/>} />
-          <Route path="/HRProjectPage" element={<HRProjectPage/>} />
           <Route path="/StaffFeedbackPage" element={<StaffFeedbackPage/>} />
-          <Route path="/HRBookMeals" element={<HRBookMeals/>} />
+          <Route path="/HRBookMeals" element={<HRPlanMeals/>} />
           <Route path="/ChooseTime" element={<ChooseTime/>} />
           <Route path="/Timer" element={<Timer/>} />
         </Routes>
