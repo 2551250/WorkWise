@@ -12,6 +12,7 @@ import StaffFeedbackPage from "./Pages/FeedbackPages/StaffFeedbackPage";
 import HRPlanMeals from './Pages/MealPages/HRPlanMeals';
 import ChooseTime from './Pages/TimePages/ChooseTime';
 import Timer from './Pages/TimePages/Timer';
+import ManualTime from './Pages/TimePages/ManualTime';
 
 function App() {
   const navigate = useNavigate();
@@ -30,7 +31,8 @@ function App() {
           <Route path="/StaffFeedbackPage" element={<StaffFeedbackPage/>} />
           <Route path="/HRBookMeals" element={<HRPlanMeals/>} />
           <Route path="/ChooseTime" element={<ChooseTime/>} />
-          <Route path="/Timer" element={<Timer/>} />
+          <Route path="/Timer" element={<Timer navigate={navigate}/>} />
+          <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
         </Routes>
       </div>
     </EmployeeProvider>

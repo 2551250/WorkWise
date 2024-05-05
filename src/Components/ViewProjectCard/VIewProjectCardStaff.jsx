@@ -4,26 +4,26 @@ import "./ViewProjectCard.css";
 
 // Component to display the information projects from a staff's perspective
 const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, navigate }) => {
+    
+    // Project Data
+    const project = {
+        PROJECT_ID: projectID,
+        PROJECT_NAME: name, 
+        DESCRIPTION: description,
+        MANAGER: manager,
+        ESTIMATED_TIME: estimatedTime,
+        ASSIGNED_STAFF: members
+    }
+    
     const feedbackButton = () => {
-
-        // Project Data
-        const project = {
-            PROJECT_ID: projectID,
-            PROJECT_NAME: name, 
-            DESCRIPTION: description,
-            MANAGER: manager,
-            ESTIMATED_TIME: estimatedTime,
-            ASSIGNED_STAFF: members
-        }
         // Use navigate function to go to another page
         navigate('/StaffFeedbackPage', {state: project});
-      };
+    };
 
-      const setTimeButton = () => {
-
+    const setTimeButton = () => {
         // Use navigate function to go to another page
-        navigate('/ChooseTime');
-      };
+        navigate('/ChooseTime', {state: project});
+    };
       
     return (
         <article>

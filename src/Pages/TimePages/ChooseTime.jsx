@@ -3,24 +3,26 @@ import stopwatchIcon from "../../Assets/stopwatch-icon.svg";
 import clockfaceIcon from "../../Assets/clockface-icon.svg";
 import Header from "../../Components/Header/Header";
 import Card from "../../Components/Card/Card";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
-const ChooseTime = ({ projectID, name }) =>{
-
+const ChooseTime = () =>{
+    //Variables
+    const location = useLocation();
+    const projectData = location.state;
     const navigate = useNavigate();
 
-    const stopWatchButton = () => {
-
-        // Project Data
-        const project = {
-            PROJECT_ID: projectID,
-            PROJECT_NAME: name, 
-        }
+    const manualTimeButton = () => {
         // Use navigate function to go to another page
-        navigate('/Timer', {state: project});
+        navigate('/ManualTimer', {state: projectData});
+    }
+
+    const stopWatchButton = () => {
+        // Use navigate function to go to another page
+        navigate('/Timer', {state: projectData});
       };
-          // redirect to HomePage
+    
     const homePageButton = () => {
+        // redirect to HomePage
         navigate("/Staff");
     }
 
@@ -32,7 +34,7 @@ const ChooseTime = ({ projectID, name }) =>{
             <button className="logout-button">Log Out</button>
         </Header>
         <main className="homepage">
-         <Card title="Add Time" imgSrc={clockfaceIcon} />
+         <Card title="Add Time" imgSrc={clockfaceIcon} onClick={manualTimeButton}/>
          <Card title="Stopwatch" imgSrc={stopwatchIcon} onClick={stopWatchButton}/>
          </main>
         </>
