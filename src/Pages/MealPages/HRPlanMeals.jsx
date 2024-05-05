@@ -8,7 +8,6 @@ import ViewMealCard from '../../Components/ViewMealCard/ViewMealCard';
 
 import { addMeal } from '../../backend_post_requests';
 import { getMeals, isValidMealName, isValidMealDescription } from '../../backend';
-import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 
 const ViewMealsSection = () => {
@@ -163,9 +162,6 @@ const HRPlanMeals = () => {
     // Variable
     const [activeSection, setActiveSection] = useState("createMealSection");
     const navigate = useNavigate();
-
-    // Get the manager's Employee_ID
-    const { employeeID } = useEmployee();
 
     //Functions & Logic
     // redirect to HomePage
