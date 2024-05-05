@@ -5,6 +5,7 @@
 
 .employee-management-header{
     margin-top: 20px;
+    margin-left: 5%;
 }
 
 
@@ -16,6 +17,12 @@
     flex:3;
     padding-top: 10px;
 }
+
+.table-role {
+    flex:2;
+    padding-top: 10px;
+}
+
 .table-permissions {
     flex:2;
     padding-top: 10px;

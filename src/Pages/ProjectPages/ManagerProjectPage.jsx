@@ -202,7 +202,7 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
         const response = await insertProject(projectName, projectDescription, managerID, projectEstimatedTime);
 
         // TODO: Handle when a project isn't created
-        if (response !== "Project succesfully creeated"){
+        if (response !== "Project succesfully created"){
             alert("Project was not Created!!!");
             return;
         }
