@@ -1,6 +1,5 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName } from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData } from "./backend";
 import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx";
-import { getAllStaffData } from "./Pages/EmployeeManagementPage/EmployeeManagement.jsx";
 
 // Test stubs
 const userTestData = [
@@ -103,8 +102,8 @@ test("checks is valid password invalid", function checkIsValidPassword_anyPasswo
     expect(isValidPassword("")).toBe(false);
 });
 
-test('checks that only staff data is returned', function checkGetAllStaffData_anyUserLoggedIn_valid() {
-    expect(getAllStaffData(userTestData)).toStrictEqual(userTestData.filter((employee) => employee.ROLE === "Staff"));
+test('checks that only staff and managerdata is returned', function checkGetAllStaffManagerData_anyUserLoggedIn_valid() {
+    expect(getAllStaffManagerData(userTestData)).toStrictEqual(userTestData.filter((employee) => employee.ROLE !== "HR"));
 });
 
 test("checks get employee id valid", function checksGetEmployeeID_anyUserLoggedIn_Valid() {
