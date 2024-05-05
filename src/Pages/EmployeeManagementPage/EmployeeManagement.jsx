@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 
-import { getAllEmployees } from "../../backend";
+import { getAllEmployees, getAllStaffManagerData } from "../../backend";
 
 import Header from "../../Components/Header/Header";
 import EmployeeComponent from "../../Components/EmployeeComponent/EmployeeComponent";
@@ -8,17 +8,6 @@ import { deleteManager, deleteStaff } from "../../backend_post_requests";
 
 import "./EmployeeManagement.css";
 import { useNavigate } from "react-router";
-
-
-const getAllStaffData = (data) => {
-    /* 
-        Gets all the data on employees whose roles are Staff.
-        
-        :param data: json of all the data in Employee datatable
-        :return: An array filtered to contain staff data
-    */
-    return data.filter((employee) => employee.ROLE !== "HR"); //filteres out HR data;
-}
 
 
 const EmployeeManagement = () => {
@@ -45,14 +34,21 @@ const EmployeeManagement = () => {
 
     const handleDelete = async (employeeToDelete) => {
         try {
-            const deletionFunction = employeeToDelete.ROLE === "Staff" ? deleteStaff : deleteManager;
-            const response = await deletionFunction(employeeToDelete.EMPLOYEE_ID);
+            let response = "";
             
+            if (employeeToDelete.ROLE === "Staff"){
+                response = await deleteStaff(employeeToDelete.EMPLOYEE_ID);
+            }
+            else if (employeeToDelete.ROLE === "Manager"){
+                response = await deleteManager(employeeToDelete.EMPLOYEE_ID);
+            }
+
             if (response.includes("successfully removed")) {
                 const updatedEmployees = employees.filter((employee) => employee.EMPLOYEE_ID !== employeeToDelete.EMPLOYEE_ID);
                 setEmployees(updatedEmployees);
-            }            
-        } catch(error) {
+            }
+        } 
+        catch(error) {
             console.log(error);
             return;
         }
@@ -95,5 +91,4 @@ const EmployeeManagement = () => {
     );
 }
 
-export {getAllStaffData};
 export default EmployeeManagement;

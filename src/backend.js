@@ -342,8 +342,18 @@ if (mealDescription === "") {
 return true; // meal description is valid.
 }
 
+const getAllStaffManagerData = (data) => {
+  /* 
+      Gets all the data on employees whose roles are Staff or Manager.
+      
+      :param data: json of all the data in Employee datatable
+      :return: An array filtered to not contain HR data
+  */
+  return data.filter((employee) => employee.ROLE !== "HR"); //filteres out HR data;
+}
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, 
-         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription}
+         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData}
