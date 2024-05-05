@@ -2,10 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCardStaff from "../../Components/ViewProjectCard/VIewProjectCardStaff";
-import { getAllEmployees, getStaffProjects, getProjectAssignedStaff, findManagerName } from "../../backend";
+import { getAllEmployees, getStaffProjects, getProjectAssignedStaff } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import "./StaffProjectPage.css";
+
+
+const findManagerName = (Employee_ID, data) => {
+    if (typeof data !== "object"){
+        return 'Manager not found';
+    }
+
+    const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
+
+    return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
+}
 
 
 const StaffProjectPage = ({ navigate }) => {
@@ -59,12 +70,17 @@ const StaffProjectPage = ({ navigate }) => {
     }, [projects]);
 
 
+    // redirect to HomePage
+    const homePageButton = () => {
+       navigate("/Staff");
+   }
+
     // HTML Code
     return (
         <>
             <Header>
                 <h1> Workwise </h1>
-                <button className="homepage-button">Homepage</button>
+                <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
                 <button className="logout-button">Log Out</button>
             </Header>
 

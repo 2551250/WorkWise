@@ -199,8 +199,8 @@ async function addMeal(meal_name, meal_description, date){
     try {
         // Construct body of request
         const meal = {
-            meal_name: meal_name,
-            meal_description: meal_description,
+            meal_name: makeSQLFriendly(meal_name),
+            meal_description: makeSQLFriendly(meal_description),
             date: date,
         };
         // Send request
