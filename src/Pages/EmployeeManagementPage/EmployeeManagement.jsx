@@ -43,16 +43,20 @@ const EmployeeManagement = () => {
         navigate("/HR");
     }
 
-    const handleDelete = (employeeToDelete) => {
-        const deletionFunction = employeeToDelete.ROLE === "Staff" ? deleteStaff : deleteManager;
-        deletionFunction(employeeToDelete.EMPLOYEE_ID)
-        .then(() => {
-            const updatedEmployees = employees.filter((employee) => employee.EMPLOYEE_ID !== employeeToDelete.EMPLOYEE_ID);
-            setEmployees(updatedEmployees);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+    const handleDelete = async (employeeToDelete) => {
+        try {
+            const deletionFunction = employeeToDelete.ROLE === "Staff" ? deleteStaff : deleteManager;
+            const response = await deletionFunction(employeeToDelete.EMPLOYEE_ID);
+            
+            if (response.includes("successfully removed")) {
+                const updatedEmployees = employees.filter((employee) => employee.EMPLOYEE_ID !== employeeToDelete.EMPLOYEE_ID);
+                setEmployees(updatedEmployees);
+            }            
+        } catch(error) {
+            console.log(error);
+            return;
+        }
+
     }
 
     // HTML Code

@@ -175,7 +175,7 @@ async function insertMessage(message_sent_by, message_sent_to, message_text, pro
 async function deleteManager(manager_id) {
     try {
         // Sends request 
-        const res = axios.delete(`${URL}/RemoveManager/${manager_id}`);
+        const res = await axios.delete(`${URL}/RemoveManager/${manager_id}`);
         return res.data;
     } catch (error) {
         return error;
@@ -186,7 +186,7 @@ async function deleteManager(manager_id) {
 async function deleteStaff(staff_id) {
     try {
         // Sends request
-        const res = axios.delete(`${URL}/RemoveStaff/${staff_id}`);
+        const res = await axios.delete(`${URL}/RemoveStaff/${staff_id}`);
         return res.data;
     } catch (error) {
         return error;
