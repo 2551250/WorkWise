@@ -16,10 +16,17 @@
     flex:3;
     padding-top: 10px;
 }
+
+.table-role {
+    flex:2;
+    padding-top: 10px;
+}
+
 .table-permissions {
     flex:2;
     padding-top: 10px;
 }
+
 .table-delete {
     flex:2;
     padding-top: 10px;
