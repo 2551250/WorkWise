@@ -16,7 +16,7 @@ const getAllStaffData = (data) => {
         :param data: json of all the data in Employee datatable
         :return: An array filtered to contain staff data
     */
-    return data.filter((employee) => employee.ROLE === "Staff"); //filteres data by staff;
+    return data.filter((employee) => employee.ROLE === "Manager" || employee.ROLE === "Staff"); //filteres data by staff and HR;
 }
 
 
@@ -55,6 +55,7 @@ const EmployeeManagement = () => {
                         <tr>
                             <th className="table-name">Name</th>
                             <th className="table-email">Email</th>
+                            <th className="table-name">Role</th>
                             <th className="table-permissions">Change Permissions</th>
                             <th className="table-delete">Delete</th>
                         </tr>
