@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
+import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
 
 import './ManualTime.css'
 
 import Header from '../../Components/Header/Header';
+import { updateTime } from '../../backend_post_requests';
 
 const ManualTime = () => {
     // Variables
@@ -37,6 +39,11 @@ const ManualTime = () => {
         setEndingSlot(e.target.value);
         setErrorMessage(''); // Reset error message on change
     };
+        // Get the manager's Employee_ID
+        const { employeeID } = useEmployee();
+        const staffID = parseInt(employeeID);
+
+
 
     // Handle form submission
     const handleSubmit = (e) => {
@@ -52,8 +59,10 @@ const ManualTime = () => {
             console.log(`Project: ${projectData.PROJECT_NAME}`);
             console.log(`Starting Slot: ${startingSlot}`);
             console.log(`Ending Slot: ${endingSlot}`);
+            console.log(`EMPLOYEE_ID: ${staffID}`);
             // You can perform additional actions here, such as updating state or sending data to a server
-
+            updateTime(staffID, projectData.PROJECT_ID, startingSlot, endingSlot);
+            console.log("üpdated Time now");
             // Clear the error message if the submission is successful
             setErrorMessage('');
         } else {
