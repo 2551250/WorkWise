@@ -4,6 +4,7 @@ import { getAllEmployees } from "../../backend";
 
 import Header from "../../Components/Header/Header";
 import EmployeeComponent from "../../Components/EmployeeComponent/EmployeeComponent";
+import { deleteManager, deleteStaff } from "../../backend_post_requests";
 
 import "./EmployeeManagement.css";
 import { useNavigate } from "react-router";
@@ -35,6 +36,23 @@ const EmployeeManagement = () => {
         });
     }, []);
 
+
+    
+    // Function to handle deletion of an employee
+    const handleDelete = (employeeToDelete) => {
+        const deleteFunction = employeeToDelete.ROLE === "Staff" ? deleteStaff : deleteManager;
+        deleteFunction(employeeToDelete.EMPLOYEE_ID)
+            .then(() => {
+                // Update the list of employees after deletion
+                const updatedEmployees = employees.filter((employee) => employee.EMPLOYEE_ID !== employeeToDelete.EMPLOYEE_ID);
+                setEmployees(updatedEmployees);
+                console.log("Deleting Employee with ID:", employeeToDelete.EMPLOYEE_ID);
+            })
+            .catch((error) => {
+                console.error("Error deleting employee:", error);
+            });
+    };
+
     // redirect to HomePage
     const homePageButton = () => {
         navigate("/HR");
@@ -60,7 +78,10 @@ const EmployeeManagement = () => {
                             <th className="table-delete">Delete</th>
                         </tr>
                         {employees.map((employee) => (
-                            <EmployeeComponent employee={employee} key={employee.EMAIL} />
+                            <EmployeeComponent employee={employee} 
+                            key={employee.EMAIL}
+                            onDelete={handleDelete} // Pass the onDelete callback function
+                            />
                         )
                         )}
                     </tbody>

@@ -1,7 +1,13 @@
 import React from "react";
 import "./EmployeeComponent.css";
 
-const EmployeeComponent = ({ employee }) => {
+
+const EmployeeComponent = ({ employee, onDelete }) => {
+
+
+
+
+
     // Component to display a row of employee's information
     return (
         <tr>
@@ -11,7 +17,7 @@ const EmployeeComponent = ({ employee }) => {
             <td className="employee-name"><p>{employee.ROLE}</p></td>
 
             <td className="employee-permissions"><button className="permission-button">Change Permissions</button></td>
-            <td className="employee-delete"><button className="delete-button">Delete</button></td>
+            <td className="employee-delete"><button className="delete-button" onClick={() => onDelete(employee)}>Delete</button></td>
         </tr>
     );
 }
