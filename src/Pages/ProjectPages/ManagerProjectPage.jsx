@@ -298,7 +298,7 @@ const ManagerProjectPage = () => {
                 <h1> Workwise </h1>
                 <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
                 <button className="logout-button">Log Out</button>
-            </Header>
+        </Header>
 
             <section className="display">
                 <section className="panel">

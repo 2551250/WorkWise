@@ -1,0 +1,14 @@
+.meal-entry{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border: 2px solid lightgray;
+    background-color: white;
+    border-radius: 5px ;
+    width: 80%;
+    height: auto;
+    padding: 5px;
+}
+
+.meal-entry p{
+    margin-left: 10px;
+}

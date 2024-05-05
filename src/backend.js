@@ -296,7 +296,7 @@ const convertTime = (startTime, endTime) => {
 }
 
 
-const isValidMealName = (mealName) => {
+const isValidMealName = (mealName, createdMeals) => {
   let valid = true;
 /* 
     Checks if the meal name entered is a vaild
@@ -305,17 +305,25 @@ const isValidMealName = (mealName) => {
     :return: Boolean Value
 */
 
-// Checks if no meal name was entered.
-if (mealName === "") {
-  valid = false;
-}
+  // Checks if no meal name was entered.
+  if (mealName === "") {
+    valid = false;
+  }
 
-// Checks if meal name is longer than 50 charaters
-if (mealName.length >= 50) {
-  valid = false;
-}
+  // Checks if meal name is longer than 50 charaters
+  if (mealName.length >= 50) {
+    valid = false;
+  }
 
-return valid; // Project name is valid.
+  // Checks if the meal name already exists.
+  createdMeals.forEach((meal) => {
+    if (meal.MEAL_NAME === mealName) {
+      valid = false;
+      return;
+    }
+  });
+
+  return valid; // Meal name is valid.
 }
 
 
