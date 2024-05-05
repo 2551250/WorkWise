@@ -3,16 +3,18 @@
     border: none;
     background-color: #FF6D00;
     border-radius: 5px;
+    padding-top: 10px;
     padding-bottom: 30px ;
-    height: auto;
+    height: 800px;
     width: 80%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 10% auto;
+    margin: 2% auto;
 }
+
 
 .book-meals-wrapper{
     display: flex;
@@ -31,12 +33,22 @@
 
 }
 .book-meals-wrapper h2{
+    border-radius: 5px;
+    padding:10px;
     justify-self: center;
     align-self: center;
+    margin-bottom: 10px;;
 }
 .book-entry{
     display: flex;
     flex-direction: column;
+}
+.book-entry-name{
+    padding-bottom: 5px;
+}
+.book-entry-desc{
+    padding-top: 10px;
+    padding-bottom: 5px;
 }
 .book-entry input{
     font-family:  Roboto, sans-serif;
@@ -45,6 +57,7 @@
     border-radius: 5px;
     border: 2px solid lightgray;
 }
+
 .book-entry input:focus{
     background-color: whitesmoke;
     outline: none;

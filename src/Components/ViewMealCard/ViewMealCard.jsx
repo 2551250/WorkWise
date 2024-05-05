@@ -5,8 +5,8 @@ import "./ViewMealCard.css";
 const ViewMealCard = ({name, description}) => {
     return (
         <article className='meal-entry'>
-            <p>Name: {name}</p>
-            <p>Description: {description}</p>    
+            <p className="meal-entry-name">{name}</p>
+            <p className="meal-entry-desc">{description}</p>    
         </article>
     );
 }

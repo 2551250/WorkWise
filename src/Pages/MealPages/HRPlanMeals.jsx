@@ -133,7 +133,7 @@ const CreateMealSection = ({setActiveSection}) => {
         <section className='book-meals-wrapper'>
             <h2>Meal Creation for {formattedDate}</h2>
             <article className='book-entry'>
-                <p> Meal:</p>
+                <p className='book-entry-name'> Meal:</p>
                 <input
                 value={mealName}
                 type="text"
@@ -141,7 +141,7 @@ const CreateMealSection = ({setActiveSection}) => {
                 placeholder='Enter meal name'
                 onChange={(event) => setMealName(event.target.value)}
                 />
-                <p> Description:</p>
+                <p className='book-entry-desc'> Description:</p>
                 <textarea
                     value={mealDescription}
                     placeholder="Enter your text here"
