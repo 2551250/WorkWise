@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
 
 import './ManualTime.css'
 
 import Header from '../../Components/Header/Header';
+import { updateTimeSpentManual } from '../../backend_post_requests';
 
 const ManualTime = () => {
     // Variables
     const location = useLocation();
     const projectData = location.state;
+    const currentDate = new Date();
+    const navigate = useNavigate();
+    const homePageButton = () => {
+        navigate("/Staff");
+    }
 
     // Define available time slots from 6:00 to 23:00 in 30-minute intervals
     const timeSlots = [];
@@ -37,9 +44,14 @@ const ManualTime = () => {
         setEndingSlot(e.target.value);
         setErrorMessage(''); // Reset error message on change
     };
+        // Get the manager's Employee_ID
+        const { employeeID } = useEmployee();
+        const staffID = parseInt(employeeID);
+
+
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Validate the form inputs
         const startingSlotIndex = timeSlots.indexOf(startingSlot);
@@ -49,11 +61,13 @@ const ManualTime = () => {
         if (endingSlotIndex < startingSlotIndex) {
             setErrorMessage('Ending time must be later than or equal to starting time.');
         } else if (startingSlot && endingSlot) {
-            console.log(`Project: ${projectData.PROJECT_NAME}`);
-            console.log(`Starting Slot: ${startingSlot}`);
-            console.log(`Ending Slot: ${endingSlot}`);
+            // console.log(`Project: ${projectData.PROJECT_NAME}`);
+            // console.log(`Starting Slot: ${startingSlot}`);
+            // console.log(`Ending Slot: ${endingSlot}`);
+            // console.log(`EMPLOYEE_ID: ${staffID}`);
             // You can perform additional actions here, such as updating state or sending data to a server
-
+            const response = await updateTimeSpentManual(staffID, projectData.PROJECT_ID, startingSlot, endingSlot, currentDate );
+            console.log(response);
             // Clear the error message if the submission is successful
             setErrorMessage('');
         } else {
@@ -64,10 +78,11 @@ const ManualTime = () => {
     // HTML Code
     return (
         <>
-            <Header>
-                <h1> Workwise </h1>
-                <button className="logoutButton">Log Out</button>
-            </Header>
+        <Header>
+            <h1> Workwise </h1>
+            <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
+            <button className="logout-button">Log Out</button>
+        </Header>
 
             <main className="manual-time-page">
                 <section className="manual-time-container">
