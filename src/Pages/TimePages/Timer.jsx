@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { updateTime } from '../../backend_post_requests';
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
@@ -13,10 +13,11 @@ const Timer = () => {
     //Variables
     const location = useLocation();
     const projectData = location.state;
+    const navigate = useNavigate();
 
     const {employeeID} = useEmployee();
     
-    const [time, setTime] = useState(0);
+    const [time, setTime] = useState(360000);
     const [isRunning, setIsRunning] = useState(false);
     const [displayPopup, setDisplayPopup] = useState(false);
 
@@ -41,12 +42,10 @@ const Timer = () => {
 
     const handleStopAndSave = async () => {
         setIsRunning(false);
-        // const hours = Math.round(time / (1000 * 60 * 60));
-        // console.log(`Saved time: ${hours} hours`);
-
-        console.log(time);
+        const minutes = Math.round(time / (1000 * 60));
+        console.log(minutes);
         
-        const response = await updateTime(employeeID, projectData.PROJECT_ID, time);
+        const response = await updateTime(employeeID, projectData.PROJECT_ID, minutes);
         if (response === "Time spent on project successfully updated"){
             setDisplayPopup(true);
         }
@@ -54,11 +53,16 @@ const Timer = () => {
         setTime(0);
     };
 
+    const homePageButton = () => {
+        navigate("/Staff");
+    }
+
     // HTML Code
     return (
         <>
         <Header>
                 <h1> Workwise </h1>
+                <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
                 <button className="logout-button">Log Out</button>
         </Header>
         
