@@ -5,7 +5,7 @@ import { getAllEmployees, getAllStaffManagerData } from "../../backend";
 import Header from "../../Components/Header/Header";
 import EmployeeComponent from "../../Components/EmployeeComponent/EmployeeComponent";
 import { deleteManager, deleteStaff } from "../../backend_post_requests";
-
+import PopUp from "../../Components/PopUp/PopUp";
 import "./EmployeeManagement.css";
 import { useNavigate } from "react-router";
 
@@ -13,6 +13,9 @@ import { useNavigate } from "react-router";
 const EmployeeManagement = () => {
     //Variables
     const [employees, setEmployees] = useState([]);
+    const [displayPopup, setDisplayPopup] = useState(false);
+    const [employeeToDelete, setEmployeeToDelete] = useState(null);
+    const [confirmDelete, setConfirmDelete] = useState(false);
     const navigate = useNavigate();
 
     // Functions & Logic
@@ -31,9 +34,15 @@ const EmployeeManagement = () => {
     const homePageButton = () => {
         navigate("/HR");
     }
+  // Function to open delete confirmation pop-up
+  const handleOpenDeletePopup = (employee) => {
+    setEmployeeToDelete(employee);
+    setDisplayPopup(true);
+};
 
     const handleDelete = async (employeeToDelete) => {
         try {
+            if(employeeToDelete){
             let response = "";
             
             if (employeeToDelete.ROLE === "Staff"){
@@ -46,14 +55,25 @@ const EmployeeManagement = () => {
             if (response.includes("successfully removed")) {
                 const updatedEmployees = employees.filter((employee) => employee.EMPLOYEE_ID !== employeeToDelete.EMPLOYEE_ID);
                 setEmployees(updatedEmployees);
+        
             }
         } 
+    }
         catch(error) {
             console.log(error);
             return;
         }
-
-    }
+        finally {
+            // Close the pop-up
+            setDisplayPopup(false);
+            setConfirmDelete(false);
+        }
+}
+        // Function to handle canceling the delete action
+        const handleCancel = () => {
+            setDisplayPopup(false);
+            setConfirmDelete(false);
+        };
 
     // HTML Code
     return (
@@ -79,14 +99,20 @@ const EmployeeManagement = () => {
                             <EmployeeComponent 
                                 employee={employee} 
                                 key={employee.EMAIL}
-                                onDelete={handleDelete}
+                                onDelete={handleOpenDeletePopup}
                             />
                         )
                         )}
                     </tbody>
                 </table>
             </main>
-            
+            <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
+                <h3 className="delete-employee-header">Do you want to delete this Employee?</h3>
+                <section className="delete-button-wrapper">
+                <button className = 'delete-button' onClick={() => handleDelete(employeeToDelete)}>Confirm</button>
+                 <button className = 'delete-button'  onClick={handleCancel}>Cancel</button>
+                 </section>
+            </PopUp>
         </>
     );
 }
