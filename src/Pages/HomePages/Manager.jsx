@@ -23,6 +23,11 @@ function Manager(){
         navigate("/ManagerProjectPage");
     }
 
+    //redirect Chat Page
+    const viewChatPage = () => {
+        navigate("/ChatPage");
+    }
+
     // empty function for unimplemented data
     const empty = () => {
 
@@ -39,7 +44,7 @@ function Manager(){
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon} onClick={empty}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
-            <Card title="Chat" imgSrc={messageIcon}/>
+            <Card title="Chat" imgSrc={messageIcon} onClick={viewChatPage}/>
             <Card title="Plan Meals" imgSrc={burgerIcon} onClick={empty}/>
             <Card title="View Staff" imgSrc={peopleIcon} onClick={empty}/>
         </main>

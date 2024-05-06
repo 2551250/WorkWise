@@ -17,6 +17,11 @@ function Staff(){
      const viewProductPage = () => {
         navigate("/StaffProjectPage");
     }
+
+        //redirect Chat Page
+        const viewChatPage = () => {
+            navigate("/ChatPage");
+        }
     return(
         <>
           <Header>
@@ -26,7 +31,7 @@ function Staff(){
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
-            <Card title="Chat" imgSrc={messageIcon}/>
+            <Card title="Chat" imgSrc={messageIcon} onClick={viewChatPage}/>
             <Card title="Book Meals" imgSrc={burgerIcon}/>
 
         </main>
