@@ -7,7 +7,6 @@ import burgerIcon from "../../Assets/burger-icon.svg";
 import projectIcon from "../../Assets/project-icon.svg";
 import peopleIcon from "../../Assets/people-icon.svg";
 import timesheetIcon from "../../Assets/timesheet-icon.svg";
-import messageIcon from "../../Assets/message-icon.svg";
 
 import Card from "../../Components/Card/Card";
 import Header from "../../Components/Header/Header";
@@ -21,11 +20,6 @@ function Manager(){
     // redirect to Project Page
     const viewProductPage = () => {
         navigate("/ManagerProjectPage");
-    }
-
-    //redirect Chat Page
-    const viewChatPage = () => {
-        navigate("/ChatPage");
     }
 
     // empty function for unimplemented data
@@ -44,7 +38,6 @@ function Manager(){
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon} onClick={empty}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
-            <Card title="Chat" imgSrc={messageIcon} onClick={viewChatPage}/>
             <Card title="Plan Meals" imgSrc={burgerIcon} onClick={empty}/>
             <Card title="View Staff" imgSrc={peopleIcon} onClick={empty}/>
         </main>

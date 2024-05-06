@@ -1,20 +1,14 @@
 import React from "react";
+import { useLocation } from "react-router";
 import Header from "../../Components/Header/Header";
 import MessageReceiveCard from "../../Components/MessageCard/MessageReceiveCard";
 import MessageSendCard from "../../Components/MessageCard/MessageSendCard";
 
-import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
+function ChatPage(){
+    //Variables
+    const location = useLocation();
+    console.log(location.state);
 
-import "./ChatPage.css";
-
-const ChatPage = () => {
-    // Variables
-    let { employeeID } = useEmployee();
-    employeeID = parseInt(employeeID);
-
-    //Functions & Logic
-
-    // HTML Code
     return(
         <>
             <Header>

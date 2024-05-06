@@ -74,6 +74,7 @@ const ViewProjectsSection = ({ managerID }) => {
                 <ViewProjectCard 
                     key={project.PROJECT_ID} projectID={project.PROJECT_ID} 
                     name={project.PROJECT_NAME} description={project.DESCRIPTION} 
+                    managerID={managerID}
                     estimatedTime={project.ESTIMATED_TIME} members={assignedMembers[project.PROJECT_ID] || []}
                 />
             )) : " "}

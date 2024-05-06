@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import burgerIcon from "../../Assets/burger-icon.svg";
 import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import projectIcon from "../../Assets/project-icon.svg";
-import messageIcon from "../../Assets/message-icon.svg";
+
 
 import Card from "../../Components/Card/Card";
 import Header from "../../Components/Header/Header";
@@ -18,10 +18,6 @@ function Staff(){
         navigate("/StaffProjectPage");
     }
 
-        //redirect Chat Page
-        const viewChatPage = () => {
-            navigate("/ChatPage");
-        }
     return(
         <>
           <Header>
@@ -31,7 +27,6 @@ function Staff(){
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
-            <Card title="Chat" imgSrc={messageIcon} onClick={viewChatPage}/>
             <Card title="Book Meals" imgSrc={burgerIcon}/>
 
         </main>
