@@ -1,98 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "../../Components/Header/Header";
+import MessageReceiveCard from "../../Components/MessageCard/MessageReceiveCard";
+import MessageSendCard from "../../Components/MessageCard/MessageSendCard";
 
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
-import { getAllEmployees} from "../../backend";
 
-
-const getRoleFromID = (employeeID, data) => {
-    // Finds the role of an employee -> {Staff, Manager, HR}
-    for (let i = 0; i < data.length; i++) {
-        const obj = data[i];
-        if (obj.EMPLOYEE_ID === employeeID) {
-            return obj.ROLE; // returns the role
-            }
-        }
-    return "";
-}
-
-
-// const ChatSection = ({projectName, employeeID}) => {
-//     // Variables
-
-//     //Functions & Logic
-
-//     // HTML Code
-//     return (
-//         <>
-//         </>
-//     );
-// }
-
-
-const StaffProjectViewSection = (staffID) => {
-    // Variables
-
-    //Functions & Logic
-    console.log(staffID);
-
-    // HTML Code
-    return (
-        <>
-        <h1> Staff View Projects</h1>
-        </>
-    );
-}
-
-
-const ManagerProjectViewSection = (managerID) => {
-    // Variables
-    const [createdProjects, setCreatedProjects] = useState();
-    
-    //Functions & Logic
-    console.log(managerID);
-
-    // HTML Code
-    return (
-        <>
-        <h1> Manager View Projects</h1>
-        </>
-    );
-}
-
+import "./ChatPage.css";
 
 const ChatPage = () => {
     // Variables
-    const { employeeID } = useEmployee();
+    let { employeeID } = useEmployee();
     employeeID = parseInt(employeeID);
-    const [role, setRole] = useState("");
 
     //Functions & Logic
-    useEffect(() => {
-        const fetchData = async (employeeID) => {
-            const employeeData = await getAllEmployees();
-
-            if (typeof(employeeData) !== "string"){
-                setRole(getRoleFromID(employeeID, employeeData));
-            }
-        }
-
-        fetchData(employeeID);
-    }, [employeeID])
 
     // HTML Code
     return(
         <>
-          <Header>
+            <Header>
                 <h1> Workwise </h1>
                 <button className="logout-button">Log Out</button>
             </Header>
 
-            {
-                role === "Manager" 
-                ? <ManagerProjectViewSection managerID={employeeID}/> 
-                : <StaffProjectViewSection staffID={employeeID}/>
-            }
+            <header>
+            <h2 className='message-header'> projectName </h2>
+            </header>
+
+            <main className='message-display'>
+                <MessageReceiveCard 
+                    employeeName={"Person"} 
+                    message={"Hey guys! so I thought about something really random for the project."} 
+                    timeSent={"10:00"}
+                />
+                <MessageReceiveCard 
+                    employeeName={"Person"} 
+                    message={"Hey guys! so I thought about something really random for the project."} 
+                    timeSent={"10:00"}
+                />
+                <MessageReceiveCard 
+                    employeeName={"Person"} 
+                    message={"Hey guys! so I thought about something really random for the project."} 
+                    timeSent={"10:00"}
+                />
+                <MessageSendCard 
+                    employeeName={"Person"} 
+                    message={"Hey guys! so I thought about something really random for the project."} 
+                    timeSent={"10:00"}
+                />
+            </main>
+            <section className = 'send-wrapper'>
+                <textarea
+                className='send-message'
+                maxLength={500} // Limit the text length to 30 characters
+                rows={4} // Specify the number of visible rows
+                cols={40} // Specify the number of visible columns 
+                />
+                <button>Send</button>
+            </section>
         </>
     );
 }

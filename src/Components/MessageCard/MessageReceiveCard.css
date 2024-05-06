@@ -5,7 +5,8 @@
 .message-receive{
     display: flex;
     flex-direction: column;
-    background-color: white;
+    justify-content: center;
+    background-color: #FF6D00;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -17,6 +18,7 @@
 }
 .message-name-receive{
     font-size: 15px;
+    margin-bottom: 1.5%;
     margin-left: 10px;
 }
 .message{
@@ -29,5 +31,6 @@
     justify-self: center;
     align-self: flex-end;
     margin-right: 10px;
+    margin-top: 2%;
     font-size: 10px;
 }
