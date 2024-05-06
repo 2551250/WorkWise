@@ -12,12 +12,6 @@ function ChatPage(){
                 <h1> Workwise </h1>
                 <button className="logout-button">Log Out</button>
             </Header>
-
-            {
-                role === "Manager" 
-                ? <ManagerProjectViewSection managerID={employeeID}/> 
-                : <StaffProjectViewSection staffID={employeeID}/>
-            }
         </>
     );
 }
