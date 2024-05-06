@@ -326,12 +326,12 @@ const isValidProjectEstimateTime = (projectEstimatedTime) => {
 const findManagerName = (Employee_ID, data) => {
   
   if (typeof data !== "object"){
-    return 'Manager not found'; //Error Handling
+    return 'Manager not assigned'; //Error Handling
   }
 
   const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
 
-  return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
+  return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not assigned'; // Return manager name or a default message
 }
 
 const makeSQLFriendly = (text) => {
@@ -415,8 +415,34 @@ const getAllStaffManagerData = (data) => {
   return data.filter((employee) => employee.ROLE !== "HR"); //filteres out HR data;
 }
 
+const getEmployeeName = (employeeID, employees) => {
+  /* 
+      Returns the name & surname of an employee
+
+      :param1 employeeID: The employee id of the manager creating a project
+      :param2 employees: Full list of all employees
+      :returns string: Returns the name & surname of an employee
+  */
+
+  const filteredEmployees = employees.filter((employee) => employee.EMPLOYEE_ID === employeeID);
+  const targetEmployee = filteredEmployees[0];
+
+  return targetEmployee ? `${targetEmployee.NAME} ${targetEmployee.SURNAME}` : "No Employee Found";
+}
+
+const getReceivedReviewsProject = (projectID, receivedReviews) => {
+  /*
+      Returns all feedback reviewed for a project
+
+      :param1 projectID: The project id of the current project
+      :param2 receivedReviews: All data of the staff member recieved for all projects
+      :returns list: Filtered list containing the received reviews for a project
+  */
+  return receivedReviews.filter((feedback) => (feedback.PROJECT_ID === projectID));
+}
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, 
-         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword}
+         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject}

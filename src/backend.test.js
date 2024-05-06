@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getReceivedMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword } from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getReceivedMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject } from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -90,6 +90,13 @@ const mealTestData = [
         "MEAL_NAME": "Margherita Pizza",
         "MEAL_DESCRIPTION": "Classic Italian pizza",
         "DATE": "2024-05-06"
+    }
+]
+
+const receivedReviews = [
+    {
+        "PROJECT_ID": 1,
+        "DESCRIPTION": "Review" 
     }
 ]
 
@@ -256,7 +263,7 @@ test("checks find manager name valid", function checksFindManagerName_AnyState_V
 });
 
 test("checks find manager name invalid", function checksFindManagerName_AnyState_Invalid() {
-    expect(findManagerName(10, userTestData)).toBe("Manager not found");
+    expect(findManagerName(10, userTestData)).toBe("Manager not assigned");
 });
 
 test("checks returning messages sent by employee returns an error", async function checkGetSentReviews_invalidEmployeeID_Invalid() {
@@ -285,4 +292,16 @@ test("get staff projects valid", async function checksGetStaffProjects_anyState_
 
 test("get manager projects valid", async function checksGetManagerProjects_anyState_Valid(){
     expect(await getManagerProjects(5)).toContainEqual({"DESCRIPTION": "Online website to manage spaza shops", "ESTIMATED_TIME": 20, "MANAGER_ID": 5, "PROJECT_ID": 1, "PROJECT_NAME": "E-Spaza"});
+});
+
+test("get employee name valid", function checksGetEmployeeName_anyState_Valid(){
+    expect(getEmployeeName(1, userTestData)).toBe("Gregory Cheadle");
+});
+
+test("get employee name invalid", function checksGetEmployeeName_anyState_Invalid(){
+    expect(getEmployeeName(-1, userTestData)).toBe("No Employee Found");
+});
+
+test("checks get received reviews", function checksGetReceivedReviews_anyState_Valid(){
+    expect(getReceivedReviewsProject(1, receivedReviews)).toContainEqual({"DESCRIPTION": "Review", "PROJECT_ID": 1});
 });
