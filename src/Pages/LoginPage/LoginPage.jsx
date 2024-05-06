@@ -6,71 +6,8 @@ import "./LoginPage.css";
 import { getAllEmployees, getRole, getEmployeeID } from "../../backend";
 import PopUp from "../../Components/PopUp/PopUp";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
-
+import { isValidEmail, isValidPassword, checkEmployeeExists } from "../../backend";
 import { useNavigate } from "react-router-dom";
-
-const checkEmployeeExists = (email, password, data) => {
-    /* 
-        Checks whether an employee {Manager, HR, Staff} exists in 
-        our database or not.
-
-        :param email: employee's email address
-        :param password: employee's login password
-        :param data: json of all the data in Employee datatable
-        :return: Boolean Value
-    */
-
-    // Checks if employee exists
-    for (let i = 0; i < data.length; i++) {
-        const obj = data[i];
-        if (obj.EMAIL === email && obj.PASSWORD === password) {
-            return true; // Employee does exist
-        }
-    }
-    return false; // Employee doesn't exist
-}
-
-
-const isValidEmail = (email) => {
-    /* 
-        Checks if the email entered is a vaild email
-
-        :param email: employee's email address
-        :return: Boolean Value
-    */
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // regex for email pattern
-
-    // No email was entered
-    if (email === "") {
-        return false;
-    }
-
-    // Email entered isn't a valid email
-    else if (!emailPattern.test(email)) {
-        return false;
-    }
-
-    // Email entered is a valid email
-    return true;
-}
-
-
-const isValidPassword = (password) => {
-    /* 
-        Checks if the password entered is a vaild password
-
-        :param password: employee's password
-        :return: Boolean Value
-    */
-
-    // No password was entered
-    if (password === "") {
-        return false;
-    }
-    // Password is a valid password
-    return true;
-}
-
 
 const LoginPage = () => {
     // Variables

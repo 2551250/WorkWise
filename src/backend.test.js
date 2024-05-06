@@ -1,5 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData } from "./backend";
-import { checkEmployeeExists, isValidEmail, isValidPassword } from "./Pages/LoginPage/LoginPage.jsx";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getReceivedMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword } from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -7,41 +6,49 @@ const userTestData = [
         "EMAIL": "gcheadle@workwise.co.za",
         "PASSWORD": "password1@3",
         "ROLE": "HR",
-        "EMPLOYEE_ID": "1"
+        "EMPLOYEE_ID": 1, 
+        "NAME": "Gregory",
+        "SURNAME": "Cheadle"
     },
     {
         "EMAIL": "nraji@workwise.co.za",
         "PASSWORD": "nraji",
         "ROLE": "Manager",
-        "EMPLOYEE_ID": "4"
+        "EMPLOYEE_ID": 4,
+        "NAME": "Ntando",
+        "SURNAME": "Raji"
     },
     {
         "EMAIL": "yali@workwise.co.za",
         "PASSWORD": "password",
         "ROLE": "Staff",
-        "EMPLOYEE_ID": "2"
+        "EMPLOYEE_ID": 2, 
+        "NAME": "Yassir",
+        "SURNAME": "Ali"
     },
     {
         "EMAIL": "tbantam@workwise.co.za",
         "PASSWORD": "password",
         "ROLE": "Staff",
-        "EMPLOYEE_ID": "3"
+        "EMPLOYEE_ID": 3,
+        "NAME": "Tania",
+        "SURNAME": "Bantam"
     }
 ];
 
 const projectsTestData = [
     {
-        "PROJECT_ID": "1",
+        "PROJECT_ID": 1,
         "PROJECT_NAME": "WorkWise",
         "MANAGER_EMAIL": "nraji@workwise.co.za"
     },
     {
-        "PROJECT_ID": "2",
+        "PROJECT_ID": 2,
         "PROJECT_NAME": "Employee-Relations Management",
         "MANAGER_EMAIL": "gcheadle@workwise.co.za"
     },
     {
-        "PROJECT_ID": "3",
+        "PROJECT_ID": 3,
         "PROJECT_NAME": "ERM",
         "MANAGER_EMAIL": "gcheadle@workwise.co.za"
     }
@@ -49,21 +56,42 @@ const projectsTestData = [
 
 const employeeProjectTestData = [
     {
-        "EMP_PROJ_ID": "1",
+        "EMP_PROJ_ID": 1,
         "EMPLOYEE_EMAIL": "tbantam@workwise.co.za",
-        "PROJECT_ID": "1"
+        "PROJECT_ID": 1
     },
     {
-        "EMP_PROJ_ID": "2",
+        "EMP_PROJ_ID": 2,
         "EMPLOYEE_EMAIL": "tbantam@workwise.co.za",
-        "PROJECT_ID": "2"
+        "PROJECT_ID": 2
     },
     {
-        "EMP_PROJ_ID": "3",
+        "EMP_PROJ_ID": 3,
         "EMPLOYEE_EMAIL": "yali@workwise.co.za",
-        "PROJECT_ID": "3"
+        "PROJECT_ID": 3
     }
 ];
+
+const mealTestData = [
+    {
+        "MEAL_ID": 1,
+        "MEAL_NAME": "Grilled Salmon",
+        "MEAL_DESCRIPTION": "Healthy",
+        "DATE": "2024-05-06"
+    },
+    {
+        "MEAL_ID": 2,
+        "MEAL_NAME": "Beef Tacos",
+        "MEAL_DESCRIPTION": "Tasty Mexican dish",
+        "DATE": "2024-05-06"
+    },
+    {
+        "MEAL_ID": 3,
+        "MEAL_NAME": "Margherita Pizza",
+        "MEAL_DESCRIPTION": "Classic Italian pizza",
+        "DATE": "2024-05-06"
+    }
+]
 
 // Tests
 test('checks employee exists valid', function checkEmployeeExists_anyEmailAndPassword_valid() {
@@ -107,7 +135,7 @@ test('checks that only staff and managerdata is returned', function checkGetAllS
 });
 
 test("checks get employee id valid", function checksGetEmployeeID_anyUserLoggedIn_Valid() {
-    expect(getEmployeeID("tbantam@workwise.co.za", "password", userTestData)).toBe("3");
+    expect(getEmployeeID("tbantam@workwise.co.za", "password", userTestData)).toBe(3);
 });
 
 test("checks get employee id invalid", function checksGetEmployeeID_anyState_Invalid() {
@@ -142,38 +170,107 @@ test("checks returning all projects reached database", async function checkGetAl
     expect(await getAllProjects() === "Error").toBe(false);
 });
 
-test("checks is valid project members valid", async function checksIsValidProjectMembers_anyState_Valid(){
+test("checks is valid project members valid", async function checksIsValidProjectMembers_anyState_Valid() {
     expect(isValidProjectMembers(userTestData)).toBe(true);
 });
 
-test("checks is valid project members invalid", async function checksIsValidProjectMembers_anyState_Invalid(){
+test("checks is valid project members invalid", async function checksIsValidProjectMembers_anyState_Invalid() {
     expect(isValidProjectMembers([])).toBe(false);
 });
 
-test("checks is valid project estimate time valid", async function checksIsValidProjectEstimateTime_anyState_Valid(){
+test("checks is valid project estimate time valid", async function checksIsValidProjectEstimateTime_anyState_Valid() {
     expect(isValidProjectEstimateTime(1)).toBe(true);
 });
 
-test("checks is valid project estimate time invalid", async function checksIsValidProjectEstimateTime_anyState_Invalid(){
+test("checks is valid project estimate time invalid", async function checksIsValidProjectEstimateTime_anyState_Invalid() {
     expect(isValidProjectEstimateTime(-2)).toBe(false);
 });
 
-test("checks is valid project description valid", async function checksIsValidProjectDescription_anyState_Valid(){
+test("checks is valid project description valid", async function checksIsValidProjectDescription_anyState_Valid() {
     expect(isValidProjectDescription("Description")).toBe(true);
 });
 
-test("checks is valid project description invalid", async function checksIsValidProjectDescription_anyState_Invalid(){
+test("checks is valid project description invalid", async function checksIsValidProjectDescription_anyState_Invalid() {
     expect(isValidProjectDescription("")).toBe(false);
 });
 
-test("checks is valid project name valid", async function checksIsValidProjectName_anyState_Valid(){
+test("checks is valid project name valid", async function checksIsValidProjectName_anyState_Valid() {
     expect(isValidProjectName("Name", projectsTestData)).toBe(true);
 });
 
-test("checks is valid project name invalid blank", async function checksIsValidProjectName_blank_Invalid(){
+test("checks is valid project name invalid blank", async function checksIsValidProjectName_blank_Invalid() {
     expect(isValidProjectName("", projectsTestData)).toBe(false);
 });
 
-test("checks is valid project name invalid repeat",  function checksIsValidProjectName_repeat_Invalid(){
+test("checks is valid project name invalid repeat", function checksIsValidProjectName_repeat_Invalid() {
     expect(isValidProjectName("WorkWise", projectsTestData)).toBe(false);
+});
+
+test("checks is valid meal name invalid length", function checksIsValidProjectName_LoggedIn_InvalidLength() {
+    expect(isValidProjectName("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", mealTestData)).toBe(false);
+});
+
+
+test("checks get project id valid", function checksGetProjectID_anyState_Valid() {
+    expect(getProjectID("WorkWise", projectsTestData)).toBe(1);
+});
+
+test("checks makes SQL friendly apostrophe", function checksMakeSQLFriendly_Apostrophe_Valid() {
+    expect(makeSQLFriendly("Gregory's project")).toBe("Gregory''s project");
+});
+
+test("checks makes SQL friendly no apostrophe", function checksMakeSQLFriendly_NoApostrophe_Valid() {
+    expect(makeSQLFriendly("Gregory")).toBe("Gregory");
+});
+
+test("checks convert time", function checksConvertTime_anyState_Valid() {
+    expect(convertTime("12:00", "13:30")).toBe(1.5);
+});
+
+test("checks is valid meal name invalid repeat", function checksValidMealName_LoggedIn_InvalidRepeat() {
+    expect(isValidMealName("Grilled Salmon", mealTestData)).toBe(false);
+});
+
+test("checks is valid meal name invalid blank", function checksValidMealName_LoggedIn_InvalidBlank() {
+    expect(isValidMealName("", mealTestData)).toBe(false);
+});
+
+test("checks is valid meal name invalid length", function checksValidMealName_LoggedIn_InvalidLength() {
+    expect(isValidMealName("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", mealTestData)).toBe(false);
+});
+
+test("checks is valid meal name valid", function checksValidMealName_LoggedIn_Valid() {
+    expect(isValidMealName("Meal", mealTestData)).toBe(true);
+});
+
+test("checks is valid meal description valid", function checksValidMealDescription_AnyState_Valid() {
+    expect(isValidMealDescription("Classic Italian pizza")).toBe(true);
+})
+
+test("checks is valid meal description invalid", function checksValidMealDescription_AnyState_Invalid() {
+    expect(isValidMealDescription("")).toBe(false);
+});
+
+test("checks find manager name valid", function checksFindManagerName_AnyState_Valid() {
+    expect(findManagerName(1, userTestData)).toBe("Gregory Cheadle");
+});
+
+test("checks find manager name invalid", function checksFindManagerName_AnyState_Invalid() {
+    expect(findManagerName(10, userTestData)).toBe("Manager not found");
+});
+
+test("checks returning messages sent by employee returns an error", async function checkGetSentReviews_invalidEmployeeID_Invalid() {
+    expect(await getSentMessages(-1)).toBe("Error");
+});
+
+test("checks returning messages received by employee returns an error", async function checkGetReceivedReviews_invalidEmployeeID_Invalid() {
+    expect(await getReceivedMessages(-1)).toBe("Error");
+});
+
+test("checks get meals returns an error", async function checksGetMeals_unusedDate_Invalid(){
+    expect(await getMeals("0000/00/00")).toBe("Error");
+});
+
+test("checks get project id", function checksGetProjectName_anyState_Valid(){
+    expect(getProjectID("WorkWise", projectsTestData)).toBe(1);
 });
