@@ -15,6 +15,69 @@ async function getAllEmployees() {
   }
 }
 
+const checkEmployeeExists = (email, password, data) => {
+  /* 
+      Checks whether an employee {Manager, HR, Staff} exists in 
+      our database or not.
+
+      :param email: employee's email address
+      :param password: employee's login password
+      :param data: json of all the data in Employee datatable
+      :return: Boolean Value
+  */
+
+  // Checks if employee exists
+  for (let i = 0; i < data.length; i++) {
+      const obj = data[i];
+      if (obj.EMAIL === email && obj.PASSWORD === password) {
+          return true; // Employee does exist
+      }
+  }
+  return false; // Employee doesn't exist
+}
+
+
+const isValidEmail = (email) => {
+  /* 
+      Checks if the email entered is a vaild email
+
+      :param email: employee's email address
+      :return: Boolean Value
+  */
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // regex for email pattern
+
+  // No email was entered
+  if (email === "") {
+      return false;
+  }
+
+  // Email entered isn't a valid email
+  else if (!emailPattern.test(email)) {
+      return false;
+  }
+
+  // Email entered is a valid email
+  return true;
+}
+
+
+const isValidPassword = (password) => {
+  /* 
+      Checks if the password entered is a vaild password
+
+      :param password: employee's password
+      :return: Boolean Value
+  */
+
+  // No password was entered
+  if (password === "") {
+      return false;
+  }
+  // Password is a valid password
+  return true;
+}
+
+
 // Returns the role of the entered employee
 function getRole(email, password, data) {
   // Finds the role of an employee -> {Staff, Manager, HR}
@@ -145,7 +208,7 @@ async function getSentMessages(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "No sent messages";
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -160,7 +223,7 @@ async function getReceivedMessages(employeeID) {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (data.length === 0) {
-      return "No received messages";
+      return "Error";
     }
     return data;
   } catch (err) {
@@ -263,12 +326,12 @@ const isValidProjectEstimateTime = (projectEstimatedTime) => {
 const findManagerName = (Employee_ID, data) => {
   
   if (typeof data !== "object"){
-    return 'Manager not found'; //Error Handling
+    return 'Manager not assigned'; //Error Handling
   }
 
   const manager = data.find(employee => employee.EMPLOYEE_ID === parseInt(Employee_ID));
 
-  return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not found'; // Return manager name or a default message
+  return manager ? `${manager.NAME} ${manager.SURNAME}` : 'Manager not assigned'; // Return manager name or a default message
 }
 
 const makeSQLFriendly = (text) => {
@@ -352,8 +415,34 @@ const getAllStaffManagerData = (data) => {
   return data.filter((employee) => employee.ROLE !== "HR"); //filteres out HR data;
 }
 
+const getEmployeeName = (employeeID, employees) => {
+  /* 
+      Returns the name & surname of an employee
+
+      :param1 employeeID: The employee id of the manager creating a project
+      :param2 employees: Full list of all employees
+      :returns string: Returns the name & surname of an employee
+  */
+
+  const filteredEmployees = employees.filter((employee) => employee.EMPLOYEE_ID === employeeID);
+  const targetEmployee = filteredEmployees[0];
+
+  return targetEmployee ? `${targetEmployee.NAME} ${targetEmployee.SURNAME}` : "No Employee Found";
+}
+
+const getReceivedReviewsProject = (projectID, receivedReviews) => {
+  /*
+      Returns all feedback reviewed for a project
+
+      :param1 projectID: The project id of the current project
+      :param2 receivedReviews: All data of the staff member recieved for all projects
+      :returns list: Filtered list containing the received reviews for a project
+  */
+  return receivedReviews.filter((feedback) => (feedback.PROJECT_ID === projectID));
+}
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, 
-         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData}
+         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject}

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
-import { getReceivedReviews, getAllEmployees } from "../../backend";
+import { getReceivedReviews, getAllEmployees, getEmployeeName, getReceivedReviewsProject} from "../../backend";
 import { insertReview } from "../../backend_post_requests";
 
 import "./StaffFeedbackPage.css";
@@ -14,32 +14,6 @@ import ViewFeedbackCard from "../../Components/ViewProjectCard/VIewFeedbackCard"
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import PopUp from "../../Components/PopUp/PopUp";
 
-
-const getEmployeeName = (employeeID, employees) => {
-    /* 
-        Returns the name & surname of an employee
-
-        :param1 employeeID: The employee id of the manager creating a project
-        :param2 employees: Full list of all employees
-        :returns string: Returns the name & surname of an employee
-    */
-
-    const filteredEmployees = employees.filter((employee) => employee.EMPLOYEE_ID === employeeID);
-    const targetEmployee = filteredEmployees[0];
-
-    return targetEmployee ? `${targetEmployee.NAME} ${targetEmployee.SURNAME}` : "No Employee Found";
-}
-
-const getReceivedReviewsProject = (projectID, receivedReviews) => {
-    /*
-        Returns all feedback reviewed for a project
-
-        :param1 projectID: The project id of the current project
-        :param2 receivedReviews: All data of the staff member recieved for all projects
-        :returns list: Filtered list containing the received reviews for a project
-    */
-    return receivedReviews.filter((feedback) => (feedback.PROJECT_ID === projectID));
-}
 
 const ViewFeedback = ({ reviewerID, projectData }) => {
     /*
