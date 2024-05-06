@@ -14,7 +14,7 @@ const EmployeeManagement = () => {
     //Variables
     const [employees, setEmployees] = useState([]);
     const [displayPopup, setDisplayPopup] = useState(false);
-    const [employeeToDelete, setEmployeeToDelete] = useState(null);
+    const [employeeToDelete, setEmployeeToDelete] = useState({});
     const [confirmDelete, setConfirmDelete] = useState(false);
     const navigate = useNavigate();
 
@@ -42,7 +42,9 @@ const EmployeeManagement = () => {
 
     const handleDelete = async (employeeToDelete) => {
         try {
-            if(employeeToDelete){
+            if(!employeeToDelete||confirmDelete){
+                return;
+            }
             let response = "";
             
             if (employeeToDelete.ROLE === "Staff"){
@@ -57,7 +59,6 @@ const EmployeeManagement = () => {
                 setEmployees(updatedEmployees);
         
             }
-        } 
     }
         catch(error) {
             console.log(error);
@@ -67,12 +68,14 @@ const EmployeeManagement = () => {
             // Close the pop-up
             setDisplayPopup(false);
             setConfirmDelete(false);
+            setEmployeeToDelete({});
         }
 }
         // Function to handle canceling the delete action
         const handleCancel = () => {
             setDisplayPopup(false);
             setConfirmDelete(false);
+            setEmployeeToDelete({});
         };
 
     // HTML Code
