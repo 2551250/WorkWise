@@ -274,3 +274,15 @@ test("checks get meals returns an error", async function checksGetMeals_unusedDa
 test("checks get project id", function checksGetProjectName_anyState_Valid(){
     expect(getProjectID("WorkWise", projectsTestData)).toBe(1);
 });
+
+test("checks is valid email invalid blank", function checksIsValidEmail_anyState_InvalidBlank(){
+    expect(isValidEmail("")).toBe(false);
+});
+
+test("get staff projects valid", async function checksGetStaffProjects_anyState_Valid(){
+    expect(await getStaffProjects(4)).toContainEqual({"DESCRIPTION": "Online website to manage spaza shops", "EMP_PROJ_ID": 2, "ESTIMATED_TIME": 20, "MANAGER_ID": 5, "PROJECT_ID": 1, "PROJECT_NAME": "E-Spaza"});
+});
+
+test("get manager projects valid", async function checksGetManagerProjects_anyState_Valid(){
+    expect(await getManagerProjects(5)).toContainEqual({"DESCRIPTION": "Online website to manage spaza shops", "ESTIMATED_TIME": 20, "MANAGER_ID": 5, "PROJECT_ID": 1, "PROJECT_NAME": "E-Spaza"});
+});
