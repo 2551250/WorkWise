@@ -107,7 +107,7 @@ const EmployeeManagement = () => {
                 </table>
             </main>
             <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
-                <h3 className="delete-employee-header">Do you want to delete this Employee?</h3>
+                <h3 className="delete-employee-header">Delete: {employeeToDelete.NAME} {employeeToDelete.SURNAME}?</h3>
                 <section className="delete-button-wrapper">
                 <button className = 'delete-button' onClick={() => handleDelete(employeeToDelete)}>Confirm</button>
                  <button className = 'delete-button'  onClick={handleCancel}>Cancel</button>
