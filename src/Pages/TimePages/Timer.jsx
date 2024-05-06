@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Timer.css';
 import Header from "../../Components/Header/Header";
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const Timer = () => {
     //Variables
@@ -10,6 +11,11 @@ const Timer = () => {
     
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
+
+    const navigate = useNavigate();
+    const homePageButton = () => {
+        navigate("/Staff");
+    }
 
 
     useEffect(() => {
@@ -42,8 +48,9 @@ const Timer = () => {
     return (
         <>
         <Header>
-                <h1> Workwise </h1>
-                <button className="logoutButton">Log Out</button>
+            <h1> Workwise </h1>
+            <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
+            <button className="logout-button">Log Out</button>
         </Header>
 
         <main className='timer-container'>
