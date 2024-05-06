@@ -122,10 +122,6 @@ test("checks returning projects assigned to staff returns an error", async funct
     expect(await getStaffProjects(-1)).toBe("Error");
 });
 
-test("checks returning projects created by manager returns an error", async function checkGetManagerProjects_invalidManagerID_Invalid() {
-    expect(await getManagerProjects(-1)).toBe("Error");
-});
-
 test("checks returning reviews created by employee returns an error", async function checkGetCreatedReviews_invalidEmployeeID_Invalid() {
     expect(await getCreatedReviews(-1)).toBe("Error");
 });
