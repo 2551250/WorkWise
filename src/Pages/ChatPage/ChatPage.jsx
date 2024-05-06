@@ -1,7 +1,10 @@
+import { useLocation } from "react-router";
 import Header from "../../Components/Header/Header";
 
 function ChatPage(){
     //Variables
+    const location = useLocation();
+    console.log(location.state);
 
     return(
         <>

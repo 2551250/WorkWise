@@ -1,9 +1,27 @@
 import React from "react";
 
 import "./ViewProjectCard.css";
+import { useNavigate } from "react-router";
 
 // Component to display the information projects from a manager's perspective
-const ViewProjectCard = ({ name, description, estimatedTime, members }) => {
+const ViewProjectCard = ({ name, description, estimatedTime, members, manager, managerID }) => {
+        // Project Data
+        const project = {
+            PROJECT_NAME: name, 
+            DESCRIPTION: description,
+            ESTIMATED_TIME: estimatedTime,
+            ASSIGNED_STAFF: members,
+            MANAGER: manager,
+            MANAGER_ID: managerID
+        }
+    
+    const navigate = useNavigate();
+
+    const setChatButton = () => {
+        // Use navigate function to go to another page
+        navigate('/ChatPage', {state: project});
+    };
+
     return (
         <article>
             <table className="table-wrapper">
@@ -23,6 +41,7 @@ const ViewProjectCard = ({ name, description, estimatedTime, members }) => {
                             }
                         </ul>
                     </td>
+                    <td className="buttons-display"> <button className="time-button" onClick={setChatButton}> Group Chat </button></td>
                 </tr>
                 </tbody>
             </table>

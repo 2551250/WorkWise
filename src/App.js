@@ -34,7 +34,7 @@ function App() {
           <Route path="/ChooseTime" element={<ChooseTime/>} />
           <Route path="/Timer" element={<Timer navigate={navigate}/>} />
           <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
-          <Route path="/ChatPage" element={<ChatPage/>} />
+          <Route path="/ChatPage" element={<ChatPage />} />
         </Routes>
       </div>
     </EmployeeProvider>

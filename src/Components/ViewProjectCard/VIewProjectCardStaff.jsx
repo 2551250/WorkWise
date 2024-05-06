@@ -3,7 +3,7 @@ import React from "react";
 import "./ViewProjectCard.css";
 
 // Component to display the information projects from a staff's perspective
-const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, navigate }) => {
+const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, navigate, managerID }) => {
     
     // Project Data
     const project = {
@@ -12,7 +12,8 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
         DESCRIPTION: description,
         MANAGER: manager,
         ESTIMATED_TIME: estimatedTime,
-        ASSIGNED_STAFF: members
+        ASSIGNED_STAFF: members,
+        MANAGER_ID: managerID
     }
     
     const feedbackButton = () => {
@@ -24,6 +25,11 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
         // Use navigate function to go to another page
         navigate('/ChooseTime', {state: project});
     };
+
+    const setChatButton = () => {
+        // Use navigate function to go to another page
+        navigate('/ChatPage', {state: project});
+    }
       
     return (
         <article>
@@ -47,7 +53,8 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
                             </ul>
                         </td>
                         <td className="buttons-display"> <button className="feedback-button" onClick={feedbackButton}> Feedback</button>
-                        <button className="time-button" onClick={setTimeButton}> Add Time</button></td>
+                        <button className="time-button" onClick={setTimeButton}> Add Time</button>
+                        <button className="time-button" onClick={setChatButton}> Group Chat </button></td>
                     </tr>
                 </tbody>
 
