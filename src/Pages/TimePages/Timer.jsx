@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import './Timer.css';
-import Header from "../../Components/Header/Header";
 import { useLocation } from 'react-router';
+import { updateTime } from '../../backend_post_requests';
+import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
+
+import './Timer.css';
+
+import PopUp from "../../Components/PopUp/PopUp";
+import Header from "../../Components/Header/Header";
+
 
 const Timer = () => {
     //Variables
     const location = useLocation();
     const projectData = location.state;
+
+    const {employeeID} = useEmployee();
     
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
-
+    const [displayPopup, setDisplayPopup] = useState(false);
 
     useEffect(() => {
         let interval;
@@ -31,10 +39,18 @@ const Timer = () => {
         setTime(0);
     };
 
-    const handleStopAndSave = () => {
+    const handleStopAndSave = async () => {
         setIsRunning(false);
-        const hours = Math.round(time / (1000 * 60 * 60));
-        console.log(`Saved time: ${hours} hours`);
+        // const hours = Math.round(time / (1000 * 60 * 60));
+        // console.log(`Saved time: ${hours} hours`);
+
+        console.log(time);
+        
+        const response = await updateTime(employeeID, projectData.PROJECT_ID, time);
+        if (response === "Time spent on project successfully updated"){
+            setDisplayPopup(true);
+        }
+
         setTime(0);
     };
 
@@ -43,9 +59,9 @@ const Timer = () => {
         <>
         <Header>
                 <h1> Workwise </h1>
-                <button className="logoutButton">Log Out</button>
+                <button className="logout-button">Log Out</button>
         </Header>
-
+        
         <main className='timer-container'>
             <section className='timer-wrapper'>
             <h2>Timer for {projectData.PROJECT_NAME}</h2>
@@ -61,6 +77,11 @@ const Timer = () => {
             </section>
             </section>
         </main>
+
+        <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
+            <h3>Time Updated Successfully</h3>
+            <p>Time spent on project successfully updated</p>
+        </PopUp>
         </>
     );
 };

@@ -128,9 +128,9 @@ async function updateTimeSpentManual(staff_id, project_id, start_time, end_time,
 // Date should be format yyyy/mm/dd and times hh:mm (24 hour clock)
 // This function does not check for overlap with existing times
 // Thos function should be used to add times with a stopwatch
-async function updateTime(staff_id, project_id, start_time, end_time) {
+async function updateTime(staff_id, project_id, time_spent) {
     // Converts times into number to update time spent
-    const time_spent = convertTime(start_time, end_time);
+    // const time_spent = convertTime(start_time, end_time);
 
     // Put request to update time spent
     const update = {
