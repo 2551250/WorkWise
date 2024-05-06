@@ -17,7 +17,7 @@ const Timer = () => {
 
     const {employeeID} = useEmployee();
     
-    const [time, setTime] = useState(360000);
+    const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [displayPopup, setDisplayPopup] = useState(false);
 
