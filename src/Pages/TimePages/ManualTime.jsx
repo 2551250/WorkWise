@@ -31,18 +31,18 @@ const ManualTime = () => {
     const [endingSlot, setEndingSlot] = useState('');
 
     // State variable for error message
-    const [errorMessage, setErrorMessage] = useState('');
+    const [error, setError] = useState('');
 
     // Handle starting slot change
     const handleStartingSlotChange = (e) => {
         setStartingSlot(e.target.value);
-        setErrorMessage(''); // Reset error message on change
+        setError(''); // Reset error message on change
     };
 
     // Handle ending slot change
     const handleEndingSlotChange = (e) => {
         setEndingSlot(e.target.value);
-        setErrorMessage(''); // Reset error message on change
+        setError(''); // Reset error message on change
     };
         // Get the manager's Employee_ID
         const { employeeID } = useEmployee();
@@ -59,7 +59,7 @@ const ManualTime = () => {
 
         // Check if the ending slot is later than or equal to the starting slot
         if (endingSlotIndex < startingSlotIndex) {
-            setErrorMessage('Ending time must be later than or equal to starting time.');
+            setError('Ending time must be later than or equal to starting time.');
         } else if (startingSlot && endingSlot) {
             // console.log(`Project: ${projectData.PROJECT_NAME}`);
             // console.log(`Starting Slot: ${startingSlot}`);
@@ -69,9 +69,9 @@ const ManualTime = () => {
             const response = await updateTimeSpentManual(staffID, projectData.PROJECT_ID, startingSlot, endingSlot, currentDate );
             console.log(response);
             // Clear the error message if the submission is successful
-            setErrorMessage('');
+            setError('');
         } else {
-            setErrorMessage('Please select both starting and ending time slots.');
+            setError('Please select both starting and ending time slots.');
         }
     };
 
@@ -124,9 +124,9 @@ const ManualTime = () => {
                                 ))}
                             </select>
                         </article>
-                
+                    
+                        {error && <p className="error-message">{error}</p>}
                     <button className='manual-time-button' type="submit">Submit</button>
-                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </form>
                 </section>
             </main>

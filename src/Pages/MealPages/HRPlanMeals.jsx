@@ -98,7 +98,7 @@ const CreateMealSection = ({setActiveSection}) => {
 
         const fetchData = async (date) => {
             const data = await getMeals(date);
-            if (data !== "Error") {
+            if (typeof(data) !== "string") {
                 setCreatedMeals(data);
             }
         }

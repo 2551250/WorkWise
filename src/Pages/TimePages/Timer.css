@@ -1,12 +1,10 @@
 
 .timer-container {
    font-family:  Roboto, sans-serif;
-    width: 650px;
+    width: 43%;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    left: 28.5%;
+    top: 36%;
     display: flex;
     justify-self: center;
     align-self: center;
@@ -18,8 +16,9 @@
     border-radius: 30px;
 }
 .timer-wrapper{
-    border: lightgray 2px solid;
-    width: 600px;
+    padding-top: 15px;
+    border: lightgray px solid;
+    width: 98%;
     justify-self: center;
     align-self: center;
     display: flex;
