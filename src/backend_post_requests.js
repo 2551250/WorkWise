@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { makeSQLFriendly, convertTime } from './backend';
+import { makeSQLFriendly} from './backend';
 const URL = "https://workwise-backend.azurewebsites.net"
 
 // This file contains all functions that send requests with a body to the API
