@@ -216,21 +216,6 @@ async function getSentMessages(employeeID) {
   }
 }
 
-// Returns all messages sent to an employee
-async function getReceivedMessages(employeeID) {
-  try {
-    const endpoint = `${URL}/ReceivedMessages/${employeeID}`;
-    const response = await fetch(endpoint);
-    const data = await response.json();
-    if (data.length === 0) {
-      return "Error";
-    }
-    return data;
-  } catch (err) {
-    return "Error";
-  }
-}
-
 // Returns all messages associated with a project
 async function getProjectMessages(projectID){
   try {
@@ -460,5 +445,5 @@ const getReceivedReviewsProject = (projectID, receivedReviews) => {
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
-         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, 
+         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, 
          makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages }
