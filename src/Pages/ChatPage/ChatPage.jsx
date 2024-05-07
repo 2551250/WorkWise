@@ -92,15 +92,15 @@ const ChatPage = () => {
                                 <MessageSendCard key={message.MESSAGE_ID}
                                 employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
                                 message={message.MESSAGE_TEXT} timeSent={formatTime(message.TIME)}/>
-                            )
+                            );
                         }
 
-                        else if ((message.MESSAGE_SENT_BY !== senderID)) {
+                        else {
                             return (
                                 <MessageReceiveCard key={message.MESSAGE_ID}
                                 employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
                                 message={message.MESSAGE_TEXT} timeSent={formatTime(message.TIME)}/>
-                            )
+                            );
                         }
                     })
                 }
