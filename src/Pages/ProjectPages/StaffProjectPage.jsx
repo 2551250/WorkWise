@@ -108,6 +108,7 @@ const StaffProjectPage = ({ navigate }) => {
                         projectID = {project.PROJECT_ID} 
                         name={project.PROJECT_NAME} 
                         manager={findManagerName(project.MANAGER_ID, employeeData)} 
+                        managerID={project.MANAGER_ID}
                         description={project.DESCRIPTION} 
                         estimatedTime={project.ESTIMATED_TIME} 
                         members={assignedMembers[project.PROJECT_ID] || []}

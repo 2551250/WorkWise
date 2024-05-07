@@ -1,13 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
+
 import Header from "../../Components/Header/Header";
 import MessageReceiveCard from "../../Components/MessageCard/MessageReceiveCard";
 import MessageSendCard from "../../Components/MessageCard/MessageSendCard";
 
+import { getSentMessages, getReceivedMessages } from "../../backend";
+
+import "./ChatPage.css";
+
 function ChatPage(){
     //Variables
     const location = useLocation();
-    console.log(location.state);
+    const projectData = location.state;
+
+    const { employeeID } = useEmployee();
+
+    const [sentMessages, setSentMessages] = useState([]);
+    const [receivedMessages, setReceivedMessages] = useState([]);
+
+
+    const messagedSender = [];
+
+    // Functions & Logic
+    if ( employeeID === projectData.MANAGER_ID){
+        projectData.ASSIGNED_STAFF.forEach((staff) => {
+            messagedSender.push(staff.EMPLOYEE_ID);
+        });
+    }
+
+    else if (employeeID !== projectData.MANAGER_ID){
+        messagedSender.push(projectData.MANAGER_ID);
+
+        projectData.ASSIGNED_STAFF.forEach((staff) => {
+            if (staff.EMPLOYEE_ID !== parseInt(employeeID)){
+                messagedSender.push(staff.EMPLOYEE_ID);
+            }
+        });
+    }
+
+    useEffect(() => {
+        const fetchSentMessages = async (employeeID) => {
+            const data = await getSentMessages(employeeID);
+            if (typeof(data) !== "string"){
+                getSentMessages(data);
+            }
+        }
+
+        const fetchReceivedMessages = async (messagedSender) => {
+            const messages = [];
+            for (const sender of messagedSender){
+                const data = await getReceivedMessages(sender);
+                if (typeof(data) !== "string"){
+                    messages.push(data[0]);
+                }
+            }
+            setReceivedMessages(messages);
+        }
+
+        fetchSentMessages(employeeID);
+        fetchReceivedMessages(messagedSender);
+    }, [employeeID, messagedSender]);
+
+    console.log(sentMessages);
+    console.log(receivedMessages);
+
 
     return(
         <>
@@ -17,21 +75,25 @@ function ChatPage(){
             </Header>
 
             <header>
-            <h2 className='message-header'> projectName </h2>
+            <h2 className='message-header'> {projectData.PROJECT_NAME} </h2>
             </header>
 
             <main className='message-display'>
-                <MessageReceiveCard 
+                {
+                    receivedMessages.map((message) => (
+                        <MessageReceiveCard 
+                        employeeName={message.MESSAGE_SENT_BY} 
+                        message={message.MESSAGE_TEXT} 
+                        timeSent={message.TIME}
+                        />
+                    ))
+                }
+                <MessageSendCard 
                     employeeName={"Person"} 
                     message={"Hey guys! so I thought about something really random for the project."} 
                     timeSent={"10:00"}
                 />
-                <MessageReceiveCard 
-                    employeeName={"Person"} 
-                    message={"Hey guys! so I thought about something really random for the project."} 
-                    timeSent={"10:00"}
-                />
-                <MessageReceiveCard 
+                <MessageSendCard 
                     employeeName={"Person"} 
                     message={"Hey guys! so I thought about something really random for the project."} 
                     timeSent={"10:00"}

@@ -6,11 +6,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #FF6D00;
+    background-color: #fc974a;;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    border: 1px solid lightgray;
+    border: 3px solid #FF6D00;
     width: fit-content;
     max-width: 500px;
     min-height: 90px;
