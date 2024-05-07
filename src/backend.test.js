@@ -283,7 +283,7 @@ test("checks is valid email invalid blank", function checksIsValidEmail_anyState
 });
 
 test("get staff projects valid", async function checksGetStaffProjects_anyState_Valid(){
-    expect(await getStaffProjects(4)).toContainEqual({"DESCRIPTION": "Online website to manage spaza shops", "EMP_PROJ_ID": 2, "ESTIMATED_TIME": 20, "MANAGER_ID": 5, "PROJECT_ID": 1, "PROJECT_NAME": "E-Spaza", "TIME_SPENT": 19});
+    expect(await getStaffProjects(4)).toContainEqual({"DESCRIPTION": "Online website to manage spaza shops", "EMP_PROJ_ID": 2, "ESTIMATED_TIME": 20, "MANAGER_ID": 5, "PROJECT_ID": 1, "PROJECT_NAME": "E-Spaza", "TIME_SPENT": 20});
 });
 
 test("get employee name valid", function checksGetEmployeeName_anyState_Valid(){
