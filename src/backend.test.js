@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getReceivedMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject } from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject } from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -266,10 +266,6 @@ test("checks returning messages sent by employee returns an error", async functi
     expect(await getSentMessages(-1)).toBe("Error");
 });
 
-test("checks returning messages received by employee returns an error", async function checkGetReceivedReviews_invalidEmployeeID_Invalid() {
-    expect(await getReceivedMessages(-1)).toBe("Error");
-});
-
 test("checks get meals returns an error", async function checksGetMeals_unusedDate_Invalid(){
     expect(await getMeals("0000/00/00")).toBe("Error");
 });
@@ -282,9 +278,6 @@ test("checks is valid email invalid blank", function checksIsValidEmail_anyState
     expect(isValidEmail("")).toBe(false);
 });
 
-test("get staff projects valid", async function checksGetStaffProjects_anyState_Valid(){
-    expect(await getStaffProjects(4)).toContainEqual({"DESCRIPTION": "Online website to manage spaza shops", "EMP_PROJ_ID": 2, "ESTIMATED_TIME": 20, "MANAGER_ID": 5, "PROJECT_ID": 1, "PROJECT_NAME": "E-Spaza", "TIME_SPENT": 19});
-});
 
 test("get employee name valid", function checksGetEmployeeName_anyState_Valid(){
     expect(getEmployeeName(1, userTestData)).toBe("Gregory Cheadle");

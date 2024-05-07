@@ -81,7 +81,7 @@ const StaffProjectPage = ({ navigate }) => {
                             <th className="project-header-name">Name</th>
                             <th className="project-header-desc">Description</th>
                             <th className="project-header-manager">Manager</th>
-                            <th className="project-header-est-time">Estimated Time</th>
+                            <th className="project-header-est-time">Time Spent</th>
                             <th className="project-header-members">Members</th>
                             <th className="feedback"></th>
                         </tr>
@@ -99,7 +99,7 @@ const StaffProjectPage = ({ navigate }) => {
                         manager={findManagerName(project.MANAGER_ID, employeeData)} 
                         managerID={project.MANAGER_ID}
                         description={project.DESCRIPTION} 
-                        estimatedTime={project.ESTIMATED_TIME} 
+                        estimatedTime={project.TIME_SPENT} 
                         members={assignedMembers[project.PROJECT_ID] || []}
                         navigate={navigate} 
                     />
