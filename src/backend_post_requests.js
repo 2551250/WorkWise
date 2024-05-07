@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { makeSQLFriendly} from './backend';
+import { convertTime, makeSQLFriendly} from './backend';
 const URL = "https://workwise-backend.azurewebsites.net"
 
 // This file contains all functions that send requests with a body to the API
@@ -119,8 +119,9 @@ async function updateTimeSpentManual(staff_id, project_id, start_time, end_time,
     // Inserts new time into the database
     await insertTime(staff_id, project_id, date, start_time, end_time);
 
+    const time_spent = convertTime(start_time, end_time);
     // Updates time spent on project
-    const ret = await updateTime(staff_id, project_id, start_time, end_time);
+    const ret = await updateTime(staff_id, project_id, time_spent);
     return ret;
 }
 
