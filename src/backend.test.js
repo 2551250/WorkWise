@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getReceivedMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject } from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject } from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -264,10 +264,6 @@ test("checks find manager name invalid", function checksFindManagerName_AnyState
 
 test("checks returning messages sent by employee returns an error", async function checkGetSentReviews_invalidEmployeeID_Invalid() {
     expect(await getSentMessages(-1)).toBe("Error");
-});
-
-test("checks returning messages received by employee returns an error", async function checkGetReceivedReviews_invalidEmployeeID_Invalid() {
-    expect(await getReceivedMessages(-1)).toBe("Error");
 });
 
 test("checks get meals returns an error", async function checksGetMeals_unusedDate_Invalid(){

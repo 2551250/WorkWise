@@ -151,14 +151,15 @@ async function updateTime(staff_id, project_id, time_spent) {
 // Adds a new message into the database
 // Time should be format hh:mm (24 hour clock)
 // Date should be format yyyy/mm/dd or yyyy-mm-dd
-async function insertMessage(message_sent_by, message_sent_to, message_text, project_id, time, date) {
+async function insertMessage(message_sent_by, message_text, project_id, time, date) {
     try {
         // Construct body of request
         const message = {
             message_sent_by: message_sent_by,
-            message_sent_to: message_sent_to,
             message_text: makeSQLFriendly(message_text), // Makes message text SQL Friendly 
-            project_id: project_id
+            project_id: project_id,
+            time: time,
+            date: date
         };
         // Send request
         const res = await axios.post(`${URL}/Message`, message);
