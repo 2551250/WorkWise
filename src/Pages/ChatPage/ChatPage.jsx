@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState} from "react";
 import { useLocation } from "react-router";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
@@ -6,16 +6,11 @@ import Header from "../../Components/Header/Header";
 import MessageReceiveCard from "../../Components/MessageCard/MessageReceiveCard";
 import MessageSendCard from "../../Components/MessageCard/MessageSendCard";
 
-import { getEmployeeName, getProjectMessages, getAllEmployees } from "../../backend";
+import { getEmployeeName, getProjectMessages, getAllEmployees, formatTime, isValidMessage } from "../../backend";
 
 import "./ChatPage.css";
 import { insertMessage } from "../../backend_post_requests";
 
-
-const getTimeFromDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: '2-digit' });
-}
 
 const ChatPage = () => {
     //Variables
@@ -23,31 +18,15 @@ const ChatPage = () => {
     const projectData = location.state;
 
     const { employeeID } = useEmployee();
-    const senderID = parseInt(employeeID);
+    const senderID = parseInt(employeeID); // Employee ID of the message sender
 
     const [employees, setEmployees] = useState([]);
     const [projectMessages, setProjectMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
 
-    const messagedReceivers = [];
-
     // Functions & Logic
-    if ( senderID === projectData.MANAGER_ID){
-        projectData.ASSIGNED_STAFF.forEach((staff) => {
-            messagedReceivers.push(staff.EMPLOYEE_ID);
-        });
-    }
 
-    else if (employeeID !== projectData.MANAGER_ID){
-        messagedReceivers.push(projectData.MANAGER_ID);
-
-        projectData.ASSIGNED_STAFF.forEach((staff) => {
-            if (staff.EMPLOYEE_ID !== parseInt(employeeID)){
-                messagedReceivers.push(staff.EMPLOYEE_ID);
-            }
-        });
-    }
-
+    // Gets all project messages stored in the database
     const fetchProjectMessages = async (projectID) => {
         const projectMessagesData = await getProjectMessages(projectID);
         if (typeof(projectMessagesData) != "string"){ //request was successful
@@ -56,6 +35,7 @@ const ChatPage = () => {
     }
 
     useEffect(() => {
+        // Gets all employees stored in the database
         const fetchEmployees = async () => {
             const data = await getAllEmployees();
             if (typeof(data) != "string"){ //request was successful
@@ -68,23 +48,27 @@ const ChatPage = () => {
     }, [projectData]);
 
     const handleSubmitButtonClick = async () => {
-        console.log(newMessage);
+        //Checks if the message entered is valid
+        if (!isValidMessage(newMessage)){
+            return;
+        }
 
+        // Get the current time and date
         const today = new Date();
         const currentTime = today.toLocaleTimeString();
         const currentDate = today.toLocaleDateString();
 
-        if (newMessage !== ""){
-            for (const receiverID of messagedReceivers) {
-                const response = await insertMessage(senderID, receiverID, newMessage, projectData.PROJECT_ID, currentTime, currentDate);
-                console.log(response);
-            }
+        // Insert the new message into to the database
+        const response = await insertMessage(senderID, newMessage, projectData.PROJECT_ID, currentTime, currentDate);
+        if (response === "Message successfully created"){
+            // Refresh the list of project messages
+            await fetchProjectMessages(projectData.PROJECT_ID);
+            // reset newMessage variable
+            setNewMessage("");
         }
-
-        await fetchProjectMessages(projectData.PROJECT_ID);
-        setNewMessage("");
     }
 
+    // HTML Code
     return(
         <>
             <Header>
@@ -97,22 +81,25 @@ const ChatPage = () => {
             </header>
 
             <main className='message-display'>
-                {
+                {   
+                    /* 
+                        Display the send message card if the message was sent from the currrent employee.
+                        If not, display the received messag card
+                    */
                     projectMessages.map((message) => {
-                        
                         if (message.MESSAGE_SENT_BY === senderID){
                             return (
                                 <MessageSendCard key={message.MESSAGE_ID}
                                 employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
-                                message={message.MESSAGE_TEXT} timeSent={getTimeFromDate(message.TIME)}/>
+                                message={message.MESSAGE_TEXT} timeSent={formatTime(message.TIME)}/>
                             )
                         }
 
-                        else {
+                        else if ((message.MESSAGE_SENT_BY !== senderID)) {
                             return (
                                 <MessageReceiveCard key={message.MESSAGE_ID}
                                 employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
-                                message={message.MESSAGE_TEXT} timeSent={getTimeFromDate(message.TIME)}/>
+                                message={message.MESSAGE_TEXT} timeSent={formatTime(message.TIME)}/>
                             )
                         }
                     })

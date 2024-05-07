@@ -29,7 +29,9 @@ const ViewProjectsSection = ({ managerID }) => {
         // Gets all projects created by the manager
         const fetchData = async () => {
             const managerProjectsData = await getManagerProjects(managerID);
-            setProjects(managerProjectsData);
+            if (typeof(managerProjectsData) !== "string") {
+                setProjects(managerProjectsData);
+            }
         }
         fetchData(managerID);
     }, [managerID]);

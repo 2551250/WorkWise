@@ -25,7 +25,9 @@ const StaffProjectPage = ({ navigate }) => {
         async function getData() {
             await getStaffProjects(StaffID)
                 .then((data) => {
-                    setProjects(data) // stores projects data in the projects list 
+                    if (typeof(data) !== "string"){
+                        setProjects(data) // stores projects data in the projects list 
+                    }
                 })
                 .catch((errorMessage) => {
                     console.error(errorMessage); // Display any errors
