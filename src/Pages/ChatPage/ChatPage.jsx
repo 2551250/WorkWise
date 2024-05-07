@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
@@ -6,66 +6,84 @@ import Header from "../../Components/Header/Header";
 import MessageReceiveCard from "../../Components/MessageCard/MessageReceiveCard";
 import MessageSendCard from "../../Components/MessageCard/MessageSendCard";
 
-import { getSentMessages, getReceivedMessages } from "../../backend";
+import { getEmployeeName, getProjectMessages, getAllEmployees } from "../../backend";
 
 import "./ChatPage.css";
+import { insertMessage } from "../../backend_post_requests";
 
-function ChatPage(){
+
+const getTimeFromDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: '2-digit' });
+}
+
+const ChatPage = () => {
     //Variables
     const location = useLocation();
     const projectData = location.state;
 
     const { employeeID } = useEmployee();
+    const senderID = parseInt(employeeID);
 
-    const [sentMessages, setSentMessages] = useState([]);
-    const [receivedMessages, setReceivedMessages] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [projectMessages, setProjectMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
 
-
-    const messagedSender = [];
+    const messagedReceivers = [];
 
     // Functions & Logic
-    if ( employeeID === projectData.MANAGER_ID){
+    if ( senderID === projectData.MANAGER_ID){
         projectData.ASSIGNED_STAFF.forEach((staff) => {
-            messagedSender.push(staff.EMPLOYEE_ID);
+            messagedReceivers.push(staff.EMPLOYEE_ID);
         });
     }
 
     else if (employeeID !== projectData.MANAGER_ID){
-        messagedSender.push(projectData.MANAGER_ID);
+        messagedReceivers.push(projectData.MANAGER_ID);
 
         projectData.ASSIGNED_STAFF.forEach((staff) => {
             if (staff.EMPLOYEE_ID !== parseInt(employeeID)){
-                messagedSender.push(staff.EMPLOYEE_ID);
+                messagedReceivers.push(staff.EMPLOYEE_ID);
             }
         });
     }
 
+    const fetchProjectMessages = async (projectID) => {
+        const projectMessagesData = await getProjectMessages(projectID);
+        if (typeof(projectMessagesData) != "string"){ //request was successful
+            setProjectMessages(projectMessagesData);
+        }
+    }
+
     useEffect(() => {
-        const fetchSentMessages = async (employeeID) => {
-            const data = await getSentMessages(employeeID);
-            if (typeof(data) !== "string"){
-                getSentMessages(data);
+        const fetchEmployees = async () => {
+            const data = await getAllEmployees();
+            if (typeof(data) != "string"){ //request was successful
+                setEmployees(data);
             }
         }
 
-        const fetchReceivedMessages = async (messagedSender) => {
-            const messages = [];
-            for (const sender of messagedSender){
-                const data = await getReceivedMessages(sender);
-                if (typeof(data) !== "string"){
-                    messages.push(data[0]);
-                }
+        fetchEmployees();
+        fetchProjectMessages(projectData.PROJECT_ID);
+    }, [projectData]);
+
+    const handleSubmitButtonClick = async () => {
+        console.log(newMessage);
+
+        const today = new Date();
+        const currentTime = today.toLocaleTimeString();
+        const currentDate = today.toLocaleDateString();
+
+        if (newMessage !== ""){
+            for (const receiverID of messagedReceivers) {
+                const response = await insertMessage(senderID, receiverID, newMessage, projectData.PROJECT_ID, currentTime, currentDate);
+                console.log(response);
             }
-            setReceivedMessages(messages);
         }
 
-        fetchSentMessages(employeeID);
-        fetchReceivedMessages(messagedSender);
-    }, [employeeID, messagedSender]);
-
-    console.log(sentMessages);
-    console.log(receivedMessages);
-
+        await fetchProjectMessages(projectData.PROJECT_ID);
+        setNewMessage("");
+    }
 
     return(
         <>
@@ -80,38 +98,36 @@ function ChatPage(){
 
             <main className='message-display'>
                 {
-                    receivedMessages.map((message) => (
-                        <MessageReceiveCard 
-                        employeeName={message.MESSAGE_SENT_BY} 
-                        message={message.MESSAGE_TEXT} 
-                        timeSent={message.TIME}
-                        />
-                    ))
+                    projectMessages.map((message) => {
+                        
+                        if (message.MESSAGE_SENT_BY === senderID){
+                            return (
+                                <MessageSendCard key={message.MESSAGE_ID}
+                                employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
+                                message={message.MESSAGE_TEXT} timeSent={getTimeFromDate(message.TIME)}/>
+                            )
+                        }
+
+                        else {
+                            return (
+                                <MessageReceiveCard key={message.MESSAGE_ID}
+                                employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
+                                message={message.MESSAGE_TEXT} timeSent={getTimeFromDate(message.TIME)}/>
+                            )
+                        }
+                    })
                 }
-                <MessageSendCard 
-                    employeeName={"Person"} 
-                    message={"Hey guys! so I thought about something really random for the project."} 
-                    timeSent={"10:00"}
-                />
-                <MessageSendCard 
-                    employeeName={"Person"} 
-                    message={"Hey guys! so I thought about something really random for the project."} 
-                    timeSent={"10:00"}
-                />
-                <MessageSendCard 
-                    employeeName={"Person"} 
-                    message={"Hey guys! so I thought about something really random for the project."} 
-                    timeSent={"10:00"}
-                />
             </main>
             <section className = 'send-wrapper'>
                 <textarea
+                value={newMessage}
                 className='send-message'
                 maxLength={500} // Limit the text length to 30 characters
                 rows={4} // Specify the number of visible rows
-                cols={40} // Specify the number of visible columns 
+                cols={40} // Specify the number of visible columns
+                onChange={(event) => (setNewMessage(event.target.value))} 
                 />
-                <button>Send</button>
+                <button onClick={handleSubmitButtonClick}>Send</button>
             </section>
         </>
     );

@@ -4,9 +4,10 @@ import "./ViewProjectCard.css";
 import { useNavigate } from "react-router";
 
 // Component to display the information projects from a manager's perspective
-const ViewProjectCard = ({ name, description, estimatedTime, members, manager, managerID }) => {
+const ViewProjectCard = ({ projectID, name, description, estimatedTime, members, manager, managerID }) => {
         // Project Data
         const project = {
+            PROJECT_ID: projectID,
             PROJECT_NAME: name, 
             DESCRIPTION: description,
             ESTIMATED_TIME: estimatedTime,
