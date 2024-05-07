@@ -231,6 +231,22 @@ async function getReceivedMessages(employeeID) {
   }
 }
 
+// Returns all messages associated with a project
+async function getProjectMessages(projectID){
+  try {
+    const endpoint = `${URL}/ProjectMessages/${projectID}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "Error";
+    }
+    return data;
+  } catch (err) {
+    return "Error";
+  }
+}
+
+
 // Returns the meals created for a certain day
 // date must be format yyyy-mm-dd
 async function getMeals(date){
@@ -445,4 +461,4 @@ const getReceivedReviewsProject = (projectID, receivedReviews) => {
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getReceivedMessages, getSentMessages, 
-         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject}
+         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages }
