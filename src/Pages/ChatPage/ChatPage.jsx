@@ -91,7 +91,7 @@ const ChatPage = () => {
                             return (
                                 <MessageSendCard key={message.MESSAGE_ID}
                                 employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
-                                message={message.MESSAGE_TEXT} timeSent={formatTime(message.TIME)}/>
+                                message={message.MESSAGE_TEXT} timeSent={formatTime(message.DATE, message.TIME)}/>
                             );
                         }
 
@@ -99,7 +99,7 @@ const ChatPage = () => {
                             return (
                                 <MessageReceiveCard key={message.MESSAGE_ID}
                                 employeeName={getEmployeeName(message.MESSAGE_SENT_BY, employees)} 
-                                message={message.MESSAGE_TEXT} timeSent={formatTime(message.TIME)}/>
+                                message={message.MESSAGE_TEXT} timeSent={formatTime(message.DATE, message.TIME)}/>
                             );
                         }
                     })
