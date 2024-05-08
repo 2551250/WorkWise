@@ -171,7 +171,6 @@
     justify-self: center;
     align-self: center;
     margin-top: 10px;
-    margin-bottom: 10px;
 
 }
 .time-button:hover{
@@ -182,6 +181,30 @@
     border: none;
 
 }
+
+.chat-button{
+
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 5px;
+    transition: background-color 0.3s;
+    outline: none;
+    border: none;
+    padding: 5px;
+    width: 110px;
+    justify-self: center;
+    align-self: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.chat-button:hover{
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+    outline: none;
+    border: none;
+}
+
 .buttons-display{
 
     flex: 2;
