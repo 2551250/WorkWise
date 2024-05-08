@@ -9,6 +9,14 @@ import PopUp from "../../Components/PopUp/PopUp";
 import Header from "../../Components/Header/Header";
 
 
+const isValidStopwatchTime = (time) => {
+    if (time <= 0) {
+        return false;
+    }
+    return true;
+}
+
+
 const Timer = () => {
     //Variables
     const location = useLocation();
@@ -20,6 +28,7 @@ const Timer = () => {
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [displayPopup, setDisplayPopup] = useState(false);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         let interval;
@@ -32,15 +41,22 @@ const Timer = () => {
     }, [isRunning]);
 
     const handleStartStop = () => {
+        setError("");
         setIsRunning(!isRunning);
     };
 
     const handleCancel = () => {
+        setError("");
         setIsRunning(false);
         setTime(0);
     };
 
     const handleStopAndSave = async () => {
+        if (!isValidStopwatchTime(time)){
+            setError("Stopwatch has not been started");
+            return;
+        }
+
         setIsRunning(false);
         const minutes = Math.round(time / (1000 * 60));
         console.log(minutes);
@@ -71,6 +87,9 @@ const Timer = () => {
             <h2>Timer for {projectData.PROJECT_NAME}</h2>
             <section className='time-display'>
                 <p className='display-time'>Time: {new Date(time).toISOString().substr(11, 8)}</p>
+
+                {error ? <label className='errorLabel'>{error}</label> : ""}
+
                 <article className='timer-buttons'>
                 <button onClick={handleStartStop}>
                     {isRunning ? 'Pause' : 'Start'}
