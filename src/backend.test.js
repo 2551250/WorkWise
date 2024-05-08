@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime} from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID} from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -297,4 +297,16 @@ test("checks is valid message valid", function checksValidMessage_AnyState_Valid
 
 test("checks is valid message invalid", function checksValidMessage_AnyState_Invalid() {
     expect(isValidMessage("")).toBe(false);
+});
+
+test("checks get role Manager from employee id", function checkGetRoleFromID_anyValidManager_valid() {
+    expect(getRoleFromID(4, userTestData)).toBe("Manager");
+});
+
+test("checks get role Staff from employee id", function checkGetRoleFromID_anyValidStaff_valid() {
+    expect(getRoleFromID(3, userTestData)).toBe("Staff");
+});
+
+test("checks get role invalid", function checkGetRoleFromID_anyValidUser_invalid() {
+    expect(getRoleFromID(10, userTestData)).toBe("No Employee Found");
 });
