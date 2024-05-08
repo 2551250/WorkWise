@@ -52,9 +52,11 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
                                 }
                             </ul>
                         </td>
-                        <td className="buttons-display"> <button className="feedback-button" onClick={feedbackButton}> Feedback</button>
-                        <button className="time-button" onClick={setTimeButton}> Add Time</button>
-                        <button className="time-button" onClick={setChatButton}> Group Chat </button></td>
+                        <td className="buttons-display"> 
+                            <button className="feedback-button" onClick={feedbackButton}> Feedback</button>
+                            <button className="time-button" onClick={setTimeButton}> Add Time</button>
+                            <button className="chat-button" onClick={setChatButton}> Group Chat </button>
+                        </td>
                     </tr>
                 </tbody>
 
