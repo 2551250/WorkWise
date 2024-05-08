@@ -442,24 +442,17 @@ const getReceivedReviewsProject = (projectID, receivedReviews) => {
   return receivedReviews.filter((feedback) => (feedback.PROJECT_ID === projectID));
 }
 
-const formatTime = (timeString) => {
+const formatTime = (dateString, timeString) => {
   /* 
     Converts time into 24 hour time 
 
     :param timeString: time as a string
     :return: formated time string
-  */
-  const date = new Date(timeString);
-  // Extract hours and minutes from the Date object
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  // Pad single-digit hours and minutes with leading zeros
-  const formattedHours = String(hours).padStart(2, '0');
-  const formattedMinutes = String(minutes).padStart(2, '0');
+  */  
+  const date = new Date(dateString.substring(0, 10) + timeString.substring(10));
 
   // Return the time string in 24-hour format
-  return `${formattedHours}:${formattedMinutes}`;
+  return date.toLocaleTimeString("en-GB", {timeZone: "GMT"}).substring(0, 5);
 }
 
 const isValidMessage = (message) => {
