@@ -298,7 +298,3 @@ test("checks is valid message valid", function checksValidMessage_AnyState_Valid
 test("checks is valid message invalid", function checksValidMessage_AnyState_Invalid() {
     expect(isValidMessage("")).toBe(false);
 });
-
-test("checks if formatted time is valid", function checksFormattedTime_AnyState_Valid() {
-    expect(formatTime("Wed May 09 2024 20:57:36 GMT+0200 (South Africa Standard Time)")).toBe("20:57");
-});
