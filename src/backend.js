@@ -469,9 +469,25 @@ const isValidMessage = (message) => {
   return true; // message is valid.
 }
 
+
+const getRoleFromID = (employeeID, employees) => {
+  /* 
+    Returns the name & surname of an employee
+
+    :param1 employeeID: The employee id of the manager creating a project
+    :param2 employees: Full list of all employees
+    :returns string: Returns the name & surname of an employee
+  */
+
+    const filteredEmployees = employees.filter((employee) => employee.EMPLOYEE_ID === employeeID);
+    const targetEmployee = filteredEmployees[0];
+  
+    return targetEmployee ? targetEmployee.ROLE : "No Employee Found";
+}
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
          convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
-         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage }
+         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID }
