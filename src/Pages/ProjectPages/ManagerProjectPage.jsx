@@ -29,7 +29,9 @@ const ViewProjectsSection = ({ managerID }) => {
         // Gets all projects created by the manager
         const fetchData = async () => {
             const managerProjectsData = await getManagerProjects(managerID);
-            setProjects(managerProjectsData);
+            if (typeof(managerProjectsData) !== "string") {
+                setProjects(managerProjectsData);
+            }
         }
         fetchData(managerID);
     }, [managerID]);
@@ -74,6 +76,7 @@ const ViewProjectsSection = ({ managerID }) => {
                 <ViewProjectCard 
                     key={project.PROJECT_ID} projectID={project.PROJECT_ID} 
                     name={project.PROJECT_NAME} description={project.DESCRIPTION} 
+                    managerID={managerID}
                     estimatedTime={project.ESTIMATED_TIME} members={assignedMembers[project.PROJECT_ID] || []}
                 />
             )) : " "}

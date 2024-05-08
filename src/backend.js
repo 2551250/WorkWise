@@ -442,8 +442,43 @@ const getReceivedReviewsProject = (projectID, receivedReviews) => {
   return receivedReviews.filter((feedback) => (feedback.PROJECT_ID === projectID));
 }
 
+const formatTime = (timeString) => {
+  /* 
+    Converts time into 24 hour time 
+
+    :param timeString: time as a string
+    :return: formated time string
+  */
+  const date = new Date(timeString);
+  // Extract hours and minutes from the Date object
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Pad single-digit hours and minutes with leading zeros
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+
+  // Return the time string in 24-hour format
+  return `${formattedHours}:${formattedMinutes}`;
+}
+
+const isValidMessage = (message) => {
+  /* 
+    Checks if the message entered is a vaild
+
+    :param message: message entered
+    :return: Boolean Value
+*/
+  // Checks if no message was entered.
+  if (message === "") {
+    return false;
+  }
+  return true; // message is valid.
+}
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
-         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, 
-         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages }
+         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
+         convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
+         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage }

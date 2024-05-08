@@ -6,6 +6,7 @@ import burgerIcon from "../../Assets/burger-icon.svg";
 import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import projectIcon from "../../Assets/project-icon.svg";
 
+
 import Card from "../../Components/Card/Card";
 import Header from "../../Components/Header/Header";
 
@@ -16,6 +17,7 @@ function Staff(){
      const viewProductPage = () => {
         navigate("/StaffProjectPage");
     }
+
     return(
         <>
           <Header>
@@ -26,6 +28,7 @@ function Staff(){
             <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
             <Card title="Book Meals" imgSrc={burgerIcon}/>
+
         </main>
         </>
     );
