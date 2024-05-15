@@ -25,7 +25,9 @@ const StaffProjectPage = ({ navigate }) => {
         async function getData() {
             await getStaffProjects(StaffID)
                 .then((data) => {
-                    setProjects(data) // stores projects data in the projects list 
+                    if (typeof(data) !== "string"){
+                        setProjects(data) // stores projects data in the projects list 
+                    }
                 })
                 .catch((errorMessage) => {
                     console.error(errorMessage); // Display any errors
@@ -97,6 +99,7 @@ const StaffProjectPage = ({ navigate }) => {
                         projectID = {project.PROJECT_ID} 
                         name={project.PROJECT_NAME} 
                         manager={findManagerName(project.MANAGER_ID, employeeData)} 
+                        managerID={project.MANAGER_ID}
                         description={project.DESCRIPTION} 
                         estimatedTime={project.TIME_SPENT} 
                         members={assignedMembers[project.PROJECT_ID] || []}

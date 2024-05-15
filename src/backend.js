@@ -472,8 +472,52 @@ const getReceivedReviewsProject = (projectID, receivedReviews) => {
   return receivedReviews.filter((feedback) => (feedback.PROJECT_ID === projectID));
 }
 
+const formatTime = (dateString, timeString) => {
+  /* 
+    Converts time into 24 hour time 
+
+    :param timeString: time as a string
+    :return: formated time string
+  */  
+  const date = new Date(dateString.substring(0, 10) + timeString.substring(10));
+
+  // Return the time string in 24-hour format
+  return date.toLocaleTimeString("en-GB", {timeZone: "GMT"}).substring(0, 5);
+}
+
+const isValidMessage = (message) => {
+  /* 
+    Checks if the message entered is a vaild
+
+    :param message: message entered
+    :return: Boolean Value
+*/
+  // Checks if no message was entered.
+  if (message === "") {
+    return false;
+  }
+  return true; // message is valid.
+}
+
+
+const getRoleFromID = (employeeID, employees) => {
+  /* 
+    Returns the name & surname of an employee
+
+    :param1 employeeID: The employee id of the manager creating a project
+    :param2 employees: Full list of all employees
+    :returns string: Returns the name & surname of an employee
+  */
+
+    const filteredEmployees = employees.filter((employee) => employee.EMPLOYEE_ID === employeeID);
+    const targetEmployee = filteredEmployees[0];
+  
+    return targetEmployee ? targetEmployee.ROLE : "No Employee Found";
+}
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
-         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, 
-         makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, getEmployeeBookings, getMealBookings }
+         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
+         convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
+         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings }

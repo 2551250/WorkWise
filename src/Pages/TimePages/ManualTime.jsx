@@ -4,6 +4,7 @@ import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
 
 import './ManualTime.css'
 
+import PopUp from '../../Components/PopUp/PopUp';
 import Header from '../../Components/Header/Header';
 import { updateTimeSpentManual } from '../../backend_post_requests';
 
@@ -32,6 +33,8 @@ const ManualTime = () => {
 
     // State variable for error message
     const [error, setError] = useState('');
+    const [displayPopup, setDisplayPopup] = useState(false);
+    const [responseMessage, setResponseMessage] = useState("");
 
     // Handle starting slot change
     const handleStartingSlotChange = (e) => {
@@ -67,7 +70,8 @@ const ManualTime = () => {
             // console.log(`EMPLOYEE_ID: ${staffID}`);
             // You can perform additional actions here, such as updating state or sending data to a server
             const response = await updateTimeSpentManual(staffID, projectData.PROJECT_ID, startingSlot, endingSlot, currentDate );
-            console.log(response);
+            setResponseMessage(response);
+            setDisplayPopup(true);
             // Clear the error message if the submission is successful
             setError('');
         } else {
@@ -84,52 +88,56 @@ const ManualTime = () => {
             <button className="logout-button">Log Out</button>
         </Header>
 
-            <main className="manual-time-page">
-                <section className="manual-time-container">
-                <h1>Input Time Slots for {projectData.PROJECT_NAME}</h1>
-                <form onSubmit={handleSubmit}>
-                        <article className='manual-time-entry'>
-                            <label htmlFor="starting-slot">Starting Slot:</label>
-                            <select 
-                                className='manual-time-box'
-                                id="starting-slot"
-                                value={startingSlot}
-                                onChange={handleStartingSlotChange}
-                            >
-                                <option value="" disabled>
-                                    Select starting slot
+        <main className="manual-time-page">
+            <section className="manual-time-container">
+            <h1>Input Time Slots for {projectData.PROJECT_NAME}</h1>
+            <form onSubmit={handleSubmit}>
+                    <article className='manual-time-entry'>
+                        <label htmlFor="starting-slot">Starting Slot:</label>
+                        <select 
+                            className='manual-time-box'
+                            id="starting-slot"
+                            value={startingSlot}
+                            onChange={handleStartingSlotChange}
+                        >
+                            <option value="" disabled>
+                                Select starting slot
+                            </option>
+                            {timeSlots.map((slot) => (
+                                <option key={slot} value={slot}>
+                                    {slot}
                                 </option>
-                                {timeSlots.map((slot) => (
-                                    <option key={slot} value={slot}>
-                                        {slot}
-                                    </option>
-                                ))}
-                            </select>
-                        </article>
-                        <article className='manual-time-entry'>
-                            <label htmlFor="ending-slot">Ending Slot:</label>
-                            <select 
-                                className='manual-time-box'
-                                id="ending-slot"
-                                value={endingSlot}
-                                onChange={handleEndingSlotChange}
-                            >
-                                <option value="" disabled>
-                                    Select ending slot
+                            ))}
+                        </select>
+                    </article>
+                    <article className='manual-time-entry'>
+                        <label htmlFor="ending-slot">Ending Slot:</label>
+                        <select 
+                            className='manual-time-box'
+                            id="ending-slot"
+                            value={endingSlot}
+                            onChange={handleEndingSlotChange}
+                        >
+                            <option value="" disabled>
+                                Select ending slot
+                            </option>
+                            {timeSlots.map((slot) => (
+                                <option key={slot} value={slot}>
+                                    {slot}
                                 </option>
-                                {timeSlots.map((slot) => (
-                                    <option key={slot} value={slot}>
-                                        {slot}
-                                    </option>
-                                ))}
-                            </select>
-                        </article>
-                    
-                        {error && <p className="error-message">{error}</p>}
-                    <button className='manual-time-button' type="submit">Submit</button>
-                </form>
-                </section>
-            </main>
+                            ))}
+                        </select>
+                    </article>
+                
+                    {error && <p className="error-message">{error}</p>}
+                <button className='manual-time-button' type="submit">Submit</button>
+            </form>
+            </section>
+        </main>
+
+        <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
+            <h4>{responseMessage}</h4>
+        </PopUp>
         </>
     );
 };

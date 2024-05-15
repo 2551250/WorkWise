@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject } from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID} from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -289,4 +289,24 @@ test("get employee name invalid", function checksGetEmployeeName_anyState_Invali
 
 test("checks get received reviews", function checksGetReceivedReviews_anyState_Valid(){
     expect(getReceivedReviewsProject(1, receivedReviews)).toContainEqual({"DESCRIPTION": "Review", "PROJECT_ID": 1});
+});
+
+test("checks is valid message valid", function checksValidMessage_AnyState_Valid() {
+    expect(isValidMessage("Message is valid.")).toBe(true);
+});
+
+test("checks is valid message invalid", function checksValidMessage_AnyState_Invalid() {
+    expect(isValidMessage("")).toBe(false);
+});
+
+test("checks get role Manager from employee id", function checkGetRoleFromID_anyValidManager_valid() {
+    expect(getRoleFromID(4, userTestData)).toBe("Manager");
+});
+
+test("checks get role Staff from employee id", function checkGetRoleFromID_anyValidStaff_valid() {
+    expect(getRoleFromID(3, userTestData)).toBe("Staff");
+});
+
+test("checks get role invalid", function checkGetRoleFromID_anyValidUser_invalid() {
+    expect(getRoleFromID(10, userTestData)).toBe("No Employee Found");
 });

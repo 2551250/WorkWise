@@ -1,0 +1,73 @@
+.message-header{
+    font-family: Roboto, sans-serif;
+    padding: 10px;
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: black;
+    color: white;
+    border-left: none;
+    border-right: none;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 0;
+    /* position: fixed; */
+    width:100%;
+    z-index: 1;
+}
+
+.message-display{
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    background-color: white;
+    padding-top: 60px;
+    position: absolute;
+    width: 100%;
+    padding-bottom: 60px;
+}
+
+.send-wrapper{
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    border: none;
+}
+.send-message{
+    resize: none;
+    border-radius: 5px;
+    justify-self: left;
+    width: 95%;
+    height: 50px;
+    max-height: fit-content;
+    font-family: Roboto, sans-serif;
+    overflow-y: scroll;
+    outline: 1px black;
+}
+
+
+.send-wrapper button{
+    background-color: #FF6D00;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    height: 30px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    transition: background-color 0.3s;
+}
+.send-wrapper button:hover {
+    cursor: pointer;
+    background-color: #dc6001;
+}
