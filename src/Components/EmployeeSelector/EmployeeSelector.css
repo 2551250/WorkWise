@@ -6,4 +6,6 @@
 }
 .selector-dropbox h3{
     margin-bottom: 10px;
+    justify-self: center;
+    align-self:center ;
 }

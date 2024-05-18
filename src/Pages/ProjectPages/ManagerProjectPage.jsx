@@ -55,9 +55,9 @@ const ViewProjectsSection = ({ managerID }) => {
     // HTML Code
     return (
         <section className="view-project">
-            <h2>View Projects</h2>
+            <h2>Projects</h2>
 
-            <table >
+            {/* <table >
                     <tbody>
                         
                             <tr > 
@@ -69,7 +69,7 @@ const ViewProjectsSection = ({ managerID }) => {
                             </tr>
                        
                     </tbody>
-            </table>
+            </table> */}
             
             {/* Iterate through the projects list and display them */}
             {projects.length > 0 ? projects.map((project) => (
@@ -120,7 +120,7 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
     
     const handleButtonClick = async () => {
         if (!isValidProjectMembers(projectMembers)) {
-            setError("No Staff was Assigned to a Project.")
+            setError("No Staff was assigned to a Project.")
             return;
         }
 
@@ -135,7 +135,8 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
     }
 
     return (
-        <section className="select-wrapper">   
+        <section className="select-wrapper">  
+        <section className="select-container"> 
             <EmployeeSelector 
                 groupName="Staff" 
                 data={staff || []} 
@@ -143,8 +144,9 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
             />
 
             {/* Displays Invalid Data Error Message */}
-            {error && <label className="error-label"> {error} </label>}
+            {error && <label className="add-members-error-label"> {error} </label>}
             <button className="add-members" onClick={handleButtonClick}> Add Members</button>
+            </section>
         </section>
     );
 }
@@ -218,7 +220,7 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
     return (
         <section className="add-project">
         <h2>Add a Project</h2>
-       
+        <section className="add-project-wrapper">
         <article className="formatting">
             <p className = "labels">Name</p>
             <input
@@ -252,11 +254,11 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
             /> 
             <p className = "hours">Hours</p>
         </article>
+        </section>
 
         {/* Displays Invalid Data Error Message */}
         {error && <label className="error-label"> {error} </label>} 
         <button className="create-project" onClick={handleButtonClick}> Add project</button>
-
     </section>
     );
 }

@@ -2,6 +2,7 @@ import React from "react";
 
 import "./ViewProjectCard.css";
 import { useNavigate } from "react-router";
+import expandIcon from "../../Assets/expand-icon.svg";
 
 // Component to display the information projects from a manager's perspective
 const ViewProjectCard = ({ projectID, name, description, estimatedTime, members, manager, managerID }) => {
@@ -29,7 +30,8 @@ const ViewProjectCard = ({ projectID, name, description, estimatedTime, members,
                 <tbody>
                     <tr>
                     <td className="project-name">{name}</td>
-                    <td className="project-desc">{description}</td>
+                    <td className="project-expand"><img src = {expandIcon}/></td>
+                    {/* <td className="project-desc">{description}</td>
                     <td className="project-est-time">{estimatedTime} Hrs</td>
                     <td className="project-members2">
                         <ul>
@@ -42,7 +44,7 @@ const ViewProjectCard = ({ projectID, name, description, estimatedTime, members,
                             }
                         </ul>
                     </td>
-                    <td className="buttons-display"> <button className="time-button" onClick={setChatButton}> Group Chat </button></td>
+                    <td className="buttons-display"> <button className="time-button" onClick={setChatButton}> Group Chat </button></td> */}
                 </tr>
                 </tbody>
             </table>
