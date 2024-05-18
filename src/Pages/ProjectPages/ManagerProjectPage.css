@@ -13,31 +13,34 @@
 
 .display .panel{
     display: flex;
+    flex-direction: column;
     justify-content:flex-start;
     align-items:center;
-    flex-direction: column;
     background-color: #ffffff;
     border: solid;
     border-top: none;
     border-left: none;
     border-bottom: none;
-    border-width: 1px;
+    border-width: 2px;
     border-color: lightgray;
     height: 100vh;
 }
 
 .panelButtons{
-    background-color: rgb(249, 246, 243);
-    border: solid;
-    border-color: lightgray;
-    border-width: 1px;
-    height: 50px;
+    background-color: black;
+    border: none;
+    color:white;
+    border-width: px;
+    border-radius: 5px;
+    height: 9%;
     width: 200px;
     font-size: large;
+    margin-top: 10px;
+    font-family: Roboto, sans-serif;
 }
 
 .panelButtons:hover{
-    background-color: rgb(245, 243, 242);
+    background-color: #565656;
     cursor: pointer;
 }
 
@@ -58,10 +61,21 @@
     flex: 3;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
 }
 .add-project h2{
-    margin-top: 50px;
-    margin-left: 60px;
+    margin-bottom: 10px;
+}
+.add-project-wrapper{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    border-radius: 5px;
+    background-color: #ff6d00;
+    padding:20px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+
 }
 .formatting{
     display: flex;
@@ -77,6 +91,7 @@
     border-radius: 5px;
     padding: 5px;
     border: 1px solid #ccc; /* Add a border */
+    outline: none;
 }
 .labels{
     align-self: flex-start;
@@ -100,6 +115,7 @@
     padding: 5px;
     margin-left: 10px;
     resize: none; /* Disable manual resizing */
+    outline: none;
 }
 .input-time{
     width: 60px;
@@ -128,20 +144,33 @@
 .table-wrapper th {
     font-weight: bold;
 }
-
-.error-label {
-    color: red;
-    font-size: 12px;
-}
 .select-wrapper{
     flex:3;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 40px;
-    align-content: center;
+    align-items: center;
+    margin-top: 12%;
 
 }
+.select-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width:50%;
+    border-radius: 5px;
+    background-color: #ff6d00;
+    padding:20px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+
+}
+.add-members-error-label {
+    margin-top: 10px;
+    color: white;
+    font-size: 12px;
+    justify-self: center;
+    align-self: center;
+}
+
 
 .add-members{
     width:auto;
@@ -158,6 +187,7 @@
     justify-self: center;
     align-self: center;
     transition: background-color 0.3s;
+    border:none;
 
 }
 .add-members:hover{

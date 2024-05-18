@@ -17,6 +17,9 @@ function Staff(){
      const viewProductPage = () => {
         navigate("/StaffProjectPage");
     }
+    const viewBookMealsPage = () => {
+        navigate("/StaffBookMeals");
+    }
 
     return(
         <>
@@ -27,7 +30,7 @@ function Staff(){
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
-            <Card title="Book Meals" imgSrc={burgerIcon}/>
+            <Card title="Book Meals" imgSrc={burgerIcon} onClick={viewBookMealsPage}/>
 
         </main>
         </>

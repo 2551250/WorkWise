@@ -1,6 +1,8 @@
 .table-wrapper {
-    width: 90%;
+    width: 80%;
     flex-wrap: nowrap;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .table-wrapper tr{
@@ -11,12 +13,13 @@
 }
 .table-wrapper td{
     border-width: 2px;
-    border-color: lightgray;
+    border-color: #ff6D00;
     padding: 10px;
 }
 
 .project-name{
-    flex:1.5;
+    flex:1;
+    background-color: #ff6D00;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -26,9 +29,21 @@
     border-left: 1px solid;
     border-top: solid;
     border-bottom: solid;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.project-expand{
+    flex:7;
+    border: 2px solid #ff6D00;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+.project-expand img{
+    height: 40px;
+    cursor: pointer;
 }
 
 .project-desc{
@@ -40,11 +55,10 @@
     border-left: none;
     border-top: solid;
     border-bottom: solid;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
-
 .project-est-time{
     flex:0.8;
     display: flex;
@@ -52,17 +66,17 @@
     align-items: center;
     border-top: solid;
     border-bottom: solid;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 .project-manager{
     flex:2;
     border-top: solid;
     border-bottom: solid;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .project-members{
@@ -76,7 +90,7 @@
     border-right: 1px solid;
     border-top: solid;
     border-bottom: solid;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 .project-members2{
     flex:4;
@@ -89,7 +103,7 @@
     border-right: 1px solid;
     border-top: solid;
     border-bottom: solid;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 .project-members li{
     list-style-type: none;
@@ -149,7 +163,11 @@
     transition: background-color 0.3s;
     outline: none;
     border: none;
-    margin: 0px;
+    padding: 5px;
+    width: 110px;
+    justify-self: center;
+    align-self: center;
+    margin-top: 10px;
 }
 .feedback-button:hover{
     cursor: pointer;

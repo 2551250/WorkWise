@@ -13,6 +13,15 @@ const StaffProjectPage = ({ navigate }) => {
     const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
     const [employeeData, setEmployeeData] = useState([]);
     const [assignedMembers, setAssignedMembers] = useState({});
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleButtonClick = () => {
+        setShowPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    };
 
     // Get the Staff's Employee_ID
     const { employeeID } = useEmployee();
@@ -76,8 +85,8 @@ const StaffProjectPage = ({ navigate }) => {
             </Header>
 
             <section className="view-project">
-                <h2>View Projects</h2>
-                <table >
+                <h2>Projects</h2>
+                {/* <table >
                     <tbody>
                         <tr >
                             <th className="project-header-name">Name</th>
@@ -89,7 +98,7 @@ const StaffProjectPage = ({ navigate }) => {
                         </tr>
 
                     </tbody>
-                </table>
+                </table> */}
 
                 {/* Iterate through the projects list and display them */}
                 {projects !== "error" ? projects.map((project) => (
@@ -115,3 +124,5 @@ const StaffProjectPage = ({ navigate }) => {
 }
 
 export default StaffProjectPage;
+
+

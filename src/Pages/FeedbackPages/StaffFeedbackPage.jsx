@@ -58,16 +58,22 @@ const ViewFeedback = ({ reviewerID, projectData }) => {
     // HTML Code
     return (
    
-     <section>
+     <section className = "view-feedback">
         <h2 className="feedbackTitle">Feedback for {projectData.PROJECT_NAME}</h2>
 
         {/* Iterate through the received feedback list and display them */}
         { receivedFeedback.length > 0
-            ? receivedFeedback.map((feedback) => (
+            ? (receivedFeedback.map((feedback) => (
                 <ViewFeedbackCard Reviewer={getEmployeeName(feedback.REVIEW_BY, employees)} Review={feedback.DESCRIPTION}/>
-            ))
-            : ""
-        }
+            )))
+            :  (
+                // Display "No feedback given" message when no feedback is received
+                <section className="no-feedback-card">
+                <p>No feedback has been given for this project</p>
+                </section>
+            )
+            }
+
 
     </section>
  
@@ -122,7 +128,6 @@ const AddFeedback = ({ reviewerID, projectData }) => {
     // HTML Code
     return (
         <>
-            <section className="display">
                 <section className = "add-feedback">
                     <h2 className="feedbackTitle">Feedback for {projectData.PROJECT_NAME}</h2>
                     <article className= "addreview">
@@ -139,11 +144,11 @@ const AddFeedback = ({ reviewerID, projectData }) => {
                         </textarea>
 
                         {error && <label className="error-label"> {error} </label>} 
-                        <button className="feedback-button" onClick={handleButtonClick}>Give Feedback</button>
+                        </article>
+                        <button className="giveFeedback-button" onClick={handleButtonClick}>Give Feedback</button>
                         
-                    </article>
+
                 </section>
-            </section>
             
             <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
                 <h3>Feedback Sent</h3>
@@ -191,10 +196,10 @@ const StaffFeedbackPage = () => {
                 <button className="logout-button">Log Out</button>
             </Header>
 
-            <section className="display">
-                <section className="panel">
-                    <button className="panelButtons" onClick={viewFeedbackButtonClicked}> View Feedback</button>
-                    <button className="panelButtons" onClick={AddFeedbackButtonClicked}>Add Feedback</button>
+            <section className="feedback-display">
+                <section className="feedback-panel">
+                    <button className="feedback-panelButtons" onClick={viewFeedbackButtonClicked}> View Feedback</button>
+                    <button className="feedback-panelButtons" onClick={AddFeedbackButtonClicked}>Add Feedback</button>
                 </section>
 
                 {/* 

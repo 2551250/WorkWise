@@ -1,0 +1,86 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup .popup-content {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    width: 90%;
+    border-radius: 30px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+}
+.popup .popup-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.popup h2 {
+    margin-top: 0;
+}
+
+/* .popup p {
+    margin-bottom: 20px;
+} */
+.popup-members{
+    margin-bottom: none;
+}
+ul{
+    list-style: none;
+    margin-top: 0;
+}
+
+.button-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap: 10px;
+}
+
+.button-wrapper button {
+    background-color: #ff6d00; /* Blue button */
+    color: black;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.label {
+    display: none; /* Initially hide the label */
+    position: absolute; /* Position the label */
+    top: 100%; /* Place the label below the button */
+    left: 50%; /* Center the label horizontally */
+    transform: translateX(-50%); /* Center the label horizontally */
+    background-color: #333; /* Background color of the label */
+    color: white; /* Text color of the label */
+    padding: 5px 10px; /* Padding of the label */
+    border-radius: 5px; /* Border radius of the label */
+}
+
+.button-wrapper button:hover + .label {
+    display: block; /* Show the label when hovering over the button */
+}
+
+.close-button{
+    display: flex;
+    justify-self: start;
+    align-self: flex-start;
+    background-color: black;
+    color: white;
+    border: none;
+}
+img{
+    width : 30px;
+}
+
