@@ -25,7 +25,7 @@ const ViewStaff = () => {
         });
     }, []);
 
-    // redirect to HomePage
+    // redirect to Manager HomePage
     const homePageButton = () => {
         navigate("/Manager");
     }

@@ -27,10 +27,12 @@ function Manager(){
 
     }
 
+    // redirect to View Staff Page
     const viewStaffClicked = () => {
         navigate("/ViewStaff");
     }
 
+    // Redirect to Login page
     const logoutClicked = () =>{
         navigate("/");
     }
