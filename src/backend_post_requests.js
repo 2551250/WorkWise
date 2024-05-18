@@ -215,5 +215,24 @@ async function addMeal(meal_name, meal_description, date){
     }
 }
 
+// Adds a booking to the database
+// Parameters are employee_id and meal_id
+async function addBooking(employee_id, meal_id){
+    try {
+        // Construct body of request
+        const booking = {
+            employee_id: employee_id,
+            meal_id
+        };
+        // Send request
+        const res = await axios.post(`${URL}/Booking`, booking);
+
+        // Return the response data
+        return res.data;
+    } catch (error) {
+        // Handle errors
+        return error;
+    }
+}
 // Exports
-export { insertProject, assignStaffToProject, insertReview, updateTimeSpentManual, insertMessage, deleteManager, deleteStaff, updateTime, addMeal }
+export { insertProject, assignStaffToProject, insertReview, updateTimeSpentManual, insertMessage, deleteManager, deleteStaff, updateTime, addMeal, addBooking }
