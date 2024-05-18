@@ -6,7 +6,7 @@ import Manager from "./Pages/HomePages/Manager";
 import EmployeeManagement from "./Pages/EmployeeManagementPage/EmployeeManagement"
 import StaffProjectPage from './Pages/ProjectPages/StaffProjectPage';
 import ManagerProjectPage from './Pages/ProjectPages/ManagerProjectPage';
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import { EmployeeProvider } from './Components/EmployeeContext/EmployeeContext';
 import StaffFeedbackPage from "./Pages/FeedbackPages/StaffFeedbackPage";
 import HRPlanMeals from './Pages/MealPages/HRPlanMeals';
@@ -19,27 +19,28 @@ function App() {
   const navigate = useNavigate();
 
   return (
-    <BrowserRouter>
-      <EmployeeProvider>
-        <div className='App'>
-          <Routes>
-            <Route path="/HR" element={<HR />} />
-            <Route path="/Staff" element={<Staff />} />
-            <Route path="/Manager" element={<Manager />} />
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
-            <Route path="/StaffProjectPage" element={<StaffProjectPage navigate={navigate}/>} />
-            <Route path="/ManagerProjectPage" element={<ManagerProjectPage/>} />
-            <Route path="/StaffFeedbackPage" element={<StaffFeedbackPage/>} />
-            <Route path="/HRBookMeals" element={<HRPlanMeals/>} />
-            <Route path="/ChooseTime" element={<ChooseTime/>} />
-            <Route path="/Timer" element={<Timer navigate={navigate}/>} />
-            <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
-            <Route path="/ChatPage" element={<ChatPage />} />
-          </Routes>
-        </div>
-      </EmployeeProvider>
-    </BrowserRouter>
+    <EmployeeProvider>
+      <div className='App'>
+        <Routes>
+          <Route path="/HR" element={<HR />} />
+          <Route path="/Staff" element={<Staff />} />
+          <Route path="/Manager" element={<Manager />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
+          <Route path="/StaffProjectPage" element={<StaffProjectPage navigate={navigate}/>} />
+          <Route path="/ManagerProjectPage" element={<ManagerProjectPage/>} />
+          <Route path="/StaffFeedbackPage" element={<StaffFeedbackPage/>} />
+          <Route path="/HRBookMeals" element={<HRPlanMeals/>} />
+          <Route path="/ChooseTime" element={<ChooseTime/>} />
+          <Route path="/Timer" element={<Timer navigate={navigate}/>} />
+          <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
+          <Route path="/ChatPage" element={<ChatPage />} />
+
+          {/* Catch-all route for 404 */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+    </EmployeeProvider>
   );
 }
 
