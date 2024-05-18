@@ -121,7 +121,7 @@ const StaffProjectPage = ({ navigate }) => {
             <ProjectPopUp trigger={viewProjectPopUp} setTrigger={setViewProjectPopUp}>
                 <article className='projectpopup-header'>
                     <h2>{selectedProject.PROJECT_NAME}</h2>
-                    <FaRegWindowClose className="close-button" onClick={() => {setViewProjectPopUp(false)}}/>
+                    <FaRegWindowClose className="propjectpopup-close-button" onClick={() => {setViewProjectPopUp(false)}}/>
                 </article>
                 
                 <p>Details: {selectedProject.DESCRIPTION}</p>
