@@ -15,6 +15,8 @@ import Timer from './Pages/TimePages/Timer';
 import ManualTime from './Pages/TimePages/ManualTime';
 import ChatPage from './Pages/ChatPage/ChatPage';
 import StaffBookMeals from './Pages/MealPages/StaffBookMeals';
+import ProjectStatPage from './Pages/StatisticPages/ProjectStatPage';
+
 
 function App() {
   const navigate = useNavigate();
@@ -37,6 +39,8 @@ function App() {
           <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
           <Route path="/ChatPage" element={<ChatPage />} />
           <Route path="/StaffBookMeals" element={<StaffBookMeals/>} />
+          <Route path="/ProjectStatPage" element={<ProjectStatPage/>} />
+
 
           {/* Catch-all route for 404 */}
           <Route path="*" element={<Navigate to="/" />} />
