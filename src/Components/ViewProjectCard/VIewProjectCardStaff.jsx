@@ -3,7 +3,7 @@ import React from "react";
 import "./ViewProjectCard.css";
 import expandIcon from "../../Assets/expand-icon.svg";
 // Component to display the information projects from a staff's perspective
-const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, managerID }) => {
+const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, navigate, managerID }) => {
     
     // Project Data
     const project = {
@@ -15,9 +15,22 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
         ASSIGNED_STAFF: members,
         MANAGER_ID: managerID
     }
-      
-    console.log(project);
+    
+    const feedbackButton = () => {
+        // Use navigate function to go to another page
+        navigate('/StaffFeedbackPage', {state: project});
+    };
 
+    const setTimeButton = () => {
+        // Use navigate function to go to another page
+        navigate('/ChooseTime', {state: project});
+    };
+
+    const setChatButton = () => {
+        // Use navigate function to go to another page
+        navigate('/ChatPage', {state: project});
+    }
+      
     return (
         <article>
             <table className="table-wrapper">
@@ -25,7 +38,7 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
                 <tbody>
                     <tr>
                         <td className="project-name">{name}</td>
-                        <td className="project-expand"><img src = {expandIcon} alt="project details" /></td>
+                        <td className="project-expand"><img src = {expandIcon}/></td>
                         {/* <td className="project-desc">{description}</td>
                         <td className="project-manager">{manager}</td>
                         <td className="project-est-time">{estimatedTime} Hrs</td>

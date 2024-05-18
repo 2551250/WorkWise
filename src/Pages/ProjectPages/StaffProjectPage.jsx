@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
-import ViewProjectCardStaff from "../../Components/ViewProjectCard/VIewProjectCardStaff";
+import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
+import ProjectPopUp from "../../Components/ProjectPopUp/ProjectPopUp";
 import { getAllEmployees, getStaffProjects, getProjectAssignedStaff, findManagerName } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import "./StaffProjectPage.css";
 
+import messageIcon from "../../Assets/message-icon.svg";
+import feedbackIcon from "../../Assets/feedback-icon.svg";
+import stopwatchIcon from "../../Assets/stopwatch-icon.svg";
+import manualtimeIcon from "../../Assets/clockface-icon.svg"
+import { FaRegWindowClose } from "react-icons/fa";
+
 
 const StaffProjectPage = ({ navigate }) => {
     // Variables
-    const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
     const [employeeData, setEmployeeData] = useState([]);
-    const [assignedMembers, setAssignedMembers] = useState({});
-    const [showPopup, setShowPopup] = useState(false);
-
-    const handleButtonClick = () => {
-        setShowPopup(true);
-    };
-
-    const handleClosePopup = () => {
-        setShowPopup(false);
-    };
+    const [selectedProject, setSelectedProject] = useState({});
+    const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
+    const [projectMembers, setProjectMembers] = useState([]);
+    const [viewProjectPopUp, setViewProjectPopUp] = useState(false); 
 
     // Get the Staff's Employee_ID
     const { employeeID } = useEmployee();
@@ -54,26 +54,46 @@ const StaffProjectPage = ({ navigate }) => {
         getData();
     }, [StaffID]);
 
-    useEffect(() => {
-        const fetchProjectMembers = async () => {
-            const staffProjectObj = {};
-
-            // Iterate through each project and fetch project members
-            for (const project of projects) {
-                const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
-                staffProjectObj[project.PROJECT_ID] = assignedStaff;
-            }
-            setAssignedMembers(staffProjectObj);
-        }
-
-        fetchProjectMembers();
-    }, [projects]);
-
-
     // redirect to HomePage
     const homePageButton = () => {
        navigate("/Staff");
    }
+
+    const handleViewProjectDetails = async ( project ) => {
+        setViewProjectPopUp(true);
+
+        const data = await getProjectAssignedStaff(project.PROJECT_ID);
+        if (typeof(data) !== "string"){
+            setProjectMembers(data);
+        }
+
+        const projectDetails = {
+            PROJECT_ID: project.PROJECT_ID,
+            PROJECT_NAME: project.PROJECT_NAME, 
+            DESCRIPTION: project.DESCRIPTION,
+            MANAGER: findManagerName(project.MANAGER_ID, employeeData),
+            ESTIMATED_TIME: project.ESTIMATED_TIME,
+            ASSIGNED_STAFF: projectMembers,
+            MANAGER_ID: project.MANAGER_ID
+        }
+
+        setSelectedProject(projectDetails);
+    }
+
+    const setChatButton = () => {
+    // Use navigate function to go to another page
+        navigate('/ChatPage', {state: selectedProject});
+    }
+
+    const setFeedbackButton = () => {
+        // Use navigate function to go to another page
+        navigate('/StaffFeedbackPage', {state: selectedProject});
+    };
+
+    const setTimeButton = () => {
+        // Use navigate function to go to another page
+        navigate('/ChooseTime', {state: selectedProject});
+    };
 
     // HTML Code
     return (
@@ -86,38 +106,54 @@ const StaffProjectPage = ({ navigate }) => {
 
             <section className="view-project">
                 <h2>Projects</h2>
-                {/* <table >
-                    <tbody>
-                        <tr >
-                            <th className="project-header-name">Name</th>
-                            <th className="project-header-desc">Description</th>
-                            <th className="project-header-manager">Manager</th>
-                            <th className="project-header-est-time">Time Spent</th>
-                            <th className="project-header-members">Members</th>
-                            <th className="feedback"></th>
-                        </tr>
-
-                    </tbody>
-                </table> */}
 
                 {/* Iterate through the projects list and display them */}
-                {projects !== "error" ? projects.map((project) => (
-
-                    <ViewProjectCardStaff 
+                {projects.map((project) => (
+                    <ViewProjectCard 
                         key={project.PROJECT_ID}
-                        projectID = {project.PROJECT_ID} 
-                        name={project.PROJECT_NAME} 
-                        manager={findManagerName(project.MANAGER_ID, employeeData)} 
-                        managerID={project.MANAGER_ID}
-                        description={project.DESCRIPTION} 
-                        estimatedTime={project.TIME_SPENT} 
-                        members={assignedMembers[project.PROJECT_ID] || []}
-                        navigate={navigate} 
+                        project={project}
+                        onView={handleViewProjectDetails}
                     />
-                )
-                ): ""}
+                ))}
             </section>
 
+            {/* Popup for displaying project details */}
+            <ProjectPopUp trigger={viewProjectPopUp} setTrigger={setViewProjectPopUp}>
+                <article className='popup-header'>
+                    <h2>{selectedProject.PROJECT_NAME}</h2>
+                    <FaRegWindowClose className="close-button" onClick={() => {setViewProjectPopUp(false)}}/>
+                </article>
+                
+                <p>Details: {selectedProject.DESCRIPTION}</p>
+                
+                <p>Manager: {selectedProject.MANAGER}</p>
+
+                <p className='popup-members'>Members:</p>
+                <ul>
+                    {
+                        projectMembers.map((member) => (
+                            <li key={member.EMPLOYEE_ID}> {`${member.NAME} ${member.SURNAME}`} </li>
+                        ))
+                    }
+                </ul>
+                <article className='button-wrapper'>
+                    <button onClick={setChatButton}>
+                        <img src={messageIcon} alt="Group Chat"/>
+                    </button>
+
+                    <button onClick={setFeedbackButton}> 
+                        <img src = {feedbackIcon} alt = "Give Feedback" />
+                    </button>
+                    
+                    <button onClick={setTimeButton}>
+                        <img src = {stopwatchIcon} alt = " Stopwatch"/>
+                    </button>
+                    
+                    <button onClick={setTimeButton}>
+                        <img src = {manualtimeIcon} alt = "Manual Time"/>
+                    </button>
+                </article>
+            </ProjectPopUp>
         </>
 
     );

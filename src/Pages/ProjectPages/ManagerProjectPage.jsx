@@ -12,6 +12,7 @@ import "./ManagerProjectPage.css";
 import { useNavigate } from "react-router";
 
 import messageIcon from "../../Assets/message-icon.svg";
+import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import { FaRegWindowClose } from "react-icons/fa";
 
 
@@ -99,7 +100,11 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
                 </ul>
                 <article className='button-wrapper'>
                     <button onClick={setChatButton}>
-                    <img src={messageIcon} alt="Group Chat"/>
+                        <img src={messageIcon} alt="Group Chat"/>
+                    </button>
+
+                    <button onClick="">
+                        <img src={timesheetIcon} alt="Project Timesheets"/>
                     </button>
                 </article>
             </ProjectPopUp>
