@@ -248,6 +248,36 @@ async function getMeals(date){
   }
 }
 
+// Returns the meals booked by the employee
+async function getEmployeeBookings(employee_id){
+  try{
+    const endpoint = `${URL}/BookingByEmployee/${employee_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No bookings created";
+    }
+    return data
+  }catch (err){
+    return "Error";
+  }
+}
+
+// Returns the employees who have booked a meal
+async function getMealBookings(meal_id){
+  try{
+    const endpoint = `${URL}/BookingByMeal/${meal_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No bookings for the meal";
+    }
+    return data
+  }catch (err){
+    return "Error";
+  }
+}
+
 const isValidProjectMembers = (projectMembers) => {
   /* 
       Checks if at least one staff member is assigned to a project
@@ -490,4 +520,4 @@ export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
          convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
-         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID }
+         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings }
