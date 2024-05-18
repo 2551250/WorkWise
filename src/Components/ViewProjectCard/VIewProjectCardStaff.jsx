@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./ViewProjectCard.css";
-
+import expandIcon from "../../Assets/expand-icon.svg";
 // Component to display the information projects from a staff's perspective
 const ViewProjectCardStaff = ({ projectID, name, description, manager, estimatedTime, members, navigate, managerID }) => {
     
@@ -38,7 +38,8 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
                 <tbody>
                     <tr>
                         <td className="project-name">{name}</td>
-                        <td className="project-desc">{description}</td>
+                        <td className="project-expand"><img src = {expandIcon}/></td>
+                        {/* <td className="project-desc">{description}</td>
                         <td className="project-manager">{manager}</td>
                         <td className="project-est-time">{estimatedTime} Hrs</td>
                         <td className="project-members">
@@ -56,7 +57,7 @@ const ViewProjectCardStaff = ({ projectID, name, description, manager, estimated
                             <button className="feedback-button" onClick={feedbackButton}> Feedback</button>
                             <button className="time-button" onClick={setTimeButton}> Add Time</button>
                             <button className="chat-button" onClick={setChatButton}> Group Chat </button>
-                        </td>
+                        </td> */}
                     </tr>
                 </tbody>
 

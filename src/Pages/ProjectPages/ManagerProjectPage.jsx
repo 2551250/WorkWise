@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
-import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime} from "../../backend";
+import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName} from "../../backend";
 import { insertProject, assignStaffToProject } from "../../backend_post_requests";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
+import ProjectPopUp from "../../Components/ProjectPopUp/ProjectPopUp";
 
 import "./ManagerProjectPage.css";
 import { useNavigate } from "react-router";
 
+import messageIcon from "../../Assets/message-icon.svg";
+import timesheetIcon from "../../Assets/timesheet-icon.svg";
+import { FaRegWindowClose } from "react-icons/fa";
 
-const ViewProjectsSection = ({ managerID }) => {
+
+const ViewProjectsSection = ({ managerID, navigate }) => {
     /*
         Displays the view projects section
 
@@ -19,12 +24,12 @@ const ViewProjectsSection = ({ managerID }) => {
         :returns HTML code: code for the actual section
     */
     // Variables
+    const [selectedProject, setSelectedProject] = useState({});
     const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
-    const [assignedMembers, setAssignedMembers] = useState({});
+    const [projectMembers, setProjectMembers] = useState([]);
+    const [viewProjectPopUp, setViewProjectPopUp] = useState(false); 
 
     // Functions & Logic
-
-    
     useEffect(() => {
         // Gets all projects created by the manager
         const fetchData = async () => {
@@ -35,51 +40,74 @@ const ViewProjectsSection = ({ managerID }) => {
         }
         fetchData(managerID);
     }, [managerID]);
+    
+    const handleViewProjectDetails = async ( project ) => {
+        setViewProjectPopUp(true);
 
-    useEffect(() => {
-        
-        const fetchData = async () => {
-            const staffProjectObj = {};
-
-            // Iterate through each project and fetch project members
-            for (const project of projects) {
-                const assignedStaff = await getProjectAssignedStaff(project.PROJECT_ID);
-                staffProjectObj[project.PROJECT_ID] = assignedStaff;
-            }
-            setAssignedMembers(staffProjectObj);
+        const data = await getProjectAssignedStaff(project.PROJECT_ID);
+        if (typeof(data) !== "string"){
+            setProjectMembers(data);
         }
-        fetchData();
-    }, [projects]);
 
+        const projectDetails = {
+            PROJECT_ID: project.PROJECT_ID,
+            PROJECT_NAME: project.PROJECT_NAME, 
+            DESCRIPTION: project.DESCRIPTION,
+            MANAGER: findManagerName(managerID),
+            ESTIMATED_TIME: project.ESTIMATED_TIME,
+            ASSIGNED_STAFF: projectMembers,
+            MANAGER_ID: managerID
+        }
+
+        setSelectedProject(projectDetails);
+    }
+
+    const setChatButton = () => {
+        // Use navigate function to go to another page
+        navigate('/ChatPage', {state: selectedProject});
+    }
 
     // HTML Code
     return (
         <section className="view-project">
-            <h2>View Projects</h2>
-
-            <table >
-                    <tbody>
-                        
-                            <tr > 
-                                <td className="project-header-name"><th>Name</th></td>
-                                <td className="project-header-desc2"><th>Description</th></td>
-                                <td className="project-header-est-time"><th>Estimated Time</th></td>
-                                <td className="project-header-members"><th>Members</th></td>
-                                
-                            </tr>
-                       
-                    </tbody>
-            </table>
+            <h2>Projects</h2>
             
             {/* Iterate through the projects list and display them */}
             {projects.length > 0 ? projects.map((project) => (
                 <ViewProjectCard 
-                    key={project.PROJECT_ID} projectID={project.PROJECT_ID} 
-                    name={project.PROJECT_NAME} description={project.DESCRIPTION} 
-                    managerID={managerID}
-                    estimatedTime={project.ESTIMATED_TIME} members={assignedMembers[project.PROJECT_ID] || []}
+                    key={project.PROJECT_ID}
+                    project={project}
+                    onView={handleViewProjectDetails}
                 />
             )) : " "}
+
+            {/* Popup for displaying project details */}
+            <ProjectPopUp trigger={viewProjectPopUp} setTrigger={setViewProjectPopUp}>
+                <article className='popup-header'>
+                    <h2>{selectedProject.PROJECT_NAME}</h2>
+                    <FaRegWindowClose className="close-button" onClick={() => {setViewProjectPopUp(false)}}/>
+                </article>
+
+                <p>Details: {selectedProject.DESCRIPTION}</p>
+
+                <p className='popup-members'>Members:</p>
+                <ul>
+                    {
+                        projectMembers.map((member) => (
+                            <li key={member.EMPLOYEE_ID}> {`${member.NAME} ${member.SURNAME}`} </li>
+                        ))
+                    }
+                </ul>
+                <article className='button-wrapper'>
+                    <button onClick={setChatButton}>
+                        <img src={messageIcon} alt="Group Chat"/>
+                    </button>
+
+                    <button onClick="">
+                        <img src={timesheetIcon} alt="Project Timesheets"/>
+                    </button>
+                </article>
+            </ProjectPopUp>
         </section>
     );
 }
@@ -120,7 +148,7 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
     
     const handleButtonClick = async () => {
         if (!isValidProjectMembers(projectMembers)) {
-            setError("No Staff was Assigned to a Project.")
+            setError("No Staff was assigned to a Project.")
             return;
         }
 
@@ -135,7 +163,8 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
     }
 
     return (
-        <section className="select-wrapper">   
+        <section className="select-wrapper">  
+        <section className="select-container"> 
             <EmployeeSelector 
                 groupName="Staff" 
                 data={staff || []} 
@@ -143,8 +172,9 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
             />
 
             {/* Displays Invalid Data Error Message */}
-            {error && <label className="error-label"> {error} </label>}
+            {error && <label className="add-members-error-label"> {error} </label>}
             <button className="add-members" onClick={handleButtonClick}> Add Members</button>
+            </section>
         </section>
     );
 }
@@ -218,7 +248,7 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
     return (
         <section className="add-project">
         <h2>Add a Project</h2>
-       
+        <section className="add-project-wrapper">
         <article className="formatting">
             <p className = "labels">Name</p>
             <input
@@ -252,11 +282,11 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
             /> 
             <p className = "hours">Hours</p>
         </article>
+        </section>
 
         {/* Displays Invalid Data Error Message */}
         {error && <label className="error-label"> {error} </label>} 
         <button className="create-project" onClick={handleButtonClick}> Add project</button>
-
     </section>
     );
 }
@@ -310,10 +340,10 @@ const ManagerProjectPage = () => {
                 </section>
 
                 {/* 
-                    Displays view projects section when ViewProjects is true,
+                    Displays view projects section when ViewProjects is true,   
                     else displays add a project secton. 
                 */}
-                {activeSection === "viewProjectSection" && <ViewProjectsSection managerID={managerID}/> }
+                {activeSection === "viewProjectSection" && <ViewProjectsSection managerID={managerID} navigate={navigate}/> }
                 {activeSection === "addProjectSection" && <AddProjectsSection projectName={projectName} setProjectName={setProjectName} managerID={managerID} setActiveSection={setActiveSection}/>}
                 {activeSection === "addStaffSection" && <AddStaffSection projectName={projectName} managerID={managerID} setActiveSection={setActiveSection} />}
                 
