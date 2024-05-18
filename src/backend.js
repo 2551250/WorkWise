@@ -278,6 +278,52 @@ async function getMealBookings(meal_id){
   }
 }
 
+// Returns the time spent by all staff members on the indicated project
+// The data is divided into the time that staff have spent each day 
+async function getTimePerDay(project_id){
+  try{
+    const endpoint = `${URL}/TimeSpentByProjectByDate/${project_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No time spent on project by any staff";
+    }
+    return data
+  }catch(err){
+    return "Error";
+  }
+}
+
+// Returns the time spent by all staff members on the indicated project
+// This function returns the time spent for the entirety of the project 
+async function getTimePerProject(project_id){
+  try{
+    const endpoint = `${URL}/TimeSpentByProjectCumulative/${project_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No time spent on project by any staff";
+    }
+    return data
+  }catch(err){
+    return "Error";
+  }
+}
+
+async function getEstimatedAndTotalTime(project_id){
+  try{
+    const endpoint = `${URL}/TimeSpentTotal/${project_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "Project not found";
+    }
+    return data
+  }catch(err){
+    return "Error";
+  }
+}
+
 const isValidProjectMembers = (projectMembers) => {
   /* 
       Checks if at least one staff member is assigned to a project
@@ -520,4 +566,4 @@ export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
          convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
-         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings }
+         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime }
