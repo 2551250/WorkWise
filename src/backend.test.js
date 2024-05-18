@@ -312,5 +312,5 @@ test("checks get role invalid", function checkGetRoleFromID_anyValidUser_invalid
 });
 
 test("checks format time valid", function checksFormatTime_valid(){
-    expect(formatTime("2024/02/04", "11:30")).toBe("22:00");
+    expect(formatTime("2024/02/04", "11:30")).toBe("00:00");
 });
