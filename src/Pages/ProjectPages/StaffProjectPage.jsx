@@ -95,13 +95,17 @@ const StaffProjectPage = ({ navigate }) => {
         navigate('/ChooseTime', {state: selectedProject});
     };
 
+    const logoutClicked = () =>{
+        navigate("/");
+    }
+
     // HTML Code
     return (
         <>
             <Header>
                 <h1> Workwise </h1>
                 <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-                <button className="logout-button">Log Out</button>
+                <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
 
             <section className="view-project">

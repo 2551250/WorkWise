@@ -31,13 +31,16 @@ const BookMeals = () => {
     const homePageButton = () => {
         navigate("/Staff");
     }
+    const logoutClicked = () =>{
+        navigate("/");
+    }
 
     return (
         <>
         <Header>
             <h1> Workwise </h1>
             <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-            <button className="logout-button">Log Out</button>
+            <button className="logout-button" onClick={logoutClicked}>Log Out</button>
         </Header>
 
         <main>

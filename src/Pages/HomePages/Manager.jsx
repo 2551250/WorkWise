@@ -27,19 +27,27 @@ function Manager(){
 
     }
 
+    const viewStaffClicked = () => {
+        navigate("/ViewStaff");
+    }
+
+    const logoutClicked = () =>{
+        navigate("/");
+    }
+
     // HTML Code
     return(
         <>
         <Header>
             <h1>WorkWise</h1>
-            <button className="logout-button">Log Out</button>
+            <button className="logout-button" onClick={logoutClicked}>Log Out</button>
         </Header>
 
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon} onClick={empty}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
             <Card title="Plan Meals" imgSrc={burgerIcon} onClick={empty}/>
-            <Card title="View Staff" imgSrc={peopleIcon} onClick={empty}/>
+            <Card title="View Staff" imgSrc={peopleIcon} onClick={viewStaffClicked}/>
         </main>
         </>
     );

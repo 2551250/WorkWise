@@ -489,9 +489,18 @@ const getAllStaffManagerData = (data) => {
       :param data: json of all the data in Employee datatable
       :return: An array filtered to not contain HR data
   */
-  return data.filter((employee) => employee.ROLE !== "HR"); //filteres out HR data;
+  return data.filter((employee) => employee.ROLE !== "HR"); //filters out HR data;
 }
 
+const getAllStaffData = (data) => {
+    /* 
+      Gets all the data on employees whose roles are Staff
+      
+      :param data: json of all the data in Employee datatable
+      :return: An array filtered to not contain HR data
+  */
+  return data.filter((employee) => employee.ROLE === "Staff"); //filters only Staff data;
+}
 const getEmployeeName = (employeeID, employees) => {
   /* 
       Returns the name & surname of an employee
@@ -566,4 +575,4 @@ export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
          convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
-         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime }
+         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, getAllStaffData }
