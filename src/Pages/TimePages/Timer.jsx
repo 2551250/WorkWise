@@ -58,10 +58,10 @@ const Timer = () => {
         }
 
         setIsRunning(false);
-        const minutes = Math.round(time / (1000 * 60));
-        console.log(minutes);
+        const hours = Math.round((time / (1000 * 60 * 60)) * 100) / 100; // Rounds to 2 decimal places
+        console.log(hours);
         
-        const response = await updateTime(employeeID, projectData.PROJECT_ID, minutes);
+        const response = await updateTime(employeeID, projectData.PROJECT_ID, hours);
         if (response === "Time spent on project successfully updated"){
             setDisplayPopup(true);
         }

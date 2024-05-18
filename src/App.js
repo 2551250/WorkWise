@@ -6,7 +6,7 @@ import Manager from "./Pages/HomePages/Manager";
 import EmployeeManagement from "./Pages/EmployeeManagementPage/EmployeeManagement"
 import StaffProjectPage from './Pages/ProjectPages/StaffProjectPage';
 import ManagerProjectPage from './Pages/ProjectPages/ManagerProjectPage';
-import { Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import { EmployeeProvider } from './Components/EmployeeContext/EmployeeContext';
 import StaffFeedbackPage from "./Pages/FeedbackPages/StaffFeedbackPage";
 import HRPlanMeals from './Pages/MealPages/HRPlanMeals';
@@ -37,6 +37,9 @@ function App() {
           <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
           <Route path="/ChatPage" element={<ChatPage />} />
           <Route path="/StaffBookMeals" element={<StaffBookMeals/>} />
+
+          {/* Catch-all route for 404 */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </EmployeeProvider>
