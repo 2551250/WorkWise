@@ -1,4 +1,4 @@
-.projectpopup {
+.projectpopup{
     position: fixed;
     top: 0;
     left: 0;
@@ -79,7 +79,7 @@ ul{
     background-color: #d25b00;
 }
 
-.propjectpopup-close-button{
+.projectpopup-close-button{
     display: flex;
     justify-self: start;
     align-self: flex-start;

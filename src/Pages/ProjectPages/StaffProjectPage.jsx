@@ -105,7 +105,7 @@ const StaffProjectPage = ({ navigate }) => {
             </Header>
 
             <section className="view-project">
-                <h2>Projects</h2>
+                <h2 className="view-project-h2">Projects</h2>
 
                 {/* Iterate through the projects list and display them */}
                 {projects.map((project) => (
@@ -121,7 +121,7 @@ const StaffProjectPage = ({ navigate }) => {
             <ProjectPopUp trigger={viewProjectPopUp} setTrigger={setViewProjectPopUp}>
                 <article className='projectpopup-header'>
                     <h2>{selectedProject.PROJECT_NAME}</h2>
-                    <FaRegWindowClose className="propjectpopup-close-button" onClick={() => {setViewProjectPopUp(false)}}/>
+                    <FaRegWindowClose className="projectpopup-close-button" onClick={() => {setViewProjectPopUp(false)}}/>
                 </article>
                 
                 <p>Details: {selectedProject.DESCRIPTION}</p>
