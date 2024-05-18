@@ -5,8 +5,8 @@ const ProjectPopUp = ({trigger, setTrigger, children}) => {
     
     return (
         (trigger) ? (
-        <section className="popup">
-            <article className="popup-content">
+        <section className="projectpopup">
+            <article className="projectpopup-content">
                 {children}
             </article>
         </section>

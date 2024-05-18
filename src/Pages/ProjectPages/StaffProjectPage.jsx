@@ -119,7 +119,7 @@ const StaffProjectPage = ({ navigate }) => {
 
             {/* Popup for displaying project details */}
             <ProjectPopUp trigger={viewProjectPopUp} setTrigger={setViewProjectPopUp}>
-                <article className='popup-header'>
+                <article className='projectpopup-header'>
                     <h2>{selectedProject.PROJECT_NAME}</h2>
                     <FaRegWindowClose className="close-button" onClick={() => {setViewProjectPopUp(false)}}/>
                 </article>
@@ -128,7 +128,7 @@ const StaffProjectPage = ({ navigate }) => {
                 
                 <p>Manager: {selectedProject.MANAGER}</p>
 
-                <p className='popup-members'>Members:</p>
+                <p className='projectpopup-members'>Members:</p>
                 <ul>
                     {
                         projectMembers.map((member) => (
@@ -136,21 +136,25 @@ const StaffProjectPage = ({ navigate }) => {
                         ))
                     }
                 </ul>
-                <article className='button-wrapper'>
+                <article className='projectpopup-button-wrapper'>
                     <button onClick={setChatButton}>
-                        <img src={messageIcon} alt="Group Chat"/>
+                        <img  className="projectpopup-img" src={messageIcon} alt="Group Chat"/>
+                        <span className="projectpopup-label">Group Chat</span>
                     </button>
 
                     <button onClick={setFeedbackButton}> 
-                        <img src = {feedbackIcon} alt = "Give Feedback" />
+                        <img  className="projectpopup-img" src = {feedbackIcon} alt = "Give Feedback" />
+                        <span className="projectpopup-label">Feedback</span>
                     </button>
                     
                     <button onClick={setTimeButton}>
-                        <img src = {stopwatchIcon} alt = " Stopwatch"/>
+                        <img  className="projectpopup-img" src = {stopwatchIcon} alt = " Stopwatch"/>
+                        <span className="projectpopup-label">Stopwatch</span>
                     </button>
                     
-                    <button onClick={setTimeButton}>
-                        <img src = {manualtimeIcon} alt = "Manual Time"/>
+                    <button  onClick={setTimeButton}>
+                        <img  className="projectpopup-img" src = {manualtimeIcon} alt = "Manual Time"/>
+                        <span className="projectpopup-label">Add Time</span>
                     </button>
                 </article>
             </ProjectPopUp>
