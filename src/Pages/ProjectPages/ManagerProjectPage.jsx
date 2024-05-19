@@ -25,6 +25,7 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
     */
     // Variables
     const [selectedProject, setSelectedProject] = useState({});
+    const [employees, setEmployees] = useState([]);
     const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
     const [projectMembers, setProjectMembers] = useState([]);
     const [viewProjectPopUp, setViewProjectPopUp] = useState(false); 
@@ -32,31 +33,43 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
     // Functions & Logic
     useEffect(() => {
         // Gets all projects created by the manager
-        const fetchData = async () => {
+        const fetchProjectData = async () => {
             const managerProjectsData = await getManagerProjects(managerID);
             if (typeof(managerProjectsData) !== "string") {
                 setProjects(managerProjectsData);
             }
         }
-        fetchData(managerID);
+
+        const fetchEmployeesData = async () => {
+            const data = await getAllEmployees();
+            if (typeof(data) !== "string"){
+                setEmployees(data);
+            }
+        }
+
+        fetchProjectData(managerID);
+        fetchEmployeesData();
     }, [managerID]);
     
     const handleViewProjectDetails = async ( project ) => {
         setViewProjectPopUp(true);
 
-        const data = await getProjectAssignedStaff(project.PROJECT_ID);
-        if (typeof(data) !== "string"){
-            setProjectMembers(data);
-        }
+        console.log(project);
 
         const projectDetails = {
             PROJECT_ID: project.PROJECT_ID,
             PROJECT_NAME: project.PROJECT_NAME, 
             DESCRIPTION: project.DESCRIPTION,
-            MANAGER: findManagerName(managerID),
             ESTIMATED_TIME: project.ESTIMATED_TIME,
-            ASSIGNED_STAFF: projectMembers,
-            MANAGER_ID: managerID
+            ASSIGNED_STAFF: [],
+            MANAGER_ID: managerID,
+            MANAGER: findManagerName(managerID, employees)
+        }
+
+        const data = await getProjectAssignedStaff(project.PROJECT_ID);
+        if (typeof(data) !== "string"){
+            projectDetails.ASSIGNED_STAFF = data;
+            setProjectMembers(data);
         }
 
         setSelectedProject(projectDetails);
@@ -137,7 +150,7 @@ const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
             setStaff(data.filter((employee) => (employee.ROLE === "Staff")));
         })
 
-    }, [projects]); 
+    },[]); 
 
     useEffect(() => {
         // Gets all projects created by the manager

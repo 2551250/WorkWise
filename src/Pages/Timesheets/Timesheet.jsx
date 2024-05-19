@@ -15,6 +15,8 @@ const Timesheet = () =>{
 const location = useLocation();
 const projectData = location.state;
 
+console.log(projectData);
+
 const { employeeID } = useEmployee();
 const StaffID = parseInt(employeeID);
 
@@ -46,9 +48,9 @@ const data = [
 
 
 
-console.log(" ËMPLOYEE_ID ; " + projectData.EMPLOYEE_ID);
-console.log("TIME ; " + projectData.TIME_SPENT);
-console.log("NAME ; " + getEmployeeName(projectData.EMPLOYEE_ID, employees));
+console.log(" MANAGER_ID ; " + projectData.MANAGER_ID);
+console.log("TIME ; " + projectData.ESTIMATED_TIME);
+console.log("NAME ; " + getEmployeeName(projectData.MANAGER_ID, employees));
 return(
     <>
      <Header>
@@ -88,7 +90,7 @@ return(
         </section>
 
         <section className='timesheet-wrapper'>
-            <h2>Statistics for{projectData.PROJECT_NAME}</h2>
+            <h2>Statistics for {projectData.PROJECT_NAME}</h2>
 
         
         <article className='charts1'>
@@ -123,9 +125,6 @@ return(
         </section>
 
         </section>
-
-
-
 
     </main>
     </>
