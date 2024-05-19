@@ -120,7 +120,11 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
                     <img src={timesheetIcon} alt="Timesheet"/>
                     </button>
                     <button onClick={setChatButton}>
-                    <img src={messageIcon} alt="Group Chat"/>
+                        <img src={messageIcon} alt="Group Chat"/>
+                    </button>
+
+                    <button onClick="">
+                        <img src={timesheetIcon} alt="Project Timesheets"/>
                     </button>
                 </article>
             </ProjectPopUp>
@@ -339,6 +343,9 @@ const ManagerProjectPage = () => {
     const homePageButton = () => {
         navigate("/Manager");
     }
+    const logoutClicked = () =>{
+        navigate("/");
+    }
 
     // HTML Code
     return (
@@ -346,7 +353,7 @@ const ManagerProjectPage = () => {
        <Header>
                 <h1> Workwise </h1>
                 <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-                <button className="logout-button">Log Out</button>
+                <button className="logout-button" onClick={logoutClicked}>Log Out</button>
         </Header>
 
             <section className="display">

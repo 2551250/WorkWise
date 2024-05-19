@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID} from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID, getAllStaffData} from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -137,8 +137,12 @@ test("checks is valid password invalid", function checkIsValidPassword_anyPasswo
     expect(isValidPassword("")).toBe(false);
 });
 
-test('checks that only staff and managerdata is returned', function checkGetAllStaffManagerData_anyUserLoggedIn_valid() {
+test('checks that only staff and manager data is returned', function checkGetAllStaffManagerData_anyUserLoggedIn_valid() {
     expect(getAllStaffManagerData(userTestData)).toStrictEqual(userTestData.filter((employee) => employee.ROLE !== "HR"));
+});
+
+test('checks that only staff is returned', function checkGetAllStaffData_anyUserLoggedIn_valid() {
+    expect(getAllStaffData(userTestData)).toStrictEqual(userTestData.filter((employee) => employee.ROLE === "Staff"));
 });
 
 test("checks get employee id valid", function checksGetEmployeeID_anyUserLoggedIn_Valid() {
@@ -309,4 +313,8 @@ test("checks get role Staff from employee id", function checkGetRoleFromID_anyVa
 
 test("checks get role invalid", function checkGetRoleFromID_anyValidUser_invalid() {
     expect(getRoleFromID(10, userTestData)).toBe("No Employee Found");
+});
+
+test("checks format time valid", function checksFormatTime_valid(){
+    expect(formatTime("2024/02/04", "11:30")).toBe("00:00");
 });

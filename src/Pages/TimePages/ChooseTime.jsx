@@ -25,13 +25,16 @@ const ChooseTime = () =>{
         // redirect to HomePage
         navigate("/Staff");
     }
+    const logoutClicked = () =>{
+        navigate("/");
+    }
 
     return(
         <>
         <Header>
             <h1>WorkWise</h1>
             <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-            <button className="logout-button">Log Out</button>
+            <button className="logout-button" onClick={logoutClicked}>Log Out</button>
         </Header>
         <main className="homepage">
          <Card title="Add Time" imgSrc={clockfaceIcon} onClick={manualTimeButton}/>

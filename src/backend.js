@@ -278,6 +278,52 @@ async function getMealBookings(meal_id){
   }
 }
 
+// Returns the time spent by all staff members on the indicated project
+// The data is divided into the time that staff have spent each day 
+async function getTimePerDay(project_id){
+  try{
+    const endpoint = `${URL}/TimeSpentByProjectByDate/${project_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No time spent on project by any staff";
+    }
+    return data
+  }catch(err){
+    return "Error";
+  }
+}
+
+// Returns the time spent by all staff members on the indicated project
+// This function returns the time spent for the entirety of the project 
+async function getTimePerProject(project_id){
+  try{
+    const endpoint = `${URL}/TimeSpentByProjectCumulative/${project_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "No time spent on project by any staff";
+    }
+    return data
+  }catch(err){
+    return "Error";
+  }
+}
+
+async function getEstimatedAndTotalTime(project_id){
+  try{
+    const endpoint = `${URL}/TimeSpentTotal/${project_id}`;
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (data.length === 0) {
+      return "Project not found";
+    }
+    return data
+  }catch(err){
+    return "Error";
+  }
+}
+
 const isValidProjectMembers = (projectMembers) => {
   /* 
       Checks if at least one staff member is assigned to a project
@@ -443,9 +489,18 @@ const getAllStaffManagerData = (data) => {
       :param data: json of all the data in Employee datatable
       :return: An array filtered to not contain HR data
   */
-  return data.filter((employee) => employee.ROLE !== "HR"); //filteres out HR data;
+  return data.filter((employee) => employee.ROLE !== "HR"); //filters out HR data;
 }
 
+const getAllStaffData = (data) => {
+    /* 
+      Gets all the data on employees whose roles are Staff
+      
+      :param data: json of all the data in Employee datatable
+      :return: An array filtered to not contain HR data
+  */
+  return data.filter((employee) => employee.ROLE === "Staff"); //filters only Staff data;
+}
 const getEmployeeName = (employeeID, employees) => {
   /* 
       Returns the name & surname of an employee
@@ -515,9 +570,25 @@ const getRoleFromID = (employeeID, employees) => {
     return targetEmployee ? targetEmployee.ROLE : "No Employee Found";
 }
 
+const getCurrentDate = () => {
+  /* 
+    Returns the current date in the format yyyy-mm-dd
+
+    :returns string: Returns the current date in the format yyyy-mm-dd
+  */
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+};
+
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
-         convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
-         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings }
+         convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, 
+         getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, getCurrentDate, getAllStaffData }
