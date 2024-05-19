@@ -20,12 +20,15 @@ function Staff(){
     const viewBookMealsPage = () => {
         navigate("/StaffBookMeals");
     }
+    const logoutClicked = () =>{
+        navigate("/");
+    }
 
     return(
         <>
           <Header>
                 <h1> Workwise </h1>
-                <button className="logout-button">Log Out</button>
+                <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
         <main className="homepage">
             <Card title="Timesheets" imgSrc={timesheetIcon}/>

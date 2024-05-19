@@ -4,6 +4,7 @@ import HR from "./Pages/HomePages/HR";
 import Staff from "./Pages/HomePages/Staff";
 import Manager from "./Pages/HomePages/Manager";
 import EmployeeManagement from "./Pages/EmployeeManagementPage/EmployeeManagement"
+import ViewStaff from "./Pages/EmployeeManagementPage/ViewStaff"
 import StaffProjectPage from './Pages/ProjectPages/StaffProjectPage';
 import ManagerProjectPage from './Pages/ProjectPages/ManagerProjectPage';
 import {Route, Routes, useNavigate, Navigate } from "react-router-dom";
@@ -37,6 +38,7 @@ function App() {
           <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
           <Route path="/ChatPage" element={<ChatPage />} />
           <Route path="/StaffBookMeals" element={<StaffBookMeals/>} />
+          <Route path = "/ViewStaff" element={<ViewStaff />} />
 
           {/* Catch-all route for 404 */}
           <Route path="*" element={<Navigate to="/" />} />
