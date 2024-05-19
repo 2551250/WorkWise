@@ -1,0 +1,58 @@
+.bookmeal-wrapper{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: flex-start;
+    border: 2px solid #ff6d00;
+    padding: 10px;
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+    box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.bookmeal-wrapper.booked {
+    background-color: #f2f2f2; 
+}
+
+.bookmeal-content{
+    padding: 0;
+    margin-top: 0;
+    width:90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.bookmeal-content h3{
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.bookmeal-content p{
+    margin-bottom: 10px;
+}
+
+.bookmeal-button{
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+    width: 10%;
+    justify-self: flex-end;
+    align-self: center;
+    margin-left: 2%;
+    transition: background-color 0.3s;
+}
+
+.bookmeal-button:hover{
+    cursor: pointer;
+    background-color: #565656;
+}

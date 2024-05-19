@@ -570,9 +570,25 @@ const getRoleFromID = (employeeID, employees) => {
     return targetEmployee ? targetEmployee.ROLE : "No Employee Found";
 }
 
+const getCurrentDate = () => {
+  /* 
+    Returns the current date in the format yyyy-mm-dd
+
+    :returns string: Returns the current date in the format yyyy-mm-dd
+  */
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+};
+
+
 // exports
 export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
          getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
          isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
-         convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
-         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, getAllStaffData }
+         convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, 
+         getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, getCurrentDate, getAllStaffData }

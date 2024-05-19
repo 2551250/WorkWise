@@ -1,69 +1,77 @@
 import "./StaffBookMeals.css";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+
+import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import Header from "../../Components/Header/Header";
-const BookMeals = () => {
+import BookMealCard from "../../Components/BookMealCard/BookMealCard";
 
-    const [showPopup, setShowPopup] = useState(false);
-    const [bookingStates, setBookingStates] = useState(Array(3).fill(false)); // Assuming 3 meals, change as needed
-    const [mealIndexToBook, setMealIndexToBook] = useState(null);
-    const navigate = useNavigate();
+import { getMeals } from "../../backend";
+import { getEmployeeBookings, getCurrentDate } from "../../backend";
+import { addBooking } from "../../backend_post_requests";
 
-    const handleBookMeal = (mealIndex) => {
-        setMealIndexToBook(mealIndex);
-        setShowPopup(true);
+
+const BookedMealSection = ({meal}) => {
+    return (
+        <section>
+            <h2 className="bookmeals-header">Meals for the Day</h2>
+            <h3> {meal.MEAL_NAME} </h3>
+            <p> {meal.MEAL_DESCRIPTION} </p>
+        </section>
+    );
+}
+
+
+const SelectMealSection = ({employeeID, bookedMeal, setBookedMeal, setActiveSection}) => {
+    const [displayPopup, setDisplayPopup]= useState(false);
+    const [meals, setMeals] = useState([]);
+
+    useEffect(() => {
+        const fetchMealData = async () => {
+            const currentDate = getCurrentDate();
+
+            const data = await getMeals(currentDate);
+            if (typeof(data) !== "string"){
+                setMeals(data);
+            }
+        }
+
+        fetchMealData();
+    }, []);
+
+
+    const handleBookMeal = (meal) => {
+        setBookedMeal(meal);
+        setDisplayPopup(true);
     };
 
-    const handleConfirmBooking = () => {
-        setShowPopup(false);
-        if (mealIndexToBook !== null) {
-            const newBookingStates = [...bookingStates];
-            newBookingStates[mealIndexToBook] = true;
-            setBookingStates(newBookingStates);
-            setMealIndexToBook(mealIndexToBook);
+    const handleConfirmBooking = async () => {
+        const response = await addBooking(employeeID, bookedMeal.MEAL_ID);
+        if (response === "Booking successfully created"){
+            setDisplayPopup(false);
+            setActiveSection("viewBookedMealSection");
         }
     };
 
     const handleCancelBooking = () => {
-        setShowPopup(false);
-        setMealIndexToBook(null);
+        setDisplayPopup(false);
     };
-    const homePageButton = () => {
-        navigate("/Staff");
-    }
-    const logoutClicked = () =>{
-        navigate("/");
-    }
 
     return (
-        <>
-        <Header>
-            <h1> Workwise </h1>
-            <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-            <button className="logout-button" onClick={logoutClicked}>Log Out</button>
-        </Header>
-
         <main>
             <h2 className="bookmeals-header">Meals for the Day</h2>
+            
             <section className="bookmeals">
-                {bookingStates.map((isBooked, index) => (
-                    <section key={index} className={`bookmeal-wrapper ${isBooked ? 'booked' : ''}`}>
-                        <article className="bookmeal-content">
-                            <h3>Meal Name</h3>
-                            <p>Description of meal is given over here for the day. 
-                                This dish has amazing scents tastes and colours 
-                                that would give you a whirlwind of an experience</p>
-                        </article>
-                        <button
-                            className="bookmeal-button"
-                            onClick={() => handleBookMeal(index)}
-                            disabled={isBooked || mealIndexToBook !== null}>
-                            {isBooked ? 'Meal Booked!' : 'Book Meal'}
-                        </button>
-                    </section>
+                {meals.map((meal) => (
+                    <BookMealCard 
+                        key={meal.MEAL_ID} 
+                        meal={meal}
+                        handleBookMeal={handleBookMeal}
+                    />
                 ))}
             </section>
-            {showPopup && (
+            
+            {displayPopup && (
                 <section className="bookmeals-popup">
                     <article className="bookmeals-popup-content">
                         <h2>Confirm Booking</h2>
@@ -76,6 +84,62 @@ const BookMeals = () => {
                 </section>
             )}
         </main>
+    );
+};
+
+const BookMeals = () => {
+    // Variables
+    const navigate = useNavigate();
+    const { employeeID } = useEmployee();
+
+    const [bookedMeal, setBookedMeal] = useState({});
+    const [activeSection, setActiveSection] = useState("viewBookedMealSection");
+    
+
+    // Functions & Logic
+
+    useEffect(() => {
+        const fetchBookedMealsData = async (employeeID) => {
+            const data = await getEmployeeBookings(employeeID);
+            let mealBooked = false;
+
+            if (typeof(data) !== "string"){
+                for (const meal of data){
+                    // Checks if a meal has been booked
+                    if (meal.DATE.substring(0, 10) === getCurrentDate()){
+                        mealBooked = true;
+                        setBookedMeal(meal);
+                    }
+                }
+            }
+
+            if (!mealBooked) {
+                setActiveSection("selectMealSection");
+            }
+        }
+
+        fetchBookedMealsData(employeeID);
+    }, [employeeID]);
+    
+    const homePageButton = () => {
+        navigate("/Staff");
+    }
+
+    const logoutClicked = () =>{
+        navigate("/");
+    }
+
+    // HTML Code
+    return (
+        <>
+        <Header>
+            <h1> Workwise </h1>
+            <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
+            <button className="logout-button" onClick={logoutClicked}>Log Out</button>
+        </Header>
+
+        {activeSection === "viewBookedMealSection" && <BookedMealSection meal={bookedMeal}/> }
+        {activeSection === "selectMealSection" && <SelectMealSection employeeID={employeeID} bookedMeal={bookedMeal} setBookedMeal={setBookedMeal} setActiveSection={setActiveSection}/>}
         </>
     );
 };
