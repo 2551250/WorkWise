@@ -12,6 +12,7 @@ import "./ManagerProjectPage.css";
 import { useNavigate } from "react-router";
 
 import messageIcon from "../../Assets/message-icon.svg";
+import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import { FaRegWindowClose } from "react-icons/fa";
 
 
@@ -65,6 +66,10 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
         // Use navigate function to go to another page
         navigate('/ChatPage', {state: selectedProject});
     }
+    const setTimesheetButton = () => {
+        // Use navigate function to go to another page
+        navigate('/Timesheet', {state: selectedProject});
+    }
 
     // HTML Code
     return (
@@ -98,6 +103,9 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
                     }
                 </ul>
                 <article className='button-wrapper'>
+                <button onClick={setTimesheetButton}>
+                    <img src={timesheetIcon} alt="Timesheet"/>
+                    </button>
                     <button onClick={setChatButton}>
                     <img src={messageIcon} alt="Group Chat"/>
                     </button>

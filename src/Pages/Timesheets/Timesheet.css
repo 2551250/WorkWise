@@ -4,10 +4,12 @@
     bottom: 0;
     left:0;
     right: 0;
-    margin: 0;
+    margin-top:5%;
     padding: 0;
     background-color: whitesmoke ;
     font-family:  Roboto, sans-serif;
+    height: 90%;
+    overflow: auto;
 }
 .timesheet-main h2{
     margin-left: 5%;
@@ -20,7 +22,7 @@
     padding: 10px;
     margin-left: 15%;
     margin-right: 15%;
-    margin-top: 1%;
+   
     margin-bottom: 2%;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }

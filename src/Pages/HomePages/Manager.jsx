@@ -22,6 +22,7 @@ function Manager(){
         navigate("/ManagerProjectPage");
     }
 
+
     // empty function for unimplemented data
     const empty = () => {
 
