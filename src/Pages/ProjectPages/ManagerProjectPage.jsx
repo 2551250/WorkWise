@@ -70,7 +70,7 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
     // HTML Code
     return (
         <section className="view-project">
-            <h2>Projects</h2>
+            <h2 className="view-project-h2">Projects</h2>
             
             {/* Iterate through the projects list and display them */}
             {projects.length > 0 ? projects.map((project) => (
@@ -83,14 +83,14 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
 
             {/* Popup for displaying project details */}
             <ProjectPopUp trigger={viewProjectPopUp} setTrigger={setViewProjectPopUp}>
-                <article className='popup-header'>
+                <article className='projectpopup-header'>
                     <h2>{selectedProject.PROJECT_NAME}</h2>
-                    <FaRegWindowClose className="close-button" onClick={() => {setViewProjectPopUp(false)}}/>
+                    <FaRegWindowClose className="projectpopup-close-button" onClick={() => {setViewProjectPopUp(false)}}/>
                 </article>
 
                 <p>Details: {selectedProject.DESCRIPTION}</p>
 
-                <p className='popup-members'>Members:</p>
+                <p className='projectpopup-members'>Members:</p>
                 <ul>
                     {
                         projectMembers.map((member) => (
@@ -98,13 +98,15 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
                         ))
                     }
                 </ul>
-                <article className='button-wrapper'>
+                <article className='projectpopup-button-wrapper'>
                     <button onClick={setChatButton}>
-                        <img src={messageIcon} alt="Group Chat"/>
+                        <img className="projectpopup-img" src={messageIcon} alt="Group Chat"/>
+                        <span className="projectpopup-label">Group Chat</span>
                     </button>
 
                     <button onClick="">
-                        <img src={timesheetIcon} alt="Project Timesheets"/>
+                        <img className="projectpopup-img" src={timesheetIcon} alt="Project Timesheets"/>
+                        <span className="projectpopup-label">Project Timesheets</span>
                     </button>
                 </article>
             </ProjectPopUp>
@@ -247,7 +249,7 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
     // HTML Code
     return (
         <section className="add-project">
-        <h2>Add a Project</h2>
+        <h2 className="add-project-h2">Add a Project</h2>
         <section className="add-project-wrapper">
         <article className="formatting">
             <p className = "labels">Name</p>
