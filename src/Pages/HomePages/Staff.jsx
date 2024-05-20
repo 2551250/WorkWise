@@ -3,7 +3,6 @@ import "./Staff.css";
 import { useNavigate } from "react-router-dom";
 
 import burgerIcon from "../../Assets/burger-icon.svg";
-import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import projectIcon from "../../Assets/project-icon.svg";
 
 

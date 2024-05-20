@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 // Loading Card Icons from Assets Folder
 import projectIcon from "../../Assets/project-icon.svg";
 import peopleIcon from "../../Assets/people-icon.svg";
-import timesheetIcon from "../../Assets/timesheet-icon.svg";
 
 import Card from "../../Components/Card/Card";
 import Header from "../../Components/Header/Header";
@@ -21,10 +20,6 @@ function Manager(){
         navigate("/ManagerProjectPage");
     }
 
-    // empty function for unimplemented data
-    const empty = () => {
-
-    }
 
     // redirect to View Staff Page
     const viewStaffClicked = () => {
