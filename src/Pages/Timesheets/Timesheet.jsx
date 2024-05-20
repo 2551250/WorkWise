@@ -3,8 +3,9 @@ import './Timesheet.css'; // Import the CSS file
 import "./ProjectStatPage.css";
 import Header from "../../Components/Header/Header";
 import { useLocation, useNavigate } from 'react-router';
+import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
 import { ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, AreaChart, Area } from 'recharts';
-import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime } from '../../backend';
+import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees } from '../../backend';
 
 
 const getRandomColour = () => {
@@ -119,11 +120,14 @@ const getProjectAreaChartData = (timePerDay) => {
 
 
 const Timesheet = () =>{
-    const navigate = useNavigate();
-
     const location = useLocation();
     const projectData = location.state;
+    const navigate = useNavigate();
 
+    const { employeeID } = useEmployee();
+    const viewerID = parseInt(employeeID); // Employee ID of the message sender
+
+    const [employees, setEmployees] = useState([]);
     const [timePerEmployee, setTimePerEmployee] = useState([]);
     const [timePerDay, setTimePerDay] = useState([]);
     const [esitmatedAndTotalTime, setEsitmatedAndTotalTime] = useState({});
@@ -156,14 +160,27 @@ const Timesheet = () =>{
     }, [projectData]);
 
     useEffect(() => {
+        const fetchEmployees = async () => {
+            const data = await getAllEmployees();
+            if (typeof(data) != "string"){ //request was successful
+                setEmployees(data);
+            }
+        }
 
-    }, [projectData]);
+        fetchEmployees();
+    }, []);
 
     const staffAreaChartData = Object.values(convertToTimePerDayPerStaff(timePerDay));
     const projectAreaChartData = getProjectAreaChartData(timePerDay);
 
     const homePageButton = () => {
-        navigate("/Manager");
+        const role = getRoleFromID(viewerID, employees);
+        if (role === "No Employee Found"){
+            return
+        }
+        else{
+            navigate(`/${role}`);
+        }
     }
 
     const logoutClicked = () =>{
