@@ -60,3 +60,47 @@ justify-content: space-between;
 align-items: center;
 gap:50px;
 }
+
+.bookedmeal-header{
+    margin-left:5%;
+    margin-top: 2%;
+}
+
+.bookedmeal-wrapper{
+    margin-left: 10%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: flex-start;
+    border: 2px solid #ff6d00;
+    padding: 10px;
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+    box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+.bookedmeal-content{
+    padding: 0;
+    margin-top: 0;
+    width:90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.bookedmeal-content h3{
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.bookedmeal-content p{
+    margin-bottom: 10px;
+}

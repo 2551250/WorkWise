@@ -4,9 +4,13 @@
 }
 
 .employee-management-header{
-    margin-top: 20px;
+    margin-top: 2%;
+    margin-left: 5%;
 }
-
+.employee-management-header2{
+    margin-top: 2%;
+    margin-left: 5%;
+}
 
 .table-name {
     flex:1;
@@ -22,10 +26,6 @@
     padding-top: 10px;
 }
 
-.table-permissions {
-    flex:2;
-    padding-top: 10px;
-}
 
 .table-delete {
     flex:2;

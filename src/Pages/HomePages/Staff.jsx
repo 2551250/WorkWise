@@ -31,7 +31,6 @@ function Staff(){
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
         <main className="homepage">
-            <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
             <Card title="Book Meals" imgSrc={burgerIcon} onClick={viewBookMealsPage}/>
 

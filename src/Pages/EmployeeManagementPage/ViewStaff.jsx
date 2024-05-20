@@ -42,7 +42,7 @@ const ViewStaff = () => {
                 <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
-            <h2 className="employee-management-header">View Staff</h2>
+            <h2 className="employee-management-header2">View Staff</h2>
 
             <main className="list-wrapper">
                 <table>

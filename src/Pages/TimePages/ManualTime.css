@@ -4,6 +4,7 @@
     padding: 0px;
     font-family:  Roboto, sans-serif;
     width: 35%;
+    min-width: fit-content;
     position: absolute;
     left: 28.5%;
     top: 36%;
