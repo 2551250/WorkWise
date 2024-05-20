@@ -18,6 +18,8 @@ import ChatPage from './Pages/ChatPage/ChatPage';
 import StaffBookMeals from './Pages/MealPages/StaffBookMeals';
 import HRProjectPage from './Pages/ProjectPages/HRProjectPage';
 
+import Timesheet from './Pages/Timesheets/Timesheet';
+
 
 function App() {
   const navigate = useNavigate();
@@ -40,6 +42,9 @@ function App() {
           <Route path="/ManualTimer" element={<ManualTime navigate={navigate}/>} />
           <Route path="/ChatPage" element={<ChatPage />} />
           <Route path="/StaffBookMeals" element={<StaffBookMeals/>} />
+          <Route path="/Timesheet" element={<Timesheet/>} />
+        
+
           <Route path = "/ViewStaff" element={<ViewStaff />} />
           <Route path = "/HRProjectPage" element={<HRProjectPage />} />
 

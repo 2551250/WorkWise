@@ -83,7 +83,7 @@ const HRProjectPage = () => {
     }
     //Redirect to the timesheet page for HR
     const viewTimesheetButton = () => {
-        navigate("/Timesheet");
+        navigate("/Timesheet", {state: selectedProject});
     }
 
     // HTML Code
