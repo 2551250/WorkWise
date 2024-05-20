@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
 import ProjectPopUp from "../../Components/ProjectPopUp/ProjectPopUp";
-import { getAllEmployees, getStaffProjects, getProjectAssignedStaff, findManagerName, getAllProjects } from "../../backend";
+import { getAllEmployees, getProjectAssignedStaff, findManagerName, getAllProjects } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import "./HRProjectPage.css";
