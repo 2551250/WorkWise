@@ -90,9 +90,14 @@ const StaffProjectPage = ({ navigate }) => {
         navigate('/StaffFeedbackPage', {state: selectedProject});
     };
 
-    const setTimeButton = () => {
+    const stopwatchButton = () => {
         // Use navigate function to go to another page
-        navigate('/ChooseTime', {state: selectedProject});
+        navigate('/Timer', {state: selectedProject});
+    };
+
+    const addTimeButton = () => {
+        // Use navigate function to go to another page
+        navigate('/ManualTimer', {state: selectedProject});
     };
 
     const logoutClicked = () =>{
@@ -151,12 +156,12 @@ const StaffProjectPage = ({ navigate }) => {
                         <span className="projectpopup-label">Feedback</span>
                     </button>
                     
-                    <button onClick={setTimeButton}>
+                    <button onClick={stopwatchButton}>
                         <img  className="projectpopup-img" src = {stopwatchIcon} alt = " Stopwatch"/>
                         <span className="projectpopup-label">Stopwatch</span>
                     </button>
                     
-                    <button  onClick={setTimeButton}>
+                    <button  onClick={addTimeButton}>
                         <img  className="projectpopup-img" src = {manualtimeIcon} alt = "Manual Time"/>
                         <span className="projectpopup-label">Add Time</span>
                     </button>

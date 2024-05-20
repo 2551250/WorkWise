@@ -3,7 +3,6 @@ import "./Staff.css";
 import { useNavigate } from "react-router-dom";
 
 import burgerIcon from "../../Assets/burger-icon.svg";
-import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import projectIcon from "../../Assets/project-icon.svg";
 
 
@@ -31,7 +30,6 @@ function Staff(){
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
         <main className="homepage">
-            <Card title="Timesheets" imgSrc={timesheetIcon}/>
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
             <Card title="Book Meals" imgSrc={burgerIcon} onClick={viewBookMealsPage}/>
 

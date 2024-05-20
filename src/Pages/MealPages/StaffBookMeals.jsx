@@ -14,9 +14,13 @@ import { addBooking } from "../../backend_post_requests";
 const BookedMealSection = ({meal}) => {
     return (
         <section>
-            <h2 className="bookmeals-header">Meals for the Day</h2>
+            <h2 className="bookedmeal-header">Meals for the Day</h2>
+            <article className="bookedmeal-wrapper">
+            <article className="bookedmeal-content">
             <h3> {meal.MEAL_NAME} </h3>
             <p> {meal.MEAL_DESCRIPTION} </p>
+            </article>
+            </article>
         </section>
     );
 }
