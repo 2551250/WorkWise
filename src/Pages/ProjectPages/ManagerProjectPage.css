@@ -51,7 +51,7 @@
     flex-direction: column;
 }
 
-.view-project h2{
+.view-project-h2{
     margin-top: 50px;
     margin-left: 60px;
 }
@@ -64,7 +64,7 @@
     align-items: center;
     margin-top: 10%;
 }
-.add-project h2{
+.add-project-h2{
     margin-bottom: 10px;
 }
 .add-project-wrapper{

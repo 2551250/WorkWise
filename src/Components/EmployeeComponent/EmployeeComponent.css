@@ -1,7 +1,7 @@
 
 .employee-name{
     flex:1;
-    border: 1px solid lightgray;
+    border: 3px solid #ff6d00;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,13 +9,14 @@
     border-bottom-left-radius: 5px;
     border-right: none;
     padding: 10px;
+    
 }
 .employee-email{
     flex:3;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid lightgray;
+    border: 3px solid #ff6d00;
     border-left: none;
     border-right: none;
     padding: 10px;
@@ -26,29 +27,55 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid lightgray;
+    border: 3px solid #ff6d00;
     border-left: none;
     border-right: none;
     padding: 10px;
 
 }
-.employee-permissions{
+
+.employee-name2{
+    flex:1;
+    border: 3px solid #ff6d00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: none;
+    padding: 15px;
+    
+}
+.employee-email2{
+    flex:3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #ff6d00;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+
+}
+.employee-role2{
     flex:2;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid lightgray;
+    border: 3px solid #ff6d00;
     border-left: none;
-    border-right: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
     padding: 10px;
 
 }
+
 .employee-delete{
     flex:2;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid lightgray;
+    border: 3px solid #ff6d00;
     border-left: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;

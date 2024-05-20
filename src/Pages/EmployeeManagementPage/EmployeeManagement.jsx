@@ -99,7 +99,6 @@ const EmployeeManagement = () => {
                             <th className="table-name">Name</th>
                             <th className="table-email">Email</th>
                             <th className="table-role">Role</th>
-                            <th className="table-permissions">Change Permissions</th>
                             <th className="table-delete">Delete</th>
                         </tr>
                         {employees.map((employee) => (

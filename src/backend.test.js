@@ -170,7 +170,7 @@ test("checks returning reviews created by employee returns an error", async func
 });
 
 test("checks returning all employees reached database", async function checkGetAllEmployees_anyState_Valid() {
-    expect(await getAllEmployees() === "Error").toBe(false);
+    expect(await getAllEmployees() === "Error").toBeFalsy();
 });
 
 test("checks returning all projects reached database", async function checkGetAllProjects_anyState_Valid() {
