@@ -127,17 +127,14 @@ const HRProjectPage = () => {
                         ))
                     }
                 </ul>
-                <ul>
+                <article className='projectpopup-button-wrapper'>
                     <button onClick={viewTimesheetButton}>
                         <img className="projectpopup-img" src={timesheetIcon} alt="Project Timesheets"/>
                         <span className="projectpopup-label">Project Timesheets</span>
                     </button>
-                </ul>
-
-            
+                </article>
             </ProjectPopUp>
         </>
-
     );
 }
 
