@@ -3,133 +3,232 @@ import './Timesheet.css'; // Import the CSS file
 import "./ProjectStatPage.css";
 import Header from "../../Components/Header/Header";
 import { useLocation, useNavigate } from 'react-router';
-import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Tooltip, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
-import { getEmployeeName, getAllEmployees } from '../../backend';
+import { ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, AreaChart, Area } from 'recharts';
+import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime } from '../../backend';
+
+
+const getRandomColour = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
+
+
+const StaffAreaChart = ({ data }) => {
+    const randomColour = getRandomColour();
+
+    return (
+        <>
+        <article className='charts-container'>
+            <h4> {data[0].NAME} {data[0].SURNAME} </h4>
+            <article className='charts2'>
+                <ResponsiveContainer>
+                    <AreaChart
+                        data={data}
+                        // syncId="anyId"
+                        margin={{
+                            top: 10,
+                            right: 50,
+                            left: 0,
+                            bottom: 10,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="DATE" />
+                        <YAxis unit="hr"/>
+                        <Tooltip />
+                        <Area type="monotone" dataKey="TIME" stroke={randomColour} fill={randomColour} />
+                    </AreaChart>
+                </ResponsiveContainer>
+                </article>
+            </article>
+        </>
+    );
+}
+
+
+const ProjectAreaChart = ({ data }) => {
+    const randomColour = getRandomColour();
+
+    return (
+        <article className='charts1' style={{ width: '97%', height: 300 }}>
+            <ResponsiveContainer>
+                <AreaChart
+                    data={data}
+                    margin={{
+                        top: 10,
+                        right: 30,
+                        left: 0,
+                        bottom: 0,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="DATE">
+                        <label value="Date" position="insideBottomRight" offset={-5} />
+                    </XAxis>
+                    <YAxis unit="hr">
+                        <label value="Time (hours)" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+                    </YAxis>
+                    <Tooltip />
+                    <Area type="monotone" dataKey="TIME" stroke={randomColour} fill={randomColour} />
+                </AreaChart>
+            </ResponsiveContainer>
+        </article>
+    );
+}
+
+
+const convertToTimePerDayPerStaff = (timePerDay) =>
+{
+    const formattedData = {};
+
+    for (const employee of timePerDay){
+        const key = `${employee.EMPLOYEE_ID}`
+        if (!(key in formattedData)){
+            formattedData[key] = [];
+        }
+
+        formattedData[key].push(employee);
+    }
+
+    return formattedData;
+}
+
+
+const getProjectAreaChartData = (timePerDay) => {
+    const data = {};
+
+    for (const employee of timePerDay){
+        if (employee.DATE === null) continue;
+
+        if (!(employee.DATE in data)){
+            data[employee.DATE] = 0;
+        }
+
+        data[employee.DATE] += employee.TIME;
+    }
+
+    return Object.keys(data).map(key => ({
+        DATE: key,
+        TIME: data[key]
+    }));
+}
+
 
 const Timesheet = () =>{
-    const navigate = useNavigate
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    const projectData = location.state;
+
+    const [timePerEmployee, setTimePerEmployee] = useState([]);
+    const [timePerDay, setTimePerDay] = useState([]);
+    const [esitmatedAndTotalTime, setEsitmatedAndTotalTime] = useState({});
+
+    useEffect(() => {
+        const fetchTimePerProject = async (projectData) => {
+            const data = await getTimePerProject(projectData.PROJECT_ID);
+            if (typeof(data) != "string"){ //request was successful
+                setTimePerEmployee(data);
+            }
+        }
+        
+        const fetchTimePerDay = async (projectData) => {
+            const data = await getTimePerDay(projectData.PROJECT_ID);
+            if (typeof(data) != "string"){ //request was successful
+                setTimePerDay(data);
+            }
+        }
+
+        const fetchEstimatedAndTotalTime = async (projectData) => {
+            const data = await getEstimatedAndTotalTime(projectData.PROJECT_ID);
+            if (typeof(data) != "string"){ //request was successful
+                setEsitmatedAndTotalTime(data[0]);
+            }
+        }
+
+        fetchEstimatedAndTotalTime(projectData);
+        fetchTimePerProject(projectData);
+        fetchTimePerDay(projectData);
+    }, [projectData]);
+
+    useEffect(() => {
+
+    }, [projectData]);
+
+    const staffAreaChartData = Object.values(convertToTimePerDayPerStaff(timePerDay));
+    const projectAreaChartData = getProjectAreaChartData(timePerDay);
+
     const homePageButton = () => {
         navigate("/Manager");
     }
-const location = useLocation();
-const projectData = location.state;
 
-console.log(projectData);
-
-const { employeeID } = useEmployee();
-const StaffID = parseInt(employeeID);
-
-    // Sample data for the charts
-const data = [
-    { name: 'John', hoursSpent: 40, date: '2024-05-01', cumulativeHours: 40 },
-    { name: 'Jane', hoursSpent: 35, date: '2024-05-02', cumulativeHours: 75 },
-    // More data...
-  ];
-  
-  const members = [
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Smith' },
-    // More members...
-  ];
-  const [employees, setEmployees] = useState([]);
-
-  useEffect(() => {
-    // Gets all employees stored in the database
-    const fetchEmployees = async () => {
-        const data = await getAllEmployees();
-        if (typeof(data) != "string"){ //request was successful
-            setEmployees(data);
-        }
+    const logoutClicked = () =>{
+        navigate("/");
     }
 
-    fetchEmployees();
-}, [projectData]);
-
-
-
-console.log(" MANAGER_ID ; " + projectData.MANAGER_ID);
-console.log("TIME ; " + projectData.ESTIMATED_TIME);
-console.log("NAME ; " + getEmployeeName(projectData.MANAGER_ID, employees));
-return(
-    <>
-     <Header>
-                <h1> Workwise </h1>
-                <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-                <button className="logout-button">Log Out</button>
+    return(
+        <>
+        <Header>
+            <h1> Workwise </h1>
+            <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
+            <button className="logout-button"  onClick={logoutClicked}>Log Out</button>
         </Header>
 
-    <main className="timesheet-main">
+        <main className="timesheet-main">
+            <section className='timesheet-wrapper'>
+                <h2>Times for {projectData.PROJECT_NAME}</h2>
+                
+                <section className='timesheet-total'>
+                    <p>Total time estimated for {projectData.PROJECT_NAME}:</p>
+                    <p> {esitmatedAndTotalTime.ESTIMATED_TIME} Hours</p>
+                </section>
 
-        <section className='timesheet-wrapper'>
-        <h2>Times for {projectData.PROJECT_NAME}</h2>
-        <section className='timesheet-total'>
-        <p>Total time estimated for project name:</p>
-        <p>80 Hours</p>
-        </section>
-        <section className='timesheet-estimated'>
-        <p>Total time completed so far for project name:</p>
-        <p>80 Hours</p>
-        </section>
-        </section>
-        <section className='timesheet-wrapper'>
-            <h2>Staff Member times</h2>
-        <section className='timesheet-headers'>
-            <h3>Staff Members</h3>
-            <h3>Time spent</h3>
-        </section>
-
-        { /* DISPLAY MEMBERS AND TIME_SPENT here
-
-        /* {projectData.map(project => ( 
-            <section className='timesheet-data' key={project.EMPLOYEE_ID}>
-                <p>{ getEmployeeName(project.EMPLOYEE_ID, employees)}</p>
-                <p>{project.TIME_SPENT} Hours</p>
+                <section className='timesheet-estimated'>
+                    <p>Total time completed so far for {projectData.PROJECT_NAME}:</p>
+                    <p> {esitmatedAndTotalTime.TIME_SPENT} Hours</p>
+                </section>
             </section>
-        ))} */}
-        </section>
 
-        <section className='timesheet-wrapper'>
-            <h2>Statistics for {projectData.PROJECT_NAME}</h2>
+            <section className='timesheet-wrapper'>
+                <h2>Staff Member times</h2>
+                
+                <section className='timesheet-headers'>
+                    <h3>Staff Members</h3>
+                    <h3>Time spent</h3>
+                </section>
 
-        
-        <article className='charts1'>
-          <BarChart width={400} height={400} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="hoursSpent" fill="#8884d8" />
-          </BarChart>
-        
-        </article>
-        <section className='charts-container'>
-        <article className='charts2'>
-        <LineChart width={300} height={200} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="cumulativeHours" stroke="#82ca9d" />
-          </LineChart>
+                {/* DISPLAY MEMBERS AND TIME_SPENT here */}
+                {timePerEmployee.map(employee => ( 
+                    <section className='timesheet-data' key={employee.EMPLOYEE_ID}>
+                        <p>{employee.NAME} {employee.SURNAME}</p>
+                        <p>{employee.TIME} Hours</p>
+                    </section>
+                ))}
+            </section>
 
-        </article>
-        <article className='charts3'>
-        <PieChart width={200} height={200}>
-            <Pie data={data} dataKey="hoursSpent" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="#8884d8" label />
-            <Tooltip />
-          </PieChart>
-        </article>
-        </section>
+            <section className='timesheet-wrapper'>
+                <h2>Statistics for {projectData.PROJECT_NAME}</h2>
 
-        </section>
+                <h2> Staff Contribution </h2>
+                <ProjectAreaChart data={projectAreaChartData}/>
 
-    </main>
+                <section className='charts-wrapper'>
+                
+                {
+                    staffAreaChartData.map(data => (
+                        <StaffAreaChart data={data}/>
+                    ))
+                }
+                </section>
+
+            </section>
+        </main>
     </>
-
-);
-
+    );
 }
+
 export default Timesheet;
