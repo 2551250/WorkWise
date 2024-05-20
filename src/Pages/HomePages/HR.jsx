@@ -20,6 +20,9 @@ function HR() {
     const viewPlanMealPage = () => {
         navigate("/HRBookMeals");
     }
+      const viewProjectsClicked = () => {
+        navigate("/HRProjectPage");
+    }
 
     const logoutClicked = () =>{
         navigate("/");
@@ -34,7 +37,7 @@ function HR() {
             <main className="homepage">
                 <Card title="Plan Meals" imgSrc={burgerIcon} onClick={viewPlanMealPage} />
                 <Card title="View Staff" imgSrc={peopleIcon} onClick={viewStaffClicked} />
-                <Card title="Projects" imgSrc={projectIcon} />
+                <Card title="Projects" imgSrc={projectIcon}  onClick={viewProjectsClicked} />
             </main>
         </>
     );
