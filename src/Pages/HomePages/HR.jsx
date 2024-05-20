@@ -2,6 +2,7 @@ import React from "react";
 import "./HR.css";
 import { useNavigate } from "react-router-dom";
 
+import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import burgerIcon from "../../Assets/burger-icon.svg";
 import peopleIcon from "../../Assets/people-icon.svg";
 
@@ -33,6 +34,7 @@ function HR() {
             <main className="homepage">
                 <Card title="Plan Meals" imgSrc={burgerIcon} onClick={viewPlanMealPage} />
                 <Card title="View Staff" imgSrc={peopleIcon} onClick={viewStaffClicked} />
+                <Card title="Timesheets" imgSrc={timesheetIcon} />
             </main>
         </>
     );
