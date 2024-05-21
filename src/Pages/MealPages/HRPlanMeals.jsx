@@ -39,6 +39,7 @@ const ViewMealsSection = () => {
         // Set the formatted date to the state variable
         setFormattedDate(formattedDate);
 
+        //Fetching already created meals from database
         const fetchData = async (date) => {
             const data = await getMeals(date);
             if (data !== "Error") {

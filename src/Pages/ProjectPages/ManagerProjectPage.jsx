@@ -39,18 +39,19 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
                 setProjects(managerProjectsData);
             }
         }
-
+        //Fetching employees
         const fetchEmployeesData = async () => {
             const data = await getAllEmployees();
             if (typeof(data) !== "string"){
                 setEmployees(data);
             }
         }
-
+        //Fetching projets creating by a specific manager
         fetchProjectData(managerID);
         fetchEmployeesData();
     }, [managerID]);
     
+    //Displaying project popup and project details
     const handleViewProjectDetails = async ( project ) => {
         setViewProjectPopUp(true);
 

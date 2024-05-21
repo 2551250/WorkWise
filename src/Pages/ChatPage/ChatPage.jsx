@@ -68,7 +68,7 @@ const ChatPage = () => {
             setNewMessage("");
         }
     }
-
+    //navigate user to their specific homepage
     const homePageButton = () => {
         const role = getRoleFromID(senderID, employees);
         if (role === "No Employee Found"){
@@ -78,7 +78,7 @@ const ChatPage = () => {
             navigate(`/${role}`);
         }
     }
-    
+    //Log out user
     const logoutClicked = () =>{
         navigate("/");
     }
