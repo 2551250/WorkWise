@@ -626,8 +626,9 @@ const fetchWithRetry = async (fetchFunction, retries = 3, delay = 1000) => {
           const data = await fetchFunction();
           return data;
       } catch (error) {
+          console.error(`Attempt ${attempt + 1} failed: ${error.message}`);
           if (attempt < retries - 1) {
-              await new Promise(res => setTimeout(res, delay));
+              await new Promise(res => setTimeout(res, delay * Math.pow(2, attempt)));
           } else {
               throw error;
           }

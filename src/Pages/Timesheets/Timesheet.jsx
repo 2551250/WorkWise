@@ -181,15 +181,23 @@ const Timesheet = () => {
 
     // Functions & Logic
     useEffect(() => {
-
         // Gets all employees in our database
-        const fetchEmployees = async () => {
-            const data = await getAllEmployees();
-            if (typeof(data) != "string"){ // request was successful
-                setEmployees(data);
+        const fetchAllEmployeesData = async () => {
+            const fetchFunction = () => getAllEmployees();
+
+            try {
+                const data = await fetchWithRetry(fetchFunction);
+                if (typeof(data) != "string"){ // request was successful
+                    setEmployees(data);
+                } else {
+                    console.log(data);
+                }
+            } catch (err) {
+                console.log('Failed to fetch all employees after multiple attempts.');
             }
         }
-        fetchEmployees();
+
+        fetchAllEmployeesData();
     }, []);
 
     /* 
@@ -198,6 +206,7 @@ const Timesheet = () => {
     */
     const homePageButton = () => {
         const role = getRoleFromID(viewerID, employees);
+        console.log(role);
         if (role === "No Employee Found"){
             return
         }
