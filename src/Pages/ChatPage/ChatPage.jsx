@@ -68,7 +68,11 @@ const ChatPage = () => {
             setNewMessage("");
         }
     }
-
+    
+    /* 
+        Redirect to Manager Homepage if Role is Manager, else
+        redirect to Staff Homepage
+    */
     const homePageButton = () => {
         const role = getRoleFromID(senderID, employees);
         if (role === "No Employee Found"){
@@ -79,6 +83,7 @@ const ChatPage = () => {
         }
     }
     
+    // Log user out
     const logoutClicked = () =>{
         navigate("/");
     }
@@ -100,7 +105,7 @@ const ChatPage = () => {
                 {   
                     /* 
                         Display the send message card if the message was sent from the currrent employee.
-                        If not, display the received messag card
+                        If not, display the received message card
                     */
                     projectMessages.map((message) => {
                         if (message.MESSAGE_SENT_BY === senderID){

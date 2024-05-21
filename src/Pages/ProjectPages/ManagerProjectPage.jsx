@@ -35,14 +35,15 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
         // Gets all projects created by the manager
         const fetchProjectData = async () => {
             const managerProjectsData = await getManagerProjects(managerID);
-            if (typeof(managerProjectsData) !== "string") {
+            if (typeof(managerProjectsData) !== "string") { // request was successful
                 setProjects(managerProjectsData);
             }
         }
 
+        // Gets all employees in our database
         const fetchEmployeesData = async () => {
             const data = await getAllEmployees();
-            if (typeof(data) !== "string"){
+            if (typeof(data) !== "string"){ // request was successful
                 setEmployees(data);
             }
         }
@@ -66,6 +67,7 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
             MANAGER: findManagerName(managerID, employees)
         }
 
+         // Gets all employees assigned to the project
         const data = await getProjectAssignedStaff(project.PROJECT_ID);
         if (typeof(data) !== "string"){
             projectDetails.ASSIGNED_STAFF = data;
@@ -76,11 +78,11 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
     }
 
     const setChatButton = () => {
-        // Use navigate function to go to another page
+        // Use navigate function to go to chat page
         navigate('/ChatPage', {state: selectedProject});
     }
     const setTimesheetButton = () => {
-        // Use navigate function to go to another page
+        // Use navigate function to go to timesheet page
         navigate('/Timesheet', {state: selectedProject});
     }
 

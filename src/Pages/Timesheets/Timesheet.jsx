@@ -1,178 +1,201 @@
 import React, { useState, useEffect } from 'react';
-import './Timesheet.css'; // Import the CSS file
-import "./ProjectStatPage.css";
-import Header from "../../Components/Header/Header";
+
 import { useLocation, useNavigate } from 'react-router';
 import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
-import { ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, AreaChart, Area } from 'recharts';
-import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees } from '../../backend';
+import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees, convertToTimePerDayPerStaff, getProjectAreaChartData, fetchWithRetry } from '../../backend';
+
+import Header from "../../Components/Header/Header";
+import ProjectAreaChart from '../../Components/AreaChart/ProjectAreaChart';
+import StaffAreaChart from '../../Components/AreaChart/StaffAreaChart';
+
+import './Timesheet.css'; // Import the CSS file
 
 
-const getRandomColour = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-};
+const ProjectTimesSection = ({ projectData }) => {
+    /*
+        Displays the project times(Project estimated time & Time spent on project) section
 
+        :param1 projectData: object containing required project data to be displayed
+        :returns HTML code: code for the actual section
+    */
+    // Variables
+    const [esitmatedAndTotalTime, setEstimatedAndTotalTime] = useState({});
 
-const StaffAreaChart = ({ data }) => {
-    const randomColour = getRandomColour();
+    // Functions & Logic
+    useEffect(() => {
+        // Get the Esitmated Time and Time Spent for the project
+        const fetchEstimatedAndTotalTime = async () => {
+            const fetchFunction = () => getEstimatedAndTotalTime(projectData.PROJECT_ID);
 
+            try {
+                const data = await fetchWithRetry(fetchFunction);
+                if (typeof(data) !== "string") { // request was successful
+                    setEstimatedAndTotalTime(data[0]);
+                }
+            } catch (err) { // Failed to fetch
+                console.log('Failed to fetch estimated and total time after multiple attempts.');
+            }
+        };
+
+        fetchEstimatedAndTotalTime(projectData);
+    }, [projectData]);
+
+    // HTML Code
     return (
-        <>
-        <article className='charts-container'>
-            <h4> {data[0].NAME} {data[0].SURNAME} </h4>
-            <article className='charts2'>
-                <ResponsiveContainer>
-                    <AreaChart
-                        data={data}
-                        // syncId="anyId"
-                        margin={{
-                            top: 10,
-                            right: 50,
-                            left: 0,
-                            bottom: 10,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="DATE" />
-                        <YAxis unit="hr"/>
-                        <Tooltip />
-                        <Area type="monotone" dataKey="TIME" stroke={randomColour} fill={randomColour} />
-                    </AreaChart>
-                </ResponsiveContainer>
-                </article>
-            </article>
-        </>
+        <section className='timesheet-wrapper'>
+            <h2>Times for {projectData.PROJECT_NAME}</h2>
+            
+            <section className='timesheet-total'>
+                <p>Total time estimated for {projectData.PROJECT_NAME}:</p>
+                <p> {esitmatedAndTotalTime.ESTIMATED_TIME} Hours</p>
+            </section>
+
+            <section className='timesheet-estimated'>
+                <p>Total time completed so far for {projectData.PROJECT_NAME}:</p>
+                <p> {esitmatedAndTotalTime.TIME_SPENT} Hours</p>
+            </section>
+        </section>
     );
 }
 
 
-const ProjectAreaChart = ({ data }) => {
-    const randomColour = getRandomColour();
+const ProjectMemberTimeSection = ({ projectID }) => {
+    /*
+        Displays the section containing the times of each member assigned to the project
 
+        :param1 projectID: The id of the selected project
+        :returns HTML code: code for the actual section
+    */
+    // Variables
+    const [timePerEmployee, setTimePerEmployee] = useState([]);
+
+    // Functions & Logic
+    useEffect(() => {
+        // Get the time spent on the project per employee
+        const fetchTimePerProject = async () => {
+            const fetchFunction = () => getTimePerProject(projectID);
+
+            try {
+                const data = await fetchWithRetry(fetchFunction);
+                if (typeof(data) !== "string") { // request was successful
+                    setTimePerEmployee(data);
+                }
+            } catch (err) {
+                console.log('Failed to fetch time per project after multiple attempts.');
+            }
+        };
+
+        fetchTimePerProject(projectID);
+    
+    }, [projectID]);
+
+    // HTML Code
     return (
-        <article className='charts1' style={{ width: '97%', height: 300 }}>
-            <ResponsiveContainer>
-                <AreaChart
-                    data={data}
-                    margin={{
-                        top: 10,
-                        right: 30,
-                        left: 0,
-                        bottom: 0,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="DATE">
-                        <label value="Date" position="insideBottomRight" offset={-5} />
-                    </XAxis>
-                    <YAxis unit="hr">
-                        <label value="Time (hours)" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
-                    </YAxis>
-                    <Tooltip />
-                    <Area type="monotone" dataKey="TIME" stroke={randomColour} fill={randomColour} />
-                </AreaChart>
-            </ResponsiveContainer>
-        </article>
+        <section className='timesheet-wrapper'>
+            <h2>Staff Member times</h2>
+            
+            <section className='timesheet-headers'>
+                <h3>Staff Members</h3>
+                <h3>Time spent</h3>
+            </section>
+
+            {/* DISPLAY MEMBERS AND TIME_SPENT here */}
+            {timePerEmployee.map(employee => ( 
+                <section className='timesheet-data' key={employee.EMPLOYEE_ID}>
+                    <p>{employee.NAME} {employee.SURNAME}</p>
+                    <p>{employee.TIME} Hours</p>
+                </section>
+            ))}
+        </section>
     );
 }
 
 
-const convertToTimePerDayPerStaff = (timePerDay) =>
-{
-    const formattedData = {};
+const ProjectStatisticsSection = ({ projectData }) => {
+    /*
+        Displays the section containing project statistics in chart format
 
-    for (const employee of timePerDay){
-        const key = `${employee.EMPLOYEE_ID}`
-        if (!(key in formattedData)){
-            formattedData[key] = [];
-        }
+        :param1 projectData: object containing required project data to be displayed
+        :returns HTML code: code for the actual section
+    */
 
-        formattedData[key].push(employee);
-    }
+    // Variables
+    const [timePerDay, setTimePerDay] = useState([]);
 
-    return formattedData;
-}
+    // Functions & Logic
+    useEffect(() => {
+        // Get the time spent on the project in a day per Employee
+        const fetchTimePerDay = async () => {
+            const fetchFunction = () => getTimePerDay(projectData.PROJECT_ID);
+
+            try {
+                const data = await fetchWithRetry(fetchFunction);
+                if (typeof(data) !== "string") { // request was successful
+                    setTimePerDay(data);
+                } else {
+                    console.log(data);
+                }
+            } catch (err) {
+                console.log('Failed to fetch time per day after multiple attempts.');
+            }
+        };
+
+        fetchTimePerDay(projectData);
+    }, [projectData]);
+
+    const staffAreaChartData = Object.values(convertToTimePerDayPerStaff(timePerDay));
+    const projectAreaChartData = getProjectAreaChartData(timePerDay);
+
+    // HTML Code
+    return (
+        <section className='timesheet-wrapper'>
+            <h2>Statistics for {projectData.PROJECT_NAME}</h2>
+
+            <h2> Staff Contribution </h2>
+            <ProjectAreaChart data={projectAreaChartData}/>
+
+            <section className='charts-wrapper'>
+                {/* Create a Area Chart for each staff in project */}
+                {
+                    staffAreaChartData.map(data => (
+                        <StaffAreaChart data={data}/>
+                    ))
+                }
+            </section>
+
+        </section>
+    );
+} 
 
 
-const getProjectAreaChartData = (timePerDay) => {
-    const data = {};
-
-    for (const employee of timePerDay){
-        if (employee.DATE === null) continue;
-
-        if (!(employee.DATE in data)){
-            data[employee.DATE] = 0;
-        }
-
-        data[employee.DATE] += employee.TIME;
-    }
-
-    return Object.keys(data).map(key => ({
-        DATE: key,
-        TIME: data[key]
-    }));
-}
-
-
-const Timesheet = () =>{
+const Timesheet = () => {
+    // Variables
     const location = useLocation();
     const projectData = location.state;
     const navigate = useNavigate();
 
     const { employeeID } = useEmployee();
-    const viewerID = parseInt(employeeID); // Employee ID of the message sender
+    const viewerID = parseInt(employeeID); // Employee ID of the user viewing the Timesheets
 
-    const [employees, setEmployees] = useState([]);
-    const [timePerEmployee, setTimePerEmployee] = useState([]);
-    const [timePerDay, setTimePerDay] = useState([]);
-    const [esitmatedAndTotalTime, setEsitmatedAndTotalTime] = useState({});
+    const [employees, setEmployees] = useState([]); // Will contain all the employees in the system
 
+    // Functions & Logic
     useEffect(() => {
-        const fetchTimePerProject = async (projectData) => {
-            const data = await getTimePerProject(projectData.PROJECT_ID);
-            if (typeof(data) != "string"){ //request was successful
-                setTimePerEmployee(data);
-            }
-        }
-        
-        const fetchTimePerDay = async (projectData) => {
-            const data = await getTimePerDay(projectData.PROJECT_ID);
-            if (typeof(data) != "string"){ //request was successful
-                setTimePerDay(data);
-            }
-        }
 
-        const fetchEstimatedAndTotalTime = async (projectData) => {
-            const data = await getEstimatedAndTotalTime(projectData.PROJECT_ID);
-            if (typeof(data) != "string"){ //request was successful
-                setEsitmatedAndTotalTime(data[0]);
-            }
-        }
-
-        fetchEstimatedAndTotalTime(projectData);
-        fetchTimePerProject(projectData);
-        fetchTimePerDay(projectData);
-    }, [projectData]);
-
-    useEffect(() => {
+        // Gets all employees in our database
         const fetchEmployees = async () => {
             const data = await getAllEmployees();
-            if (typeof(data) != "string"){ //request was successful
+            if (typeof(data) != "string"){ // request was successful
                 setEmployees(data);
             }
         }
-
         fetchEmployees();
     }, []);
 
-    const staffAreaChartData = Object.values(convertToTimePerDayPerStaff(timePerDay));
-    const projectAreaChartData = getProjectAreaChartData(timePerDay);
-
+    /* 
+        Redirect to Manager Homepage if Role is Manager, else
+        redirect to HR Homepage
+    */
     const homePageButton = () => {
         const role = getRoleFromID(viewerID, employees);
         if (role === "No Employee Found"){
@@ -183,68 +206,28 @@ const Timesheet = () =>{
         }
     }
 
+    // Log user out
     const logoutClicked = () =>{
         navigate("/");
     }
 
+    // HTML Code
     return(
         <>
-        <Header>
-            <h1> Workwise </h1>
-            <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-            <button className="logout-button"  onClick={logoutClicked}>Log Out</button>
-        </Header>
+            <Header>
+                <h1> Workwise </h1>
+                <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
+                <button className="logout-button"  onClick={logoutClicked}>Log Out</button>
+            </Header>
 
-        <main className="timesheet-main">
-            <section className='timesheet-wrapper'>
-                <h2>Times for {projectData.PROJECT_NAME}</h2>
-                
-                <section className='timesheet-total'>
-                    <p>Total time estimated for {projectData.PROJECT_NAME}:</p>
-                    <p> {esitmatedAndTotalTime.ESTIMATED_TIME} Hours</p>
-                </section>
+            <main className="timesheet-main">
+                <ProjectTimesSection projectData={projectData}/>
 
-                <section className='timesheet-estimated'>
-                    <p>Total time completed so far for {projectData.PROJECT_NAME}:</p>
-                    <p> {esitmatedAndTotalTime.TIME_SPENT} Hours</p>
-                </section>
-            </section>
+                <ProjectMemberTimeSection projectID={projectData.PROJECT_ID}/>
 
-            <section className='timesheet-wrapper'>
-                <h2>Staff Member times</h2>
-                
-                <section className='timesheet-headers'>
-                    <h3>Staff Members</h3>
-                    <h3>Time spent</h3>
-                </section>
-
-                {/* DISPLAY MEMBERS AND TIME_SPENT here */}
-                {timePerEmployee.map(employee => ( 
-                    <section className='timesheet-data' key={employee.EMPLOYEE_ID}>
-                        <p>{employee.NAME} {employee.SURNAME}</p>
-                        <p>{employee.TIME} Hours</p>
-                    </section>
-                ))}
-            </section>
-
-            <section className='timesheet-wrapper'>
-                <h2>Statistics for {projectData.PROJECT_NAME}</h2>
-
-                <h2> Staff Contribution </h2>
-                <ProjectAreaChart data={projectAreaChartData}/>
-
-                <section className='charts-wrapper'>
-                
-                {
-                    staffAreaChartData.map(data => (
-                        <StaffAreaChart data={data}/>
-                    ))
-                }
-                </section>
-
-            </section>
-        </main>
-    </>
+                <ProjectStatisticsSection projectData={projectData}/>
+            </main>
+        </>
     );
 }
 
