@@ -68,11 +68,7 @@ const ChatPage = () => {
             setNewMessage("");
         }
     }
-    
-    /* 
-        Redirect to Manager Homepage if Role is Manager, else
-        redirect to Staff Homepage
-    */
+    //navigate user to their specific homepage
     const homePageButton = () => {
         const role = getRoleFromID(senderID, employees);
         if (role === "No Employee Found"){
@@ -82,8 +78,7 @@ const ChatPage = () => {
             navigate(`/${role}`);
         }
     }
-    
-    // Log user out
+    //Log out user
     const logoutClicked = () =>{
         navigate("/");
     }

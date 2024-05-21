@@ -29,7 +29,7 @@ const ViewStaff = () => {
     const homePageButton = () => {
         navigate("/Manager");
     }
-
+    //Log out user
     const logoutClicked = () =>{
         navigate("/");
     }

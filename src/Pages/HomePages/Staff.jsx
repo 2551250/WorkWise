@@ -19,6 +19,7 @@ function Staff(){
     const viewBookMealsPage = () => {
         navigate("/StaffBookMeals");
     }
+    //Log out user  and change display to login page
     const logoutClicked = () =>{
         navigate("/");
     }

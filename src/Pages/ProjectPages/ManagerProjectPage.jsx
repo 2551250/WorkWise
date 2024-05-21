@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
-import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName} from "../../backend";
+import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName } from "../../backend";
 import { insertProject, assignStaffToProject } from "../../backend_post_requests";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
@@ -15,78 +15,79 @@ import messageIcon from "../../Assets/message-icon.svg";
 import timesheetIcon from "../../Assets/timesheet-icon.svg";
 import { FaRegWindowClose } from "react-icons/fa";
 
-
+// Component for displaying the view projects section
 const ViewProjectsSection = ({ managerID, navigate }) => {
     /*
         Displays the view projects section
 
-        :param1 managerID: The employee id of the manager creating a project
+        :param managerID: The employee id of the manager creating a project
         :returns HTML code: code for the actual section
     */
-    // Variables
+    // State variables
     const [selectedProject, setSelectedProject] = useState({});
     const [employees, setEmployees] = useState([]);
-    const [projects, setProjects] = useState([]); // List of projects initialised to an empty array
+    const [projects, setProjects] = useState([]); // List of projects initialized to an empty array
     const [projectMembers, setProjectMembers] = useState([]);
-    const [viewProjectPopUp, setViewProjectPopUp] = useState(false); 
+    const [viewProjectPopUp, setViewProjectPopUp] = useState(false);
 
-    // Functions & Logic
+    // Fetch data on component mount
     useEffect(() => {
-        // Gets all projects created by the manager
+        // Fetch projects created by the manager
         const fetchProjectData = async () => {
             const managerProjectsData = await getManagerProjects(managerID);
-            if (typeof(managerProjectsData) !== "string") { // request was successful
-                setProjects(managerProjectsData);
+            if (typeof(managerProjectsData) !== "string") {
+                setProjects(managerProjectsData); // Store projects data in the projects list
             }
-        }
-
-        // Gets all employees in our database
+        };
+        // Fetch employees
         const fetchEmployeesData = async () => {
             const data = await getAllEmployees();
-            if (typeof(data) !== "string"){ // request was successful
-                setEmployees(data);
+            if (typeof(data) !== "string") {
+                setEmployees(data); // Store employees data in the employees list
             }
-        }
-
+        };
+        // Fetching projects created by a specific manager
         fetchProjectData(managerID);
         fetchEmployeesData();
     }, [managerID]);
-    
-    const handleViewProjectDetails = async ( project ) => {
+
+    // Display project popup and project details
+    const handleViewProjectDetails = async (project) => {
         setViewProjectPopUp(true);
 
         console.log(project);
 
         const projectDetails = {
             PROJECT_ID: project.PROJECT_ID,
-            PROJECT_NAME: project.PROJECT_NAME, 
+            PROJECT_NAME: project.PROJECT_NAME,
             DESCRIPTION: project.DESCRIPTION,
             ESTIMATED_TIME: project.ESTIMATED_TIME,
             ASSIGNED_STAFF: [],
             MANAGER_ID: managerID,
             MANAGER: findManagerName(managerID, employees)
-        }
+        };
 
          // Gets all employees assigned to the project
         const data = await getProjectAssignedStaff(project.PROJECT_ID);
-        if (typeof(data) !== "string"){
+        if (typeof(data) !== "string") {
             projectDetails.ASSIGNED_STAFF = data;
-            setProjectMembers(data);
+            setProjectMembers(data); // Set project members data
         }
 
-        setSelectedProject(projectDetails);
-    }
+        setSelectedProject(projectDetails); // Set the selected project details
+    };
 
+    // Navigate to chat page
     const setChatButton = () => {
-        // Use navigate function to go to chat page
-        navigate('/ChatPage', {state: selectedProject});
-    }
+        navigate('/ChatPage', { state: selectedProject });
+    };
+    
+    // Navigate to timesheet page
     const setTimesheetButton = () => {
-        // Use navigate function to go to timesheet page
-        navigate('/Timesheet', {state: selectedProject});
-    }
+        navigate('/Timesheet', { state: selectedProject });
+    };
 
-    // HTML Code
+    // Render the component
     return (
         <section className="view-project">
             <h2 className="view-project-h2">Projects</h2>
@@ -133,103 +134,104 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
     );
 }
 
-
-const AddStaffSection = ({projectName, managerID, setActiveSection}) => {
-     /*
+// Component for adding staff to a project
+const AddStaffSection = ({ projectName, managerID, setActiveSection }) => {
+    /*
         Displays the add staff section
 
-        :param1 projectName: used to store the name of a project
-        :param2 managerID: The employee id of the manager creating a project
+        :param projectName: used to store the name of a project
+        :param managerID: The employee id of the manager creating a project
         :param setActiveSection: Function to set the value of activeSection to the currently active section
         :returns HTML code: code for the actual section
     */
 
+    // State variables
     const [staff, setStaff] = useState([]);
     const [projects, setProjects] = useState([]);    
     const [projectMembers, setProjectsMembers] = useState([]);
     const [error, setError] = useState("");
 
+    // Fetch all employees
     useEffect(() => {
         getAllEmployees()
         .then((data) => {
-            setStaff(data.filter((employee) => (employee.ROLE === "Staff")));
+            setStaff(data.filter((employee) => (employee.ROLE === "Staff"))); // Filter and set staff data
         })
-
     },[]); 
 
+    // Fetch projects created by the manager
     useEffect(() => {
-        // Gets all projects created by the manager
         getManagerProjects(managerID)
-        .then((projectsData) => (setProjects(projectsData)))
+        .then((projectsData) => (setProjects(projectsData))) // Set projects data
         .catch((errorMessage) => {
-            console.error(errorMessage);
+            console.error(errorMessage); // Display any errors
         });
     }, [managerID]);
 
-    
+    // Handle add members button click
     const handleButtonClick = async () => {
         if (!isValidProjectMembers(projectMembers)) {
-            setError("No Staff was assigned to a Project.")
+            setError("No Staff was assigned to a Project."); // Set error message if no staff assigned
             return;
         }
 
         const projectID = getProjectID(projectName, projects);
 
         for (const staffID of projectMembers){
-            await assignStaffToProject(staffID, projectID);
+            await assignStaffToProject(staffID, projectID); // Assign staff to the project
         }
 
-        // Moves manager to View Projects section
+        // Move manager to View Projects section
         setActiveSection("viewProjectSection");
     }
 
+    // Render the component
     return (
         <section className="select-wrapper">  
-        <section className="select-container"> 
-            <EmployeeSelector 
-                groupName="Staff" 
-                data={staff || []} 
-                setTrigger={setProjectsMembers}
-            />
+            <section className="select-container"> 
+                <EmployeeSelector 
+                    groupName="Staff" 
+                    data={staff || []} 
+                    setTrigger={setProjectsMembers}
+                />
 
-            {/* Displays Invalid Data Error Message */}
-            {error && <label className="add-members-error-label"> {error} </label>}
-            <button className="add-members" onClick={handleButtonClick}> Add Members</button>
+                {/* Displays Invalid Data Error Message */}
+                {error && <label className="add-members-error-label"> {error} </label>}
+                <button className="add-members" onClick={handleButtonClick}> Add Members</button>
             </section>
         </section>
     );
 }
 
-
-const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveSection}) => {
+// Component for adding a new project
+const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveSection }) => {
     /*
         Displays the add a project section
 
-        :param1 projectName: used to store the name of a project
-        :param2 setProjectName: Function to set projectName variable to a project's name
-        :param3 managerID: The employee id of the manager creating a project
-        :param4 setActiveSection: Function to set the value of activeSection to the currently active section
+        :param projectName: used to store the name of a project
+        :param setProjectName: Function to set projectName variable to a project's name
+        :param managerID: The employee id of the manager creating a project
+        :param setActiveSection: Function to set the value of activeSection to the currently active section
         :returns HTML code: code for the actual section
     */
 
-    // Variables
+    // State variables
     const [projects, setProjects] = useState([]);
     const [projectDescription, setProjectDescription] = useState("");
     const [projectEstimatedTime, setProjectEstimatedTime] = useState(0);
     const [error, setError] = useState("");
 
-    // Functions & Logic
+    // Fetch all projects from the database
     useEffect(() => {
-
-        // Gets all projects from the database
         const fetchData = async () => {
             const allProjectData = await getAllProjects();
-            setProjects(allProjectData);
+            setProjects(allProjectData); // Set all projects data
         }
 
         fetchData();
     }, []);
 
+    // Handle add project button click
     const handleButtonClick = async () => {
         /*
             When the submit button is clicked, inserts the project information
@@ -238,83 +240,83 @@ const AddProjectsSection = ({ projectName, setProjectName, managerID, setActiveS
 
         // Data Validation
         if (!isValidProjectName(projectName, projects || [])) {
-            setError("Invalid Project Name");
+            setError("Invalid Project Name"); // Set error if project name is invalid
             return;
         }
 
         else if (!isValidProjectDescription(projectDescription)) {
-            setError("No Project Description Entered");
+            setError("No Project Description Entered"); // Set error if project description is invalid
             return;
         }
 
         else if (!isValidProjectEstimateTime(projectEstimatedTime)) {
-            setError("Invalid Project Estimate Time");
+            setError("Invalid Project Estimate Time"); // Set error if project estimate time is invalid
             return;
         }
 
-        // Adds project to out database
+        // Adds project to our database
         const response = await insertProject(projectName, projectDescription, managerID, projectEstimatedTime);
 
         // TODO: Handle when a project isn't created
-        if (response !== "Project succesfully created"){
-            alert("Project was not Created!!!");
+        if (response !== "Project successfully created") {
+            alert("Project was not Created!!!"); // Alert if project creation fails
             return;
         }
 
-        // Moves manager to Add Staff section
+        // Move manager to Add Staff section
         setActiveSection("addStaffSection");
     }
 
-    // HTML Code
+    // Render the component
     return (
         <section className="add-project">
-        <h2 className="add-project-h2">Add a Project</h2>
-        <section className="add-project-wrapper">
-        <article className="formatting">
-            <p className = "labels">Name</p>
-            <input
-                value = {projectName} 
-                className="input-name" 
-                type="text" 
-                placeholder="Enter a project name"
-                onChange={(event) => {setProjectName(event.target.value)}}
-            />
-        </article>
-       
-        <article className="formatting">
-            <p className = "labels">Description</p>
-            <textarea className="textarea-add-project"
-                value = {projectDescription}
-                maxLength="200" 
-                rows="5" 
-                placeholder="Enter a description"
-                onChange={(event) => {setProjectDescription(event.target.value)}}
-            >    
-            </textarea>
-        </article>
+            <h2 className="add-project-h2">Add a Project</h2>
+            <section className="add-project-wrapper">
+                <article className="formatting">
+                    <p className="labels">Name</p>
+                    <input
+                        value={projectName} 
+                        className="input-name" 
+                        type="text" 
+                        placeholder="Enter a project name"
+                        onChange={(event) => {setProjectName(event.target.value)}}
+                    />
+                </article>
+            
+                <article className="formatting">
+                    <p className="labels">Description</p>
+                    <textarea className="textarea-add-project"
+                        value={projectDescription}
+                        maxLength="200" 
+                        rows="5" 
+                        placeholder="Enter a description"
+                        onChange={(event) => {setProjectDescription(event.target.value)}}
+                    >    
+                    </textarea>
+                </article>
 
-        <article className="formatting">
-            <p className = "labels">Estimated Time</p>
-            <input 
-                value={projectEstimatedTime}
-                className="input-time" 
-                type="number"
-                onChange={(event) => {setProjectEstimatedTime(event.target.value)}}
-            /> 
-            <p className = "hours">Hours</p>
-        </article>
+                <article className="formatting">
+                    <p className="labels">Estimated Time</p>
+                    <input 
+                        value={projectEstimatedTime}
+                        className="input-time" 
+                        type="number"
+                        onChange={(event) => {setProjectEstimatedTime(event.target.value)}}
+                    /> 
+                    <p className="hours">Hours</p>
+                </article>
+            </section>
+
+            {/* Displays Invalid Data Error Message */}
+            {error && <label className="error-label"> {error} </label>} 
+            <button className="create-project" onClick={handleButtonClick}> Add project</button>
         </section>
-
-        {/* Displays Invalid Data Error Message */}
-        {error && <label className="error-label"> {error} </label>} 
-        <button className="create-project" onClick={handleButtonClick}> Add project</button>
-    </section>
     );
 }
 
-
+// Main component for the Manager Project Page
 const ManagerProjectPage = () => {
-    // Variables
+    // State variables
     const [projectName, setProjectName] = useState("");
     const [activeSection, setActiveSection] = useState("viewProjectSection");
     const navigate = useNavigate();
@@ -323,7 +325,7 @@ const ManagerProjectPage = () => {
     const { employeeID } = useEmployee();
     const managerID = employeeID;
 
-    // Functions & Logic
+    // Functions to handle button clicks
     const ViewProjectsButtonClicked = () => {
         /*
             Sets activeSection to viewProjectSection when the View Projects button is clicked
@@ -340,22 +342,24 @@ const ManagerProjectPage = () => {
         setActiveSection("addProjectSection");
     }
 
-    // redirect to HomePage
+    // Redirect to HomePage
     const homePageButton = () => {
         navigate("/Manager");
     }
-    const logoutClicked = () =>{
+    
+    // Logout and navigate to login page
+    const logoutClicked = () => {
         navigate("/");
     }
 
-    // HTML Code
+    // Render the main component
     return (
         <>
-       <Header>
+            <Header>
                 <h1> Workwise </h1>
-                <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
+                <button className="homepage-button" onClick={homePageButton}>Homepage</button>
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
-        </Header>
+            </Header>
 
             <section className="display">
                 <section className="panel">
@@ -364,16 +368,15 @@ const ManagerProjectPage = () => {
                 </section>
 
                 {/* 
-                    Displays view projects section when ViewProjects is true,   
-                    else displays add a project secton. 
+                    Displays view projects section when activeSection is 'viewProjectSection',   
+                    else displays add a project section. 
                 */}
                 {activeSection === "viewProjectSection" && <ViewProjectsSection managerID={managerID} navigate={navigate}/> }
                 {activeSection === "addProjectSection" && <AddProjectsSection projectName={projectName} setProjectName={setProjectName} managerID={managerID} setActiveSection={setActiveSection}/>}
                 {activeSection === "addStaffSection" && <AddStaffSection projectName={projectName} managerID={managerID} setActiveSection={setActiveSection} />}
-                
             </section>
         </>
     );
 }
-    
+
 export default ManagerProjectPage;

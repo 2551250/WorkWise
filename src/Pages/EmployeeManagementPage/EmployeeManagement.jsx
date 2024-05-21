@@ -19,6 +19,7 @@ const EmployeeManagement = () => {
     const navigate = useNavigate();
 
     // Functions & Logic
+    //Fetching all employeees and displaying them
     useEffect(() => {
         getAllEmployees()
         .then((data) => {
@@ -39,7 +40,7 @@ const EmployeeManagement = () => {
     setEmployeeToDelete(employee);
     setDisplayPopup(true);
 };
-
+//CExecuting deletion of specific company member
     const handleDelete = async (employeeToDelete) => {
         try {
             if(!employeeToDelete||confirmDelete){
