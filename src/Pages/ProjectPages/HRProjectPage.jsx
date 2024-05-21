@@ -56,7 +56,7 @@ const HRProjectPage = () => {
     const homePageButton = () => {
        navigate("/HR");
    }
-
+   //Displaying project popup with respective details
     const handleViewProjectDetails = async ( project ) => {
         setViewProjectPopUp(true);
 
@@ -77,7 +77,7 @@ const HRProjectPage = () => {
 
         setSelectedProject(projectDetails);
     }
-
+    //Log out user  and change display to login page
     const logoutClicked = () =>{
         navigate("/");
     }

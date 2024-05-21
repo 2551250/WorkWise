@@ -12,6 +12,7 @@ import { addBooking } from "../../backend_post_requests";
 
 
 const BookedMealSection = ({meal}) => {
+    //If a meal has been booked in the database display to staff member
     return (
         <section>
             <h2 className="bookedmeal-header">Meals for the Day</h2>
@@ -25,11 +26,12 @@ const BookedMealSection = ({meal}) => {
     );
 }
 
-
+//If a meal has not been booked then display meal options so that the staff can book their meal
 const SelectMealSection = ({employeeID, bookedMeal, setBookedMeal, setActiveSection}) => {
     const [displayPopup, setDisplayPopup]= useState(false);
     const [meals, setMeals] = useState([]);
 
+    //Fetching meal data 
     useEffect(() => {
         const fetchMealData = async () => {
             const currentDate = getCurrentDate();
@@ -43,12 +45,12 @@ const SelectMealSection = ({employeeID, bookedMeal, setBookedMeal, setActiveSect
         fetchMealData();
     }, []);
 
-
+    //If a meal has been clicked display confirmation popup
     const handleBookMeal = (meal) => {
         setBookedMeal(meal);
         setDisplayPopup(true);
     };
-
+    //If confirm in confirmation popup has been clicked then change view 
     const handleConfirmBooking = async () => {
         const response = await addBooking(employeeID, bookedMeal.MEAL_ID);
         if (response === "Booking successfully created"){
@@ -56,7 +58,7 @@ const SelectMealSection = ({employeeID, bookedMeal, setBookedMeal, setActiveSect
             setActiveSection("viewBookedMealSection");
         }
     };
-
+    //If cancel in confirmation popup has been pressed then remove confirmation popup 
     const handleCancelBooking = () => {
         setDisplayPopup(false);
     };
@@ -101,7 +103,7 @@ const BookMeals = () => {
     
 
     // Functions & Logic
-
+    //Checking if employee has already booked a meal
     useEffect(() => {
         const fetchBookedMealsData = async (employeeID) => {
             const data = await getEmployeeBookings(employeeID);
@@ -109,14 +111,14 @@ const BookMeals = () => {
 
             if (typeof(data) !== "string"){
                 for (const meal of data){
-                    // Checks if a meal has been booked
+                    // Checks if a meal has been booked and change to appropriate display
                     if (meal.DATE.substring(0, 10) === getCurrentDate()){
                         mealBooked = true;
                         setBookedMeal(meal);
                     }
                 }
             }
-
+            //Change to view so that employee can book their meal
             if (!mealBooked) {
                 setActiveSection("selectMealSection");
             }
@@ -124,11 +126,12 @@ const BookMeals = () => {
 
         fetchBookedMealsData(employeeID);
     }, [employeeID]);
-    
+
+    //navigation to homepage
     const homePageButton = () => {
         navigate("/Staff");
     }
-
+    //Log out user
     const logoutClicked = () =>{
         navigate("/");
     }

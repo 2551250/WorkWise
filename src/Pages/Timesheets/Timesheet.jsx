@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Timesheet.css'; // Import the CSS file
+import './Timesheet.css';
 import "./ProjectStatPage.css";
 import Header from "../../Components/Header/Header";
 import { useLocation, useNavigate } from 'react-router';
@@ -7,7 +7,7 @@ import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
 import { ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, AreaChart, Area } from 'recharts';
 import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees } from '../../backend';
 
-
+// Generating colours for staff graphs
 const getRandomColour = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -17,7 +17,7 @@ const getRandomColour = () => {
     return color;
 };
 
-
+//Chart created to display each staff members individual chart on a project
 const StaffAreaChart = ({ data }) => {
     const randomColour = getRandomColour();
 
@@ -50,7 +50,7 @@ const StaffAreaChart = ({ data }) => {
     );
 }
 
-
+//Chart created to display total time spend by all staff on the project
 const ProjectAreaChart = ({ data }) => {
     const randomColour = getRandomColour();
 
@@ -81,7 +81,7 @@ const ProjectAreaChart = ({ data }) => {
     );
 }
 
-
+//Formatting Time to be for each staff member for each day
 const convertToTimePerDayPerStaff = (timePerDay) =>
 {
     const formattedData = {};
@@ -98,7 +98,7 @@ const convertToTimePerDayPerStaff = (timePerDay) =>
     return formattedData;
 }
 
-
+//Formatting data for project chart
 const getProjectAreaChartData = (timePerDay) => {
     const data = {};
 
@@ -120,6 +120,7 @@ const getProjectAreaChartData = (timePerDay) => {
 
 
 const Timesheet = () =>{
+    // Creating variables
     const location = useLocation();
     const projectData = location.state;
     const navigate = useNavigate();
@@ -133,32 +134,34 @@ const Timesheet = () =>{
     const [esitmatedAndTotalTime, setEsitmatedAndTotalTime] = useState({});
 
     useEffect(() => {
+        //Fetching time per project 
         const fetchTimePerProject = async (projectData) => {
             const data = await getTimePerProject(projectData.PROJECT_ID);
             if (typeof(data) != "string"){ //request was successful
                 setTimePerEmployee(data);
             }
         }
-        
+        //Fetching time spent each day on a project
         const fetchTimePerDay = async (projectData) => {
             const data = await getTimePerDay(projectData.PROJECT_ID);
             if (typeof(data) != "string"){ //request was successful
                 setTimePerDay(data);
             }
         }
-
+        //Fetching the estimated time to be spent on the project and total time actually spent on the project 
         const fetchEstimatedAndTotalTime = async (projectData) => {
             const data = await getEstimatedAndTotalTime(projectData.PROJECT_ID);
             if (typeof(data) != "string"){ //request was successful
                 setEsitmatedAndTotalTime(data[0]);
             }
         }
-
+        //Calling above methods
         fetchEstimatedAndTotalTime(projectData);
         fetchTimePerProject(projectData);
         fetchTimePerDay(projectData);
     }, [projectData]);
 
+    //Fetching all employees
     useEffect(() => {
         const fetchEmployees = async () => {
             const data = await getAllEmployees();
@@ -173,6 +176,7 @@ const Timesheet = () =>{
     const staffAreaChartData = Object.values(convertToTimePerDayPerStaff(timePerDay));
     const projectAreaChartData = getProjectAreaChartData(timePerDay);
 
+    //Navigation to correct homepage
     const homePageButton = () => {
         const role = getRoleFromID(viewerID, employees);
         if (role === "No Employee Found"){

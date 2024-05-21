@@ -186,7 +186,7 @@ const StaffFeedbackPage = () => {
     const homePageButton = () => {
         navigate("/Staff");
     }
-
+    //Log out user
     const logoutClicked = () =>{
         navigate("/");
     }

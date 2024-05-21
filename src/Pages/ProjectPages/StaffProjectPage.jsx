@@ -58,7 +58,7 @@ const StaffProjectPage = ({ navigate }) => {
     const homePageButton = () => {
        navigate("/Staff");
    }
-
+   //Displaying project popup and project details
     const handleViewProjectDetails = async ( project ) => {
         setViewProjectPopUp(true);
 
@@ -99,7 +99,7 @@ const StaffProjectPage = ({ navigate }) => {
         // Use navigate function to go to another page
         navigate('/ManualTimer', {state: selectedProject});
     };
-
+    //Log out user  and change display to login page
     const logoutClicked = () =>{
         navigate("/");
     }
