@@ -585,10 +585,59 @@ const getCurrentDate = () => {
   return `${year}-${month}-${day}`;
 };
 
+const convertToTimePerDayPerStaff = (timePerDay) =>
+{
+    const formattedData = {};
+
+    for (const employee of timePerDay){
+        const key = `${employee.EMPLOYEE_ID}`
+        if (!(key in formattedData)){
+            formattedData[key] = [];
+        }
+
+        formattedData[key].push(employee);
+    }
+
+    return formattedData;
+}
+  
+const getProjectAreaChartData = (timePerDay) => {
+    const data = {};
+
+    for (const employee of timePerDay){
+        if (employee.DATE === null) continue;
+
+        if (!(employee.DATE in data)){
+            data[employee.DATE] = 0;
+        }
+
+        data[employee.DATE] += employee.TIME;
+    }
+
+    return Object.keys(data).map(key => ({
+        DATE: key,
+        TIME: data[key]
+    }));
+}
+
+const fetchWithRetry = async (fetchFunction, retries = 3, delay = 1000) => {
+  for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+          const data = await fetchFunction();
+          return data;
+      } catch (error) {
+          console.error(`Attempt ${attempt + 1} failed: ${error.message}`);
+          if (attempt < retries - 1) {
+              await new Promise(res => setTimeout(res, delay * Math.pow(2, attempt)));
+          } else {
+              throw error;
+          }
+      }
+  }
+};
 
 // exports
-export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, 
-         getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
-         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, 
-         convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, 
-         getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, getCurrentDate, getAllStaffData }
+export { getRole, getEmployeeID, getProjectID, getAllEmployees, getAllProjects, getStaffProjects, getManagerProjects, getProjectAssignedStaff, getCreatedReviews, getReceivedReviews, isValidProjectMembers, isValidProjectName, 
+         isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getSentMessages, makeSQLFriendly, convertTime, getMeals, isValidMealName, isValidMealDescription, getAllStaffManagerData, checkEmployeeExists, 
+         isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, getProjectMessages, formatTime, isValidMessage, 
+         getRoleFromID, getEmployeeBookings, getMealBookings, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, getCurrentDate, getAllStaffData, convertToTimePerDayPerStaff, getProjectAreaChartData, fetchWithRetry }

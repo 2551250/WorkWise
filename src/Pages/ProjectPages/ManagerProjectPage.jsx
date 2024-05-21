@@ -67,6 +67,7 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
             MANAGER: findManagerName(managerID, employees)
         };
 
+         // Gets all employees assigned to the project
         const data = await getProjectAssignedStaff(project.PROJECT_ID);
         if (typeof(data) !== "string") {
             projectDetails.ASSIGNED_STAFF = data;

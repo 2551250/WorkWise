@@ -100,7 +100,7 @@ const ChatPage = () => {
                 {   
                     /* 
                         Display the send message card if the message was sent from the currrent employee.
-                        If not, display the received messag card
+                        If not, display the received message card
                     */
                     projectMessages.map((message) => {
                         if (message.MESSAGE_SENT_BY === senderID){
