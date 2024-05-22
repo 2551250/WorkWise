@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID, getAllStaffData} from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getProjectMessages, getSentMessages, getMeals, getEmployeeBookings, getMealBookings, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID, getAllStaffData, convertToTimePerDayPerStaff, getProjectAreaChartData} from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -100,6 +100,41 @@ const receivedReviews = [
     }
 ]
 
+const timePerDayData = [
+    {
+        "EMPLOYEE_ID": 3,
+        "NAME": "Tania",
+        "SURNAME": "Bantam",
+        "PROJECT_ID": 1,
+        "DATE": "2024-05-07",
+        "TIME": 2
+    },
+    {
+        "EMPLOYEE_ID": 3,
+        "NAME": "Tania",
+        "SURNAME": "Bantam",
+        "PROJECT_ID": 1,
+        "DATE": "2024-05-07",
+        "TIME": 4.5
+    },
+    {
+        "EMPLOYEE_ID": 4,
+        "NAME": "Yassir",
+        "SURNAME": "Ali",
+        "PROJECT_ID": 1,
+        "DATE": "2024-05-08",
+        "TIME": 2.5
+    },
+    {
+        "EMPLOYEE_ID": 5,
+        "NAME": "Anna",
+        "SURNAME": "Jones",
+        "PROJECT_ID": 1,
+        "DATE": null,
+        "TIME": 0
+    }
+]
+
 // Tests
 test('checks employee exists valid', function checkEmployeeExists_anyEmailAndPassword_valid() {
     expect(checkEmployeeExists("gcheadle@workwise.co.za", "password1@3", userTestData)).toBe(true);
@@ -151,6 +186,10 @@ test("checks get employee id valid", function checksGetEmployeeID_anyUserLoggedI
 
 test("checks get employee id invalid", function checksGetEmployeeID_anyState_Invalid() {
     expect(getEmployeeID("jsmith", "password", userTestData)).toBe("");
+});
+
+test("checks returning manager projects working on a project returns an error", async function checkGetManagerProjects_invalidManagerID_Invalid() {
+    expect(await getManagerProjects(-1)).toBe("Error");
 });
 
 test("checks returning staff working on a project returns an error", async function checkGetProjectAssignedStaff_invalidProjectID_Invalid() {
@@ -270,8 +309,32 @@ test("checks returning messages sent by employee returns an error", async functi
     expect(await getSentMessages(-1)).toBe("Error");
 });
 
+test("checks returning messages sent for a project returns an error", async function checkGetProjectMessages_invalidProjectID_Invalid() {
+    expect(await getProjectMessages(-1)).toBe("Error");
+});
+
 test("checks get meals returns an error", async function checksGetMeals_unusedDate_Invalid(){
     expect(await getMeals("0000/00/00")).toBe("Error");
+});
+
+test("checks returning meals booked by employee returns an 'No bookings created'", async function checkGetEmployeeBookings_invalidEmployeeID_Invalid() {
+    expect(await getEmployeeBookings(-1)).toBe("No bookings created");
+});
+
+test("checks returning employees who have booked a meal returns an 'No bookings for the meal'", async function checkGetMealBookings_invalidMealID_Invalid() {
+    expect(await getMealBookings(-1)).toBe("No bookings for the meal");
+});
+
+test("checks returning time spent by all staff members on invalid project returns 'No time spent on project by any staff'", async function checkGetTimePerDay_invalidMealID_Invalid() {
+    expect(await getTimePerDay(-1)).toBe("No time spent on project by any staff");
+});
+
+test("checks returning time spent by all staff members on invalid project returns 'No time spent on project by any staff'", async function checkGetTimePerProject_invalidMealID_Invalid() {
+    expect(await getTimePerProject(-1)).toBe("No time spent on project by any staff");
+});
+
+test("checks returning etimated time & time spent on invalid project returns 'Project not found'", async function checkGetEstimatedAndTotalTime_invalidMealID_Invalid() {
+    expect(await getEstimatedAndTotalTime(-1)).toBe("Project not found");
 });
 
 test("checks get project id", function checksGetProjectName_anyState_Valid(){
@@ -317,4 +380,14 @@ test("checks get role invalid", function checkGetRoleFromID_anyValidUser_invalid
 
 test("checks format time valid", function checksFormatTime_valid(){
     expect(formatTime("2024/02/04", "11:30")).toBe("00:00");
+});
+
+test("checks convert to time per day per staff from time per day data is valid", function checksConvertToTimePerDayPerStaff_valid(){
+    expect(convertToTimePerDayPerStaff(timePerDayData))
+    .toEqual({"3": [{"DATE": "2024-05-07", "EMPLOYEE_ID": 3, "NAME": "Tania", "PROJECT_ID": 1, "SURNAME": "Bantam", "TIME": 2}, {"DATE": "2024-05-07", "EMPLOYEE_ID": 3, "NAME": "Tania", "PROJECT_ID": 1, "SURNAME": "Bantam", "TIME": 4.5}], "4": [{"DATE": "2024-05-08", "EMPLOYEE_ID": 4, "NAME": "Yassir", "PROJECT_ID": 1, "SURNAME": "Ali", "TIME": 2.5}], "5": [
+        {"DATE": null, "EMPLOYEE_ID": 5, "NAME": "Anna", "PROJECT_ID": 1, "SURNAME": "Jones", "TIME": 0, }]});
+});
+
+test("checks get project area chart data from time per day data is valid", function checksGetProjectAreaChartData_valid(){
+    expect(getProjectAreaChartData(timePerDayData)).toEqual([{"DATE": "2024-05-07", "TIME": 6.5}, {"DATE": "2024-05-08", "TIME": 2.5}]);
 });
