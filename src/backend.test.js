@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getSentMessages, getMeals, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID, getAllStaffData} from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getProjectMessages, getSentMessages, getMeals, getEmployeeBookings, getMealBookings, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID, getAllStaffData} from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -153,6 +153,10 @@ test("checks get employee id invalid", function checksGetEmployeeID_anyState_Inv
     expect(getEmployeeID("jsmith", "password", userTestData)).toBe("");
 });
 
+test("checks returning manager projects working on a project returns an error", async function checkGetManagerProjects_invalidManagerID_Invalid() {
+    expect(await getManagerProjects(-1)).toBe("Error");
+});
+
 test("checks returning staff working on a project returns an error", async function checkGetProjectAssignedStaff_invalidProjectID_Invalid() {
     expect(await getProjectAssignedStaff(-1)).toBe("Error");
 });
@@ -270,8 +274,20 @@ test("checks returning messages sent by employee returns an error", async functi
     expect(await getSentMessages(-1)).toBe("Error");
 });
 
+test("checks returning messages sent for a project returns an error", async function checkGetProjectMessages_invalidProjectID_Invalid() {
+    expect(await getProjectMessages(-1)).toBe("Error");
+});
+
 test("checks get meals returns an error", async function checksGetMeals_unusedDate_Invalid(){
     expect(await getMeals("0000/00/00")).toBe("Error");
+});
+
+test("checks returning meals booked by employee returns an 'No bookings created'", async function checkGetEmployeeBookings_invalidEmployeeID_Invalid() {
+    expect(await getEmployeeBookings(-1)).toBe("No bookings created");
+});
+
+test("checks returning employees who have booked a meal returns an 'No bookings for the meal'", async function checkGetMealBookings_invalidMealID_Invalid() {
+    expect(await getMealBookings(-1)).toBe("No bookings for the meal");
 });
 
 test("checks get project id", function checksGetProjectName_anyState_Valid(){
@@ -316,5 +332,5 @@ test("checks get role invalid", function checkGetRoleFromID_anyValidUser_invalid
 });
 
 test("checks format time valid", function checksFormatTime_valid(){
-    expect(formatTime("2024/02/04", "11:30")).toBe("00:00");
+    expect(formatTime("2024/02/04", "11:30")).toBe("22:00");
 });
