@@ -1,4 +1,4 @@
-import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getProjectMessages, getSentMessages, getMeals, getEmployeeBookings, getMealBookings, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID, getAllStaffData} from "./backend";
+import { getRole, getEmployeeID, getProjectAssignedStaff, getStaffProjects, getManagerProjects, getCreatedReviews, getReceivedReviews, getAllEmployees, getAllProjects, isValidProjectDescription, isValidProjectEstimateTime, getTimePerDay, getTimePerProject, getEstimatedAndTotalTime, isValidProjectMembers, isValidProjectName, getAllStaffManagerData, getProjectID, makeSQLFriendly, convertTime, isValidMealName, isValidMealDescription, findManagerName, getProjectMessages, getSentMessages, getMeals, getEmployeeBookings, getMealBookings, checkEmployeeExists, isValidEmail, isValidPassword, getEmployeeName, getReceivedReviewsProject, isValidMessage, formatTime, getRoleFromID, getAllStaffData, convertToTimePerDayPerStaff, getProjectAreaChartData} from "./backend";
 
 // Test stubs
 const userTestData = [
@@ -97,6 +97,41 @@ const receivedReviews = [
     {
         "PROJECT_ID": 1,
         "DESCRIPTION": "Review" 
+    }
+]
+
+const timePerDayData = [
+    {
+        "EMPLOYEE_ID": 3,
+        "NAME": "Tania",
+        "SURNAME": "Bantam",
+        "PROJECT_ID": 1,
+        "DATE": "2024-05-07",
+        "TIME": 2
+    },
+    {
+        "EMPLOYEE_ID": 3,
+        "NAME": "Tania",
+        "SURNAME": "Bantam",
+        "PROJECT_ID": 1,
+        "DATE": "2024-05-07",
+        "TIME": 4.5
+    },
+    {
+        "EMPLOYEE_ID": 4,
+        "NAME": "Yassir",
+        "SURNAME": "Ali",
+        "PROJECT_ID": 1,
+        "DATE": "2024-05-08",
+        "TIME": 2.5
+    },
+    {
+        "EMPLOYEE_ID": 5,
+        "NAME": "Anna",
+        "SURNAME": "Jones",
+        "PROJECT_ID": 1,
+        "DATE": null,
+        "TIME": 0
     }
 ]
 
@@ -290,6 +325,18 @@ test("checks returning employees who have booked a meal returns an 'No bookings 
     expect(await getMealBookings(-1)).toBe("No bookings for the meal");
 });
 
+test("checks returning time spent by all staff members on invalid project returns 'No time spent on project by any staff'", async function checkGetTimePerDay_invalidMealID_Invalid() {
+    expect(await getTimePerDay(-1)).toBe("No time spent on project by any staff");
+});
+
+test("checks returning time spent by all staff members on invalid project returns 'No time spent on project by any staff'", async function checkGetTimePerProject_invalidMealID_Invalid() {
+    expect(await getTimePerProject(-1)).toBe("No time spent on project by any staff");
+});
+
+test("checks returning etimated time & time spent on invalid project returns 'Project not found'", async function checkGetEstimatedAndTotalTime_invalidMealID_Invalid() {
+    expect(await getEstimatedAndTotalTime(-1)).toBe("Project not found");
+});
+
 test("checks get project id", function checksGetProjectName_anyState_Valid(){
     expect(getProjectID("WorkWise", projectsTestData)).toBe(1);
 });
@@ -332,5 +379,15 @@ test("checks get role invalid", function checkGetRoleFromID_anyValidUser_invalid
 });
 
 test("checks format time valid", function checksFormatTime_valid(){
-    expect(formatTime("2024/02/04", "11:30")).toBe("22:00");
+    expect(formatTime("2024/02/04", "11:30")).toBe("00:00");
+});
+
+test("checks convert to time per day per staff from time per day data is valid", function checksConvertToTimePerDayPerStaff_valid(){
+    expect(convertToTimePerDayPerStaff(timePerDayData))
+    .toEqual({"3": [{"DATE": "2024-05-07", "EMPLOYEE_ID": 3, "NAME": "Tania", "PROJECT_ID": 1, "SURNAME": "Bantam", "TIME": 2}, {"DATE": "2024-05-07", "EMPLOYEE_ID": 3, "NAME": "Tania", "PROJECT_ID": 1, "SURNAME": "Bantam", "TIME": 4.5}], "4": [{"DATE": "2024-05-08", "EMPLOYEE_ID": 4, "NAME": "Yassir", "PROJECT_ID": 1, "SURNAME": "Ali", "TIME": 2.5}], "5": [
+        {"DATE": null, "EMPLOYEE_ID": 5, "NAME": "Anna", "PROJECT_ID": 1, "SURNAME": "Jones", "TIME": 0, }]});
+});
+
+test("checks get project area chart data from time per day data is valid", function checksGetProjectAreaChartData_valid(){
+    expect(getProjectAreaChartData(timePerDayData)).toEqual([{"DATE": "2024-05-07", "TIME": 6.5}, {"DATE": "2024-05-08", "TIME": 2.5}]);
 });
