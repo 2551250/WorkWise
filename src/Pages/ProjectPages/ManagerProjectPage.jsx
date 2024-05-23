@@ -55,8 +55,6 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
     const handleViewProjectDetails = async (project) => {
         setViewProjectPopUp(true);
 
-        console.log(project);
-
         const projectDetails = {
             PROJECT_ID: project.PROJECT_ID,
             PROJECT_NAME: project.PROJECT_NAME,

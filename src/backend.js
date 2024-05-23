@@ -290,7 +290,7 @@ async function getTimePerDay(project_id){
     }
     return data
   }catch(err){
-    return "Error";
+    throw new Error('Failed to fetch time data');
   }
 }
 
@@ -306,7 +306,7 @@ async function getTimePerProject(project_id){
     }
     return data
   }catch(err){
-    return "Error";
+    throw new Error('Failed to fetch project time data');
   }
 }
 
@@ -563,6 +563,8 @@ const getRoleFromID = (employeeID, employees) => {
     :param2 employees: Full list of all employees
     :returns string: Returns the name & surname of an employee
   */
+
+    if (typeof(employees) === "string") return "No Employee Found";
 
     const filteredEmployees = employees.filter((employee) => employee.EMPLOYEE_ID === employeeID);
     const targetEmployee = filteredEmployees[0];
