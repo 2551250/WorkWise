@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 
 import { useLocation, useNavigate } from 'react-router';
 import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
-import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees, convertToTimePerDayPerStaff, getProjectAreaChartData, fetchWithRetry } from '../../backend';
+import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees, convertToTimePerDayPerStaff, getProjectAreaChartData} from '../../backend';
 
 import Header from "../../Components/Header/Header";
 import ProjectAreaChart from '../../Components/AreaChart/ProjectAreaChart';
