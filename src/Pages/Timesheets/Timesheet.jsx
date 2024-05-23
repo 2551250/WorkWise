@@ -2,8 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 
 import { useLocation, useNavigate } from 'react-router';
-import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
-import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees, convertToTimePerDayPerStaff, getProjectAreaChartData} from '../../backend';
+import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, convertToTimePerDayPerStaff, getProjectAreaChartData} from '../../backend';
 
 import Header from "../../Components/Header/Header";
 import ProjectAreaChart from '../../Components/AreaChart/ProjectAreaChart';
@@ -102,8 +101,6 @@ const ProjectMemberTimeSection = ({ projectID }) => {
         );
     }
 
-    console.log(timePerEmployee);
-
     // HTML Code
     return (
         <section className='timesheet-wrapper'>
@@ -185,45 +182,19 @@ const Timesheet = () => {
     const projectData = location.state;
     const navigate = useNavigate();
 
-    const { employeeID } = useEmployee();
-    const viewerID = parseInt(employeeID); // Employee ID of the user viewing the Timesheets
-
-
     // Functions & Logic
-    const { data: employees, isLoading } = useQuery({
-        queryFn: () => getAllEmployees(),
-        queryKey: ["allEmployeeData"],
-    });
-
+     
     /* 
         Redirect to Manager Homepage if Role is Manager, else
         redirect to HR Homepage
     */
     const homePageButton = () => {
-        const role = getRoleFromID(viewerID, employees);
-        if (role === "No Employee Found"){
-            return
-        }
-        else{
-            navigate(`/${role}`);
-        }
+        navigate(`/${projectData.USER_ROLE}`);
     }
 
     // Log user out
     const logoutClicked = () =>{
         navigate("/");
-    }
-
-    if (isLoading) {
-        return(
-            <>
-                <Header>
-                <h1> Workwise </h1>
-                    <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
-                    <button className="logout-button"  onClick={logoutClicked}>Log Out</button>
-                </Header>
-            </>
-        );
     }
 
     // HTML Code

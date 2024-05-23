@@ -564,8 +564,6 @@ const getRoleFromID = (employeeID, employees) => {
     :returns string: Returns the name & surname of an employee
   */
 
-    if (typeof(employees) === "string") return "No Employee Found";
-
     const filteredEmployees = employees.filter((employee) => employee.EMPLOYEE_ID === employeeID);
     const targetEmployee = filteredEmployees[0];
   
