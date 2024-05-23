@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
-import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName } from "../../backend";
+import { getAllEmployees, getAllProjects, getManagerProjects, getProjectAssignedStaff, getProjectID, isValidProjectMembers, isValidProjectName, isValidProjectDescription, isValidProjectEstimateTime, findManagerName, getRoleFromID } from "../../backend";
 import { insertProject, assignStaffToProject } from "../../backend_post_requests";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import EmployeeSelector from "../../Components/EmployeeSelector/EmployeeSelector";
@@ -55,8 +55,6 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
     const handleViewProjectDetails = async (project) => {
         setViewProjectPopUp(true);
 
-        console.log(project);
-
         const projectDetails = {
             PROJECT_ID: project.PROJECT_ID,
             PROJECT_NAME: project.PROJECT_NAME,
@@ -64,7 +62,8 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
             ESTIMATED_TIME: project.ESTIMATED_TIME,
             ASSIGNED_STAFF: [],
             MANAGER_ID: managerID,
-            MANAGER: findManagerName(managerID, employees)
+            MANAGER: findManagerName(managerID, employees),
+            USER_ROLE: getRoleFromID(project.MANAGER_ID, employees)
         };
 
          // Gets all employees assigned to the project

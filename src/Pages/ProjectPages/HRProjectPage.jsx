@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Components/Header/Header";
 import ViewProjectCard from "../../Components/ViewProjectCard/ViewProjectCard";
 import ProjectPopUp from "../../Components/ProjectPopUp/ProjectPopUp";
-import { getAllEmployees, getProjectAssignedStaff, findManagerName, getAllProjects } from "../../backend";
+import { getAllEmployees, getProjectAssignedStaff, findManagerName, getAllProjects, getRoleFromID } from "../../backend";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 
 import "./HRProjectPage.css";
@@ -73,7 +73,8 @@ const HRProjectPage = () => {
             MANAGER: findManagerName(project.MANAGER_ID, employeeData),
             ESTIMATED_TIME: project.ESTIMATED_TIME,
             ASSIGNED_STAFF: projectMembers,
-            MANAGER_ID: project.MANAGER_ID
+            MANAGER_ID: project.MANAGER_ID,
+            USER_ROLE: getRoleFromID(StaffID, employeeData)
         };
 
         setSelectedProject(projectDetails); // Sets the selected project details

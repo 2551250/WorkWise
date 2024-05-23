@@ -290,7 +290,7 @@ async function getTimePerDay(project_id){
     }
     return data
   }catch(err){
-    return "Error";
+    throw new Error('Failed to fetch time data');
   }
 }
 
@@ -306,7 +306,7 @@ async function getTimePerProject(project_id){
     }
     return data
   }catch(err){
-    return "Error";
+    throw new Error('Failed to fetch project time data');
   }
 }
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from 'react-query';
 
 import { useLocation, useNavigate } from 'react-router';
-import { useEmployee } from '../../Components/EmployeeContext/EmployeeContext';
-import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, getRoleFromID, getAllEmployees, convertToTimePerDayPerStaff, getProjectAreaChartData, fetchWithRetry } from '../../backend';
+import { getTimePerProject, getTimePerDay, getEstimatedAndTotalTime, convertToTimePerDayPerStaff, getProjectAreaChartData} from '../../backend';
 
 import Header from "../../Components/Header/Header";
 import ProjectAreaChart from '../../Components/AreaChart/ProjectAreaChart';
@@ -19,26 +19,23 @@ const ProjectTimesSection = ({ projectData }) => {
         :returns HTML code: code for the actual section
     */
     // Variables
-    const [esitmatedAndTotalTime, setEstimatedAndTotalTime] = useState({});
 
     // Functions & Logic
-    useEffect(() => {
-        // Get the Esitmated Time and Time Spent for the project
-        const fetchEstimatedAndTotalTime = async () => {
-            const fetchFunction = () => getEstimatedAndTotalTime(projectData.PROJECT_ID);
+    const { data , isLoading } = useQuery({
+        queryFn: () => getEstimatedAndTotalTime(projectData.PROJECT_ID),
+        queryKey: ["EsitmatedAndTotalTimeData", projectData],
+    });
 
-            try {
-                const data = await fetchWithRetry(fetchFunction);
-                if (typeof(data) !== "string") { // request was successful
-                    setEstimatedAndTotalTime(data[0]);
-                }
-            } catch (err) { // Failed to fetch
-                console.log('Failed to fetch estimated and total time after multiple attempts.');
-            }
-        };
+    if (isLoading){
+        return (
+            <section className='timesheet-wrapper'>
+                <h2>Times for {projectData.PROJECT_NAME}</h2>
+                <h2>Loading...</h2>
+            </section>
+        );
+    }
 
-        fetchEstimatedAndTotalTime(projectData);
-    }, [projectData]);
+    const esitmatedAndTotalTime = data[0]; // Project estimated time & Time spent on project
 
     // HTML Code
     return (
@@ -67,27 +64,42 @@ const ProjectMemberTimeSection = ({ projectID }) => {
         :returns HTML code: code for the actual section
     */
     // Variables
-    const [timePerEmployee, setTimePerEmployee] = useState([]);
 
     // Functions & Logic
-    useEffect(() => {
-        // Get the time spent on the project per employee
-        const fetchTimePerProject = async () => {
-            const fetchFunction = () => getTimePerProject(projectID);
+    const { data: timePerEmployee, isLoading, isError, error } = useQuery({
+        queryFn: () => getTimePerProject(projectID),
+        queryKey: ["TimePerProjectData", projectID],
+    });
 
-            try {
-                const data = await fetchWithRetry(fetchFunction);
-                if (typeof(data) !== "string") { // request was successful
-                    setTimePerEmployee(data);
-                }
-            } catch (err) {
-                console.log('Failed to fetch time per project after multiple attempts.');
-            }
-        };
+    if ( isLoading ){
+        return (
+            <section className='timesheet-wrapper'>
+                <h2>Staff Member times</h2>
+                
+                <section className='timesheet-headers'>
+                    <h3>Staff Members</h3>
+                    <h3>Time spent</h3>
+                </section>
 
-        fetchTimePerProject(projectID);
-    
-    }, [projectID]);
+                <h2>Loading...</h2>
+            </section>
+        );
+    }
+
+    if ( isError ){
+        return (
+            <section className='timesheet-wrapper'>
+                <h2>Staff Member times</h2>
+                
+                <section className='timesheet-headers'>
+                    <h3>Staff Members</h3>
+                    <h3>Time spent</h3>
+                </section>
+
+                <h2>Error: {error.message}</h2>
+            </section>
+        );
+    }
 
     // HTML Code
     return (
@@ -100,12 +112,13 @@ const ProjectMemberTimeSection = ({ projectID }) => {
             </section>
 
             {/* DISPLAY MEMBERS AND TIME_SPENT here */}
-            {timePerEmployee.map(employee => ( 
+            {typeof(timePerEmployee) !== "string" ? 
+                timePerEmployee.map(employee => ( 
                 <section className='timesheet-data' key={employee.EMPLOYEE_ID}>
                     <p>{employee.NAME} {employee.SURNAME}</p>
                     <p>{employee.TIME} Hours</p>
                 </section>
-            ))}
+            )): timePerEmployee}
         </section>
     );
 }
@@ -120,28 +133,23 @@ const ProjectStatisticsSection = ({ projectData }) => {
     */
 
     // Variables
-    const [timePerDay, setTimePerDay] = useState([]);
 
     // Functions & Logic
-    useEffect(() => {
-        // Get the time spent on the project in a day per Employee
-        const fetchTimePerDay = async () => {
-            const fetchFunction = () => getTimePerDay(projectData.PROJECT_ID);
+    const { data: timePerDay, isLoading } = useQuery({
+        queryFn: () => getTimePerDay(projectData.PROJECT_ID),
+        queryKey: ["TimePerDayData", projectData],
+    });
 
-            try {
-                const data = await fetchWithRetry(fetchFunction);
-                if (typeof(data) !== "string") { // request was successful
-                    setTimePerDay(data);
-                } else {
-                    console.log(data);
-                }
-            } catch (err) {
-                console.log('Failed to fetch time per day after multiple attempts.');
-            }
-        };
+    if ( isLoading ){
+        return (
+            <section className='timesheet-wrapper'>
+                <h2>Statistics for {projectData.PROJECT_NAME}</h2>
 
-        fetchTimePerDay(projectData);
-    }, [projectData]);
+                <h2> Staff Contribution </h2>
+                <h2>Loading...</h2>
+            </section>
+        );
+    }
 
     const staffAreaChartData = Object.values(convertToTimePerDayPerStaff(timePerDay));
     const projectAreaChartData = getProjectAreaChartData(timePerDay);
@@ -158,7 +166,7 @@ const ProjectStatisticsSection = ({ projectData }) => {
                 {/* Create a Area Chart for each staff in project */}
                 {
                     staffAreaChartData.map(data => (
-                        <StaffAreaChart data={data}/>
+                        <StaffAreaChart key={data[0].EMPLOYEE_ID} data={data}/>
                     ))
                 }
             </section>
@@ -174,45 +182,14 @@ const Timesheet = () => {
     const projectData = location.state;
     const navigate = useNavigate();
 
-    const { employeeID } = useEmployee();
-    const viewerID = parseInt(employeeID); // Employee ID of the user viewing the Timesheets
-
-    const [employees, setEmployees] = useState([]); // Will contain all the employees in the system
-
     // Functions & Logic
-    useEffect(() => {
-        // Gets all employees in our database
-        const fetchAllEmployeesData = async () => {
-            const fetchFunction = () => getAllEmployees();
-
-            try {
-                const data = await fetchWithRetry(fetchFunction);
-                if (typeof(data) != "string"){ // request was successful
-                    setEmployees(data);
-                } else {
-                    console.log(data);
-                }
-            } catch (err) {
-                console.log('Failed to fetch all employees after multiple attempts.');
-            }
-        }
-
-        fetchAllEmployeesData();
-    }, []);
-
+     
     /* 
         Redirect to Manager Homepage if Role is Manager, else
         redirect to HR Homepage
     */
     const homePageButton = () => {
-        const role = getRoleFromID(viewerID, employees);
-        console.log(role);
-        if (role === "No Employee Found"){
-            return
-        }
-        else{
-            navigate(`/${role}`);
-        }
+        navigate(`/${projectData.USER_ROLE}`);
     }
 
     // Log user out
