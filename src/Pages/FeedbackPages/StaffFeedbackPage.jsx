@@ -114,7 +114,7 @@ const AddFeedback = ({ reviewerID, projectData }) => {
             setDisplayPopup(true);
         }
     }
-
+    console.log(projectData);
     // Gets our possible revieews
     const reviewees = projectData.ASSIGNED_STAFF.filter((staff) => (staff.EMPLOYEE_ID !== reviewerID));
     

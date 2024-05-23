@@ -62,19 +62,20 @@ const StaffProjectPage = ({ navigate }) => {
     const handleViewProjectDetails = async ( project ) => {
         setViewProjectPopUp(true);
 
-        const data = await getProjectAssignedStaff(project.PROJECT_ID);
-        if (typeof(data) !== "string"){
-            setProjectMembers(data);
-        }
-
         const projectDetails = {
             PROJECT_ID: project.PROJECT_ID,
-            PROJECT_NAME: project.PROJECT_NAME, 
+            PROJECT_NAME: project.PROJECT_NAME,
             DESCRIPTION: project.DESCRIPTION,
-            MANAGER: findManagerName(project.MANAGER_ID, employeeData),
             ESTIMATED_TIME: project.ESTIMATED_TIME,
-            ASSIGNED_STAFF: projectMembers,
-            MANAGER_ID: project.MANAGER_ID
+            ASSIGNED_STAFF: [],
+            MANAGER: findManagerName(project.MANAGER_ID, employeeData),
+        };
+
+         // Gets all employees assigned to the project
+        const data = await getProjectAssignedStaff(project.PROJECT_ID);
+        if (typeof(data) !== "string") {
+            projectDetails.ASSIGNED_STAFF = data;
+            setProjectMembers(data); // Set project members data
         }
 
         setSelectedProject(projectDetails);
