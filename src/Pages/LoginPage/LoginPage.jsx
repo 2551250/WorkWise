@@ -3,11 +3,11 @@ import { FaFax, FaLock } from "react-icons/fa";
 import { useState } from "react";
 
 import "./LoginPage.css";
-import { getAllEmployees, getRole, getEmployeeID } from "../../backend";
 import PopUp from "../../Components/PopUp/PopUp";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
 import { isValidEmail, isValidPassword, checkEmployeeExists } from "../../backend";
 import { useNavigate } from "react-router-dom";
+import { isValidLogin } from "../../backend_post_requests";
 
 const LoginPage = () => {
     // Variables
@@ -31,18 +31,15 @@ const LoginPage = () => {
             setPasswordError("Please enter a password");
             return;
         }
-        const employeeData = await getAllEmployees();
-
-        const employeeExists = checkEmployeeExists(email, password, employeeData);
-        if (!employeeExists) {
+        const validLogin = await isValidLogin(email, password);
+        if (validLogin.length === 0) {
             // Displays a popup when an employee does not exist
             setDisplayPopup(true);
             return;
         }
 
-        const role = getRole(email, password, employeeData);
-        const ID = getEmployeeID(email, password, employeeData);
-        
+        const role = validLogin[0].ROLE;
+        const ID = validLogin[0].EMPLOYEE_ID;
         // Sets the employeeID to the current employee's Employee_ID
         setEmployeeID(ID);
 

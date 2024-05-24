@@ -234,5 +234,24 @@ async function addBooking(employee_id, meal_id){
         return error;
     }
 }
+
+async function isValidLogin(email, password) {
+    const user = {
+        email: email,
+        password: password
+    }
+    const res = await axios.put(`${URL}/VerifyLogin`, user);
+    return res.data;
+}
+
+async function updatePassword(email, password){
+    const user = {
+        email: email, 
+        password: password
+    }
+    const res = await axios.put(`${URL}/Password`, user);
+    return res.data;
+}
+
 // Exports
-export { insertProject, assignStaffToProject, insertReview, updateTimeSpentManual, insertMessage, deleteManager, deleteStaff, updateTime, addMeal, addBooking }
+export { insertProject, assignStaffToProject, insertReview, updateTimeSpentManual, insertMessage, deleteManager, deleteStaff, updateTime, addMeal, addBooking, isValidLogin, updatePassword }
