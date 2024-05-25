@@ -1,6 +1,7 @@
 
 .employee-name{
     flex:1;
+    background-color: white;
     border: 3px solid #ff6d00;
     display: flex;
     justify-content: center;
@@ -16,6 +17,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
     border: 3px solid #ff6d00;
     border-left: none;
     border-right: none;
@@ -27,6 +29,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
     border: 3px solid #ff6d00;
     border-left: none;
     border-right: none;
@@ -37,6 +40,7 @@
 .employee-name2{
     flex:1;
     border: 3px solid #ff6d00;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,6 +52,7 @@
 }
 .employee-email2{
     flex:3;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,6 +67,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
     border: 3px solid #ff6d00;
     border-left: none;
     border-top-right-radius: 5px;
@@ -75,6 +81,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
     border: 3px solid #ff6d00;
     border-left: none;
     border-top-right-radius: 5px;
@@ -82,36 +89,6 @@
     padding: 10px;
 
 }
-.permission-button{
-    color: white;
-    background-color: black;
-    border-radius: 5px;
-    padding: 10px;
-    transition: background-color 0.3s;
-    outline: none;
-    border: none;
-    margin: 0px;
-}
-.permission-button:hover{
-    cursor: pointer;
-    background-color: rgb(56, 56, 56);
-    outline: none;
-    border: none;
-}
-.delete-button{
-    color: white;
-    background-color: black;
-    border-radius: 5px;
-    padding: 10px;
-    transition: background-color 0.3s;
-    outline: none;
-    border: none;
-    margin: 0px;
-}
-.delete-button:hover{
-    cursor: pointer;
-    background-color: rgb(56, 56, 56);
-    outline: none;
-    border: none;
-}
+
+
 

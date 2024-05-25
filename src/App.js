@@ -26,7 +26,7 @@ function App() {
 
   return (
     <EmployeeProvider>
-      <div className='App'>
+      <main>
         <Routes>
           <Route path="/HR" element={<HR />} />
           <Route path="/Staff" element={<Staff />} />
@@ -43,15 +43,13 @@ function App() {
           <Route path="/ChatPage" element={<ChatPage />} />
           <Route path="/StaffBookMeals" element={<StaffBookMeals/>} />
           <Route path="/Timesheet" element={<Timesheet/>} />
-        
-
           <Route path = "/ViewStaff" element={<ViewStaff />} />
           <Route path = "/HRProjectPage" element={<HRProjectPage />} />
 
           {/* Catch-all route for 404 */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </div>
+      </main>
     </EmployeeProvider>
   );
 }

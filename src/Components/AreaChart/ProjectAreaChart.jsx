@@ -5,7 +5,7 @@ import "./AreaChart.css";
 
 const ProjectAreaChart = ({ data }) => {
     return (
-        <article className='charts1' style={{ width: '97%', height: 300 }}>
+        <article className='project-area-chart' style={{ width: '97%', height: 300 }}>
             <ResponsiveContainer>
                 <AreaChart
                     data={data}
