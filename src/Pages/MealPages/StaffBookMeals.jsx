@@ -64,17 +64,22 @@ const SelectMealSection = ({employeeID, bookedMeal, setBookedMeal, setActiveSect
     };
 
     return (
-        <main>
+        <main className="meals-container">
             <h2 className="bookmeals-header">Meals for the Day</h2>
             
             <section className="bookmeals">
-                {meals.map((meal) => (
+                {meals.length > 0 ? meals.map((meal) => (
                     <BookMealCard 
                         key={meal.MEAL_ID} 
                         meal={meal}
                         handleBookMeal={handleBookMeal}
                     />
-                ))}
+                )):
+                (
+                    <section className="nomeal-wrapper">
+                        <p>No meals created for the day. Please contact HR.</p>
+                    </section>
+                )}
             </section>
             
             {displayPopup && (

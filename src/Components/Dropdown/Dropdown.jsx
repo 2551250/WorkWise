@@ -12,14 +12,14 @@ const Dropdown = ({options, setTrigger}) => {
     };
   
     return (
-      <div>
+      <section>
         <Select
           value={selectedOption}
           onChange={handleChange}
           options={options}
           placeholder="Select an option"
         />
-      </div>
+      </section>
     );
                                                                                                                                                                                                                        
 }

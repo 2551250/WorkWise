@@ -31,7 +31,7 @@
     border-bottom: solid;
     border-left: none;
     border-right: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 }
 .project-expand{
     flex:7;
@@ -41,6 +41,8 @@
     display: flex;
     justify-content: flex-end;
     position: relative;
+    border-left: none;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.45);
 }
 .project-expand img{
     height: 40px;

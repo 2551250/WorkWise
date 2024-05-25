@@ -113,8 +113,9 @@ const StaffProjectPage = ({ navigate }) => {
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
 
-            <section className="view-project">
-                <h2 className="view-project-h2">Projects</h2>
+            <section className="staff-view-project">
+                <section className="staff-view-project-wrapper">
+                <h2 >Projects</h2>
 
                 {/* Iterate through the projects list and display them */}
                 {projects.map((project) => (
@@ -124,6 +125,7 @@ const StaffProjectPage = ({ navigate }) => {
                         onView={handleViewProjectDetails}
                     />
                 ))}
+                </section>
             </section>
 
             {/* Popup for displaying project details */}

@@ -132,6 +132,7 @@ const CreateMealSection = ({setActiveSection}) => {
     // HTML Code
     return (
         <section className='book-meals-wrapper'>
+            <section className='book-meals-container'>
             <h2>Meal Creation for {formattedDate}</h2>
             <article className='book-entry'>
                 <p className='book-entry-name'> Meal:</p>
@@ -154,6 +155,7 @@ const CreateMealSection = ({setActiveSection}) => {
             </article>
             {error ? <label className='errorLabel'>{error}</label> : ""}
             <button className='book-meals-button' onClick={handleSubmitButtonClick}> Submit meal</button>
+            </section>
         </section>
     );
 };
@@ -197,10 +199,10 @@ const HRPlanMeals = () => {
             <button className="logout-button" onClick={logoutClicked}>Log Out</button>
         </Header>
 
-        <section className="display">
-            <section className="panel">
-                <button className="panelButtons" onClick={createMealButtonClicked}>Add a Meal</button>
-                <button className="panelButtons" onClick={viewMealButtonClicked}> View Meals</button>
+        <section className="meal-display">
+            <section className="meal-panel">
+                <button className="meal-panelButtons" onClick={createMealButtonClicked}>Add a Meal</button>
+                <button className="meal-panelButtons" onClick={viewMealButtonClicked}> View Meals</button>
             </section>
 
             {activeSection === "createMealSection" && <CreateMealSection setActiveSection={setActiveSection}/> }
