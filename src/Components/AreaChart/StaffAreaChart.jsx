@@ -8,7 +8,7 @@ const StaffAreaChart = ({ data }) => {
         <>
         <article className='charts-container'>
             <h4> {data[0].NAME} {data[0].SURNAME} </h4>
-            <article className='charts2'>
+            <article className='project-staff-chart'>
                 <ResponsiveContainer>
                     <AreaChart
                         data={data}

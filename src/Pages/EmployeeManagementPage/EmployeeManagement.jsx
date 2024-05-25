@@ -86,14 +86,15 @@ const EmployeeManagement = () => {
     // HTML Code
     return (
         <>
-           <Header>
+            <main className="hr-view-staff">
+            <Header>
                 <h1> Workwise </h1>
                 <button className="homepage-button"  onClick={homePageButton}>Homepage</button>
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
-            <h2 className="employee-management-header">Employee Management</h2>
+            <section className="list-wrapper">
+            <h2 className="hr-view-staff-header">Employee Management</h2>
 
-            <main className="list-wrapper">
                 <table>
                     <tbody>
                         <tr>
@@ -112,6 +113,7 @@ const EmployeeManagement = () => {
                         )}
                     </tbody>
                 </table>
+            </section>
             </main>
             <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
                 <h3 className="delete-employee-header">Delete: {employeeToDelete.NAME} {employeeToDelete.SURNAME}?</h3>

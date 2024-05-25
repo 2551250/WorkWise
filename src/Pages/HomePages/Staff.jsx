@@ -30,7 +30,7 @@ function Staff(){
                 <h1> Workwise </h1>
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
-        <main className="homepage">
+        <main className="staff-homepage">
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
             <Card title="Book Meals" imgSrc={burgerIcon} onClick={viewBookMealsPage}/>
 

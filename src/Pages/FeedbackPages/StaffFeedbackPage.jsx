@@ -59,6 +59,7 @@ const ViewFeedback = ({ reviewerID, projectData }) => {
     return (
    
      <section className = "view-feedback">
+        <section className="view-feedback-wrapper">
         <h2 className="feedbackTitle">Feedback for {projectData.PROJECT_NAME}</h2>
 
         {/* Iterate through the received feedback list and display them */}
@@ -73,8 +74,7 @@ const ViewFeedback = ({ reviewerID, projectData }) => {
                 </section>
             )
             }
-
-
+    </section>
     </section>
  
     );
@@ -127,7 +127,6 @@ const AddFeedback = ({ reviewerID, projectData }) => {
 
     // HTML Code
     return (
-        <>
                 <section className = "add-feedback">
                     <h2 className="feedbackTitle">Feedback for {projectData.PROJECT_NAME}</h2>
                     <article className= "addreview">
@@ -147,13 +146,12 @@ const AddFeedback = ({ reviewerID, projectData }) => {
                         </article>
                         <button className="giveFeedback-button" onClick={handleButtonClick}>Give Feedback</button>
                         
-
-                </section>
-            
+                        <section>
             <PopUp trigger={displayPopup} setTrigger={setDisplayPopup}>
                 <h3>Feedback Sent</h3>
             </PopUp>
-        </>
+            </section>
+            </section>
     );
 }
 
@@ -193,18 +191,19 @@ const StaffFeedbackPage = () => {
 
     // HTML Code
     return (
-        <>
+    <>
         <Header>
                 <h1> Workwise </h1>
                 <button className="homepage-button"onClick={homePageButton}>Homepage</button>
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
-
-            <section className="feedback-display">
+    <main className="feedback-display">
                 <section className="feedback-panel">
                     <button className="feedback-panelButtons" onClick={viewFeedbackButtonClicked}> View Feedback</button>
                     <button className="feedback-panelButtons" onClick={AddFeedbackButtonClicked}>Add Feedback</button>
                 </section>
+
+
 
                 {/* 
                     Displays view feedback section when viewFeedback is true,
@@ -215,8 +214,8 @@ const StaffFeedbackPage = () => {
                  : <AddFeedback reviewerID={reviewerID} projectData={projectData} setviewFeedback={setviewFeedback}/>
                 }
                 
-            </section>
-        </>
+            </main>
+            </>
     );
 }
     

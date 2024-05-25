@@ -1,12 +1,11 @@
 
 .manual-time-page{
-    margin:0px;
     padding: 0px;
     font-family:  Roboto, sans-serif;
     width: 35%;
     min-width: fit-content;
     position: absolute;
-    left: 28.5%;
+    left: 36%;
     top: 36%;
     display: flex;
     justify-self: center;
@@ -17,6 +16,7 @@
     padding: 20px;
     background-color: #FF6D00;
     border-radius: 25px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
 }
 .manual-time-container {
     font-family:  Roboto, sans-serif;

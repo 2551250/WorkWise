@@ -88,9 +88,9 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
 
     // Render the component
     return (
-        <section className="view-project">
-            <h2 className="view-project-h2">Projects</h2>
-            
+        <section className="manager-view-project">
+        <section className="manager-view-project-wrapper">
+            <h2>Projects</h2>
             {/* Iterate through the projects list and display them */}
             {projects.length > 0 ? projects.map((project) => (
                 <ViewProjectCard 
@@ -99,6 +99,7 @@ const ViewProjectsSection = ({ managerID, navigate }) => {
                     onView={handleViewProjectDetails}
                 />
             )) : " "}
+            </section>
 
             {/* Popup for displaying project details */}
             <ProjectPopUp trigger={viewProjectPopUp} setTrigger={setViewProjectPopUp}>
@@ -360,10 +361,10 @@ const ManagerProjectPage = () => {
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
 
-            <section className="display">
-                <section className="panel">
-                    <button className="panelButtons" onClick={ViewProjectsButtonClicked}> View Projects</button>
-                    <button className="panelButtons" onClick={AddProjectButtonClicked}>Add a Project</button>
+            <section className="manager-display">
+                <section className="manager-display-panel">
+                    <button className="manager-panelButtons" onClick={ViewProjectsButtonClicked}> View Projects</button>
+                    <button className="manager-panelButtons" onClick={AddProjectButtonClicked}>Add a Project</button>
                 </section>
 
                 {/* 

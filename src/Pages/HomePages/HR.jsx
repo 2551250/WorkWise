@@ -34,7 +34,7 @@ function HR() {
                 <h1>WorkWise</h1>
                 <button className="logout-button" onClick={logoutClicked}>Log Out</button>
             </Header>
-            <main className="homepage">
+            <main className="hr-homepage">
                 <Card title="Plan Meals" imgSrc={burgerIcon} onClick={viewPlanMealPage} />
                 <Card title="View Staff" imgSrc={peopleIcon} onClick={viewStaffClicked} />
                 <Card title="Projects" imgSrc={projectIcon}  onClick={viewProjectsClicked} />

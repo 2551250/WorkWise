@@ -1,4 +1,4 @@
-.charts2 {
+.project-staff-chart {
     margin-left: 15px; /* Optional: to add some space between charts and members */
   
     margin-right: 15px;
@@ -19,8 +19,8 @@
     max-height: 40%;
     
   }
-  .charts1 {
-    margin-left: 15px; /* Optional: to add some space between charts and members */
+  .project-area-chart{
+    margin-left: 2%; /* Optional: to add some space between charts and members */
   
     margin-right: 15px;
     margin-bottom: 15px;
@@ -39,11 +39,17 @@
   .charts-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     margin-right: 0%;
     margin-left: 0%;
     margin-bottom: 10%;
   }
+  .charts-container h4{
+    margin-bottom: 5px;
+
+  }
+
   .charts-wrapper{
     display: flex;
     flex-direction: row;

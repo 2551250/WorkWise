@@ -39,7 +39,7 @@ function Manager(){
             <button className="logout-button" onClick={logoutClicked}>Log Out</button>
         </Header>
 
-        <main className="homepage">
+        <main className="manager-homepage">
             <Card title="Projects" imgSrc={projectIcon} onClick={viewProductPage}/>
             <Card title="View Staff" imgSrc={peopleIcon} onClick={viewStaffClicked}/>
         </main>
