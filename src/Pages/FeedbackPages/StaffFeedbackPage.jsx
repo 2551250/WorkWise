@@ -111,10 +111,10 @@ const AddFeedback = ({ reviewerID, projectData }) => {
         // Add new Review to the Database
         const response = await insertReview(revieweeID, reviewerID, reviewDescription, projectData.PROJECT_ID)
         if (response === "Review successfully created"){
+            setReviewDescription("");
             setDisplayPopup(true);
         }
     }
-
     // Gets our possible revieews
     const reviewees = projectData.ASSIGNED_STAFF.filter((staff) => (staff.EMPLOYEE_ID !== reviewerID));
     
