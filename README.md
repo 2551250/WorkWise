@@ -1,34 +1,57 @@
+
 # WorkWise: Staff Relations Management
 
-## A web-app created to manage all staff-relations in order to make them easier.
-
-In today’s working world, companies offer a variety of incentives to their staff. More importantly,
-companies have realised that the mental health of their employees has the potential to directly
-impact their bottom-line. As such, many employers are experimenting with different ways of
-creating healthier work environments and making employees aware of their own mental health.
-In addition to this, companies need constant data on the time each employee spend on tasks so
-they can bill their clients appropriately an/or manage the finances and capacity in the company.
-They also need to ensure that there is a culture of constant performance feedback given to their
-staff. Managing all these aspects of employee relations can be cumbersome.
+In today's workplace, companies offer various incentives and recognize that employees' mental health significantly impacts their bottom line. To address this, many employers are creating healthier work environments and raising awareness about mental health. Additionally, companies need precise data on employees' time spent on tasks for accurate client billing, financial management, and capacity planning. Ensuring a culture of continuous performance feedback is also essential. Managing these aspects of employee relations can be challenging.
 
 This project aims to equip the companies with a central place to manage all staff-relations in
 order to make staff-relations easier.
+## Functionalities
+- Employees are able to track the amount of time they have spent on different projects
+- Staff should be able to give each other feedback at will
+- Staff should be able to book meals, HR should be able to create meals
+- HR should be able to manage users
+
+## Demo
+
+Insert gif or link to demo
 
 
-## Watch how it work
+## Getting Started
+
+1. Clone the project
+
+```bash
+  git clone https://github.com/2551250/workwise.git
+```
+
+2. Go to the project directory
+
+```bash
+  cd workwise
+```
+
+3. Install dependencies
+
+```bash
+  npm install
+```
+
+4. Start the server
+
+```bash
+  npm run start
+```
+
+5. Access the application in your web browser at http://localhost:3000.
 
 
-## How to install this project
-1. Clone the project repository
 
-## Want to make changes?
-
-
-## Find any bugs?
-
-
-## Known Issues (Work in progress)
-
-
-## Code coverage badge
+## Badges
 [![codecov](https://codecov.io/gh/2551250/workwise/branch/main/graph/badge.svg?token=tgJ21h3C6e)](https://codecov.io/gh/2551250/workwise)
+
+
+
+## Contributing
+
+Contributions are always welcome! If you'd like to contribute to this project, please feel free to open an issue or Make a PR.
+
