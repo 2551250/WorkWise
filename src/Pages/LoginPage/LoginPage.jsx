@@ -5,7 +5,7 @@ import { useState } from "react";
 import "./LoginPage.css";
 import PopUp from "../../Components/PopUp/PopUp";
 import { useEmployee } from "../../Components/EmployeeContext/EmployeeContext";
-import { isValidEmail, isValidPassword, checkEmployeeExists } from "../../backend";
+import { isValidEmail, isValidPassword} from "../../backend";
 import { useNavigate } from "react-router-dom";
 import { isValidLogin } from "../../backend_post_requests";
 
@@ -96,4 +96,3 @@ const LoginPage = () => {
 
 
 export default LoginPage;
-export { checkEmployeeExists, isValidEmail, isValidPassword };
