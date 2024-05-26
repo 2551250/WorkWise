@@ -11,9 +11,8 @@ order to make staff-relations easier.
 - Staff should be able to book meals, HR should be able to create meals
 - HR should be able to manage users
 
-## Demo
-
-Insert gif or link to demo
+## Demo Video
+https://drive.google.com/file/d/1-fs_PC_g1pcdqAEFxKl6ZsV7JFlT2kOx/view?usp=sharing
 
 
 ## Getting Started
